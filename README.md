@@ -4,8 +4,9 @@
 ## Variables de entorno
 
  - DB_URL: Dirección y nombre de la base de datos
- - USERNAME
+ - DB_USER
  - PASSWORD
+ - SHOW_SQL: false por defecto
 
 ## API
 //TODO Swagger
