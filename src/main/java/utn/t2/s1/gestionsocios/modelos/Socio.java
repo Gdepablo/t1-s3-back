@@ -21,12 +21,17 @@ public class Socio {
     private Long id;
     @Column(name="denominacion")
     private String denominacion;
+    @Column(name="telefono")
     private String telefono;
     private TipoSocio tipo;
+    @Column(name="mail")
     private String mail;
+    @Column(name="descripcion")
     private String descripcion;
+    @Column(name="web")
     private String web;
     private LocalDateTime fechaAlta;
+    @Column(name="logo")
     private String logo;
     @ManyToOne
     private Categoria categoria;
