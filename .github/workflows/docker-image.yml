@@ -1,6 +1,7 @@
 name: Docker Image BE
 run-name: Creando la imagen del back end
 on:
+  workflow_dispatch:
   push:
     branches:  
      - "dev" 
