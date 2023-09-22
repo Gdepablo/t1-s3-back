@@ -1,9 +1,17 @@
 package utn.t2.s1.gestionsocios.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.dtos.SocioDTO;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.servicios.CategoriaServicio;
@@ -31,11 +39,28 @@ public class SocioController {
     public Socio verSocio(@PathVariable Long id) {
         return servicio.buscarPorId(id);
     }
-
+    @Operation(summary = "Inserta un socio en la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Socio creado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404", description = "La categoria del socio no fue encontrada",content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
+            })
     @PostMapping()
-    public String agregarSocio(@RequestBody @Valid Socio socio){
-        servicio.agregar(socio);
-        return "ok";
+    public ResponseEntity<String> agregarSocio(@RequestBody @Valid SocioDTO socioDTO){ //TODO DTO socio
+
+
+        Categoria categoria = categoriaServicio.buscarPorId(socioDTO.getCategoriaId());
+
+        if(categoria==null ){
+            return new ResponseEntity<>("La categoria del socio no fue encontrada", HttpStatus.NOT_FOUND);
+        }
+
+        Socio _socio = socioDTO.toSocio();
+        _socio.setCategoria(categoria);
+        servicio.agregar(_socio);
+
+        return new ResponseEntity<>("Socio creado", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

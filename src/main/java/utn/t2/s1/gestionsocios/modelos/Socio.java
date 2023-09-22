@@ -43,6 +43,8 @@ public class Socio {
     @Column(name="web")
     @URL(message = "la url debe ser https://www.algo.com")
     private String web;
+    @DateTimeFormat( pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaAlta; //TODO formatear fecha dd-MM-yyyy
     @Column(name="logo")
     @URL(message = "la url debe ser https://www.algo.com")
