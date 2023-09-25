@@ -15,23 +15,23 @@ import java.time.LocalDate;
 @Setter
 public class SocioDTO {
     @NotNull
-    @NotBlank( message = "denominacion: Error, debe asignar una denominacion")
+    @NotBlank( message = "Error, debe asignar una denominacion")
     private String denominacion;
     @NotNull
-    @Pattern(regexp = "^\\+54\s\\d{8,10}$", message = "telefono: debe ser +54 XXXXXXXX")
+    @Pattern(regexp = "^\\+54\s\\d{8,10}$", message = "Debe ser +54 XXXXXXXX")
     @Schema( type = "string",example = "+54 numero")
     private String telefono;
     @NotNull //TODO atrapar error valor fuera del enum
     private TipoSocio tipo;
     @NotNull
-    @Email(message = "mail: debe ser una dirección de correo electrónico con formato correcto")
+    @Email(message = "Debe ser una dirección de correo electrónico con formato correcto")
     @Schema( type = "string",example = "string@string.com")
     private String mail;
-    @NotNull(message = "descripcion: la descripcion no puede ser nula")
-    @Size(max = 254, message = "descripcion: la descripcion no puede ocupar mas de 254 caracteres")
+    @NotNull(message = "La descripcion no puede ser nula")
+    @Size(max = 254, message = "La descripcion no puede ocupar mas de 254 caracteres")
     private String descripcion;
     @NotNull
-    @URL(message = "web: la url debe ser https://www.algo.com")
+    @URL(message = "La url debe ser https://www.algo.com")
     @Schema( type = "string",example = "https://www.string.com")
     private String web;
     @NotNull
@@ -40,7 +40,7 @@ public class SocioDTO {
     @Schema( type = "string",example = "dd-MM-aaaa")
     private LocalDate fechaAlta; //TODO atrapar error fecha invalida
     @NotNull
-    @URL(message = "logo: la url del logo debe ser https://www.algo.com")
+    @URL(message = "La url del logo debe ser https://www.algo.com")
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;
     @NotNull
