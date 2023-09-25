@@ -11,7 +11,10 @@ import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +35,7 @@ public class Socio {
     private String telefono;
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name="tipo")
     private TipoSocio tipo;
     @Column(name="mail")
     @Email
@@ -49,9 +53,20 @@ public class Socio {
     @Column(name="logo")
     @URL(message = "la url debe ser https://www.algo.com")
     private String logo;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoria_id",referencedColumnName = "id" ) //TODO ver de pasar solo la FK en todos los metodos
-    private Categoria categoria;
-
+    //@ManyToOne(cascade = CascadeType.PERSIST)
+    //@JoinColumn(name = "categoria_id",referencedColumnName = "id" ) //TODO ver de pasar solo la FK en todos los metodos
+    //private Categoria categoria;
+    //@NotNull
+    @ElementCollection(targetClass = Categoria.class)
+    @JoinTable(name = "categoria", joinColumns = @JoinColumn(name = "id_socio", referencedColumnName = "id"))
+    @Column(name = "categoria", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Set<Categoria> categorias =new HashSet<>(); ;
 }
-
+/*
+* @ElementCollection(targetClass = Categoria.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "socio_categorias")
+    @Column(name = "categoria")
+*
+* */

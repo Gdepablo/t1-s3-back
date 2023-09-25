@@ -1,26 +1,23 @@
 package utn.t2.s1.gestionsocios.modelos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name="categoria")
-public class Categoria {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @NotBlank( message = "Error, la denominacion de la categoria es obligatoria")
-    private String descripcion;
-    @Min(value = 1,message = "Error, la prioridad minima debe ser 1")
-    private int prioridad;
+public enum Categoria {
+    NORMATIVA,
+    RRII,
+    AMBIENTE,
+    COMITE_EJECUTIVO,
+    COMISION_DIRECTIVA,
+    EMPRESAS,
+    CAMARAS,
+    PRESIDENTES,
+    GERENTES,
+    COMEX,
+    PYME,
+    FISCAL,
+    LABORALES,
+    LEGALES,
+    ENVASES,
+    ;
 }

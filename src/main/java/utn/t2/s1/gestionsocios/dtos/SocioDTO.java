@@ -7,10 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 public class SocioDTO {
@@ -44,7 +48,7 @@ public class SocioDTO {
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;
     @NotNull
-    private Long categoriaId; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
+    private Set<Categoria> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
     public Socio toSocio() {
         Socio socio = new Socio();
@@ -56,6 +60,7 @@ public class SocioDTO {
         socio.setDenominacion(this.denominacion);
         socio.setDescripcion(this.descripcion);
         socio.setTipo(this.tipo);
+        socio.setCategorias(this.categorias);
         return socio;
     }
 }
