@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Socios API", version = "1.0", description = "ABM de socios de COPAL"))
+@OpenAPIDefinition(info = @Info(title = "Socios API", version = "1.0", description = "..."))
 public class GestionSociosApplication {
 
 	public static void main(String[] args) {
