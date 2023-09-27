@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
@@ -29,6 +26,7 @@ import java.util.Optional;
 @RestController
 @Validated
 @RequestMapping("/acceso")
+@CrossOrigin
 public class SesionController {
 
     @Autowired
