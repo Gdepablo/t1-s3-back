@@ -27,6 +27,9 @@ public class SocioDTO {
     private String telefono;
     @NotNull //TODO atrapar error valor fuera del enum
     private TipoSocio tipo;
+    @NotNull(message = "La dirección no puede ser nula")
+    @Size(max = 254, message = "La dirección no puede ocupar mas de 254 caracteres")
+    private String direccion;
     @NotNull
     @Email(message = "Debe ser una dirección de correo electrónico con formato correcto")
     @Schema( type = "string",example = "string@string.com")
@@ -61,6 +64,7 @@ public class SocioDTO {
         socio.setDescripcion(this.descripcion);
         socio.setTipo(this.tipo);
         socio.setCategorias(this.categorias);
+        socio.setDireccion(this.direccion);
         return socio;
     }
 }

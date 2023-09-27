@@ -34,6 +34,8 @@ public class Socio {
     @Enumerated(EnumType.STRING)
     @Column(name="tipo")
     private TipoSocio tipo;
+    @Column(name="direccion")
+    private String direccion;
     @Column(name="mail")
     private String mail;
     @Column(name="descripcion")

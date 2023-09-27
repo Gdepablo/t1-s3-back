@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.SocioDTO;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.servicios.SocioServicio;
+import utn.t2.s1.gestionsocios.sesion.Usuario;
 
 import java.util.List;
 
