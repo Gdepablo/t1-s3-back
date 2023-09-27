@@ -4,16 +4,23 @@ on:
   push:
     branches: [ "dev" ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
    
     steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
     - name: Deploy on Dokku-Dev
       id: dokku
       uses: dokku/github-action@v1.4.0
       with:
         ci_branch_name: dev
-        deploy_docker_image: ${{ github.repository }}:${{ github.sha }}
+        deploy_docker_image: ${{ env.REGESTRY }}/${{ env.IMAGE-NAME }}:${{ steps.date.outputs.date }}-dev
         git_remote_url: ssh://dokku@190.105.205.115/acc-squad-m1s1-back-dev
         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
