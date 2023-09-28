@@ -42,6 +42,7 @@ public class Socio {
     private String descripcion;
     @Column(name="web", nullable = false)
     private String web;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaAlta; //TODO formatear fecha dd-MM-yyyy
     @Column(name="logo", nullable = false)
     private String logo;
