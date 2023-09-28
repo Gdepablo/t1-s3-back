@@ -17,30 +17,3 @@
 
 ## API
 **Swagger**: http://localhost:8080/swagger-ui/index.html
-
-**Socio**:
-
-
-     { "id": Long, 
-     "denominacion": String, 
-     "telefono": String, 
-     "tipo": Enum (Camara, Empresa)        
-     "mail": String,  
-     "descripcion": String, 
-     "web": String, 
-     "fechaAlta": LocalDateTime, 
-     "logo": String, 
-     "categoria": { 
-         "id": Long, 
-         "descripcion": String, 
-         "prioridad": Integer 
-        } 
-     }  
-
-|Método  |Ruta  |Json |  
-|--|--|--|  
-|GET  |/socios  ||  
-|GET  |/socios/{id}  ||  
-|POST  |/socios  |Socio|  
-|DELETE  |/socios/{id}  ||  
-|PUT  |/socios/{id}  |Socio|
