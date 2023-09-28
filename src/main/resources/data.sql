@@ -38,4 +38,4 @@ INSERT INTO socios.categoria (id_socio, categoria) VALUES (11, 'NORMATIVA');
 INSERT INTO socios.categoria (id_socio, categoria) VALUES (11, 'RRII');
 INSERT INTO socios.categoria (id_socio, categoria) VALUES (12, 'PRESIDENTES');
 
-INSERT INTO socios.usuario (socio_id, contrasenia, nombre) VALUES (1, '123456', 'juan');
+INSERT INTO socios.usuario (socio_id, contrasenia, nombre) VALUES (null, '123456', 'juan');
