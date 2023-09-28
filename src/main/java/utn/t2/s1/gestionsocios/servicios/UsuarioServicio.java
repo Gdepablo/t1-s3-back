@@ -35,6 +35,6 @@ public class UsuarioServicio {
     }
 
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
-        return repo.buscarPorNombre(nombreUsuario);
+        return repo.findByNombre(nombreUsuario);
     }
 }

@@ -27,28 +27,24 @@ public class Socio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="denominacion")
+    @Column(name="denominacion", nullable = false)
     private String denominacion;
-    @Column(name="telefono")
+    @Column(name="telefono", nullable = false)
     private String telefono;
     @Enumerated(EnumType.STRING)
-    @Column(name="tipo")
+    @Column(name="tipo", nullable = false)
     private TipoSocio tipo;
-    @Column(name="direccion")
+    @Column(name="direccion", nullable = false)
     private String direccion;
-    @Column(name="mail")
+    @Column(name="mail", nullable = false)
     private String mail;
-    @Column(name="descripcion")
+    @Column(name="descripcion", nullable = false)
     private String descripcion;
-    @Column(name="web")
+    @Column(name="web", nullable = false)
     private String web;
     private LocalDate fechaAlta; //TODO formatear fecha dd-MM-yyyy
-    @Column(name="logo")
+    @Column(name="logo", nullable = false)
     private String logo;
-    //@ManyToOne(cascade = CascadeType.PERSIST)
-    //@JoinColumn(name = "categoria_id",referencedColumnName = "id" ) //TODO ver de pasar solo la FK en todos los metodos
-    //private Categoria categoria;
-    //@NotNull
     @ElementCollection(targetClass = Categoria.class)
     @Enumerated(EnumType.STRING)
     @JoinTable(name = "categoria", joinColumns = @JoinColumn(name = "id_socio", referencedColumnName = "id"))

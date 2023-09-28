@@ -1,12 +1,11 @@
 package utn.t2.s1.gestionsocios.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.repositorios.SocioRepo;
-
-import java.util.List;
 
 @Service
 public class SocioServicio {
@@ -17,8 +16,8 @@ public class SocioServicio {
         return repo.findById(id).orElse(null);
     }
 
-    public List<Socio> buscarTodos() {
-        return (List<Socio>) repo.findAll();
+    public Page<Socio> buscarTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 
     public Socio agregar(Socio socio) {

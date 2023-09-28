@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.SocioDTO;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.servicios.SocioServicio;
-import utn.t2.s1.gestionsocios.sesion.Usuario;
-
-import java.util.List;
 
 @Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
 @ApiResponses(value = {
@@ -37,9 +36,9 @@ public class SocioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Socios encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
-    public ResponseEntity<List<Socio>> verSocios(){
-        List<Socio> socios = servicio.buscarTodos();
-        return new ResponseEntity<>(socios, HttpStatus.OK);
+    public ResponseEntity<Object> verSocios(Pageable pageable){
+        Page<Socio> socios = servicio.buscarTodos(pageable);
+        return new ResponseEntity<>(socios.get(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
