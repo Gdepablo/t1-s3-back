@@ -31,7 +31,7 @@ jobs:
         script:  registry:login ghcr.io pepinony ${{ secrets.TOKEN_GHCR }}
 
     - name: Deploy on prod
-      if: ${{github.ref == refs/heads/main}}
+      if: ${{github.ref == "refs/heads/main"}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -40,7 +40,7 @@ jobs:
         script: git:from-image acc-squad-m1s1-front-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-front:${{ steps.date.outputs.date }}-main
 
     - name: Deploy on dev
-      if: ${{github.ref == refs/heads/dev}}
+      if: ${{github.ref == "refs/heads/dev"}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
