@@ -15,8 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.SocioDTO;
+import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
+import utn.t2.s1.gestionsocios.servicios.CategoriaServicio;
 import utn.t2.s1.gestionsocios.servicios.SocioServicio;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
 @ApiResponses(value = {
@@ -30,13 +36,15 @@ public class SocioController {
 
     @Autowired
     SocioServicio servicio;
-
+    @Autowired
+    CategoriaServicio categoriaServicio;
     @GetMapping()
     @Operation(summary = "Retorna todos los socios de la base de datos") //TODO paginacion
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Socios encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
     public ResponseEntity<Object> verSocios(Pageable pageable){
+
         Page<Socio> socios = servicio.buscarTodos(pageable);
         return new ResponseEntity<>(socios.get(), HttpStatus.OK);
     }
@@ -66,7 +74,11 @@ public class SocioController {
     })
     public ResponseEntity<Socio> agregarSocio(@RequestBody @Valid SocioDTO socioDTO){ //TODO DTO socio
 
-        Socio _socio = socioDTO.toSocio();
+        Set<Categoria> categorias = categoriaServicio.stringSetToCategoriaSet(socioDTO.getCategorias());
+
+        Socio _socio = socioDTO.toSocio(categorias);
+        _socio.setEstado(Estado.ACTIVO);
+
         servicio.agregar(_socio);
 
         return new ResponseEntity<>(_socio, HttpStatus.CREATED);
@@ -83,9 +95,12 @@ public class SocioController {
         if (servicio.buscarPorId(id) == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); //TODO ver si se devuelve nulo o una cadena de texto
         }
+        Set<Categoria> categorias = categoriaServicio.stringSetToCategoriaSet(socioDTO.getCategorias());
+        Socio _socio = socioDTO.toSocio(categorias);
+        _socio.setEstado(Estado.ACTIVO);
 
-        Socio _socio = socioDTO.toSocio();
         servicio.modificar(id,_socio);
+
         return new ResponseEntity<>(_socio, HttpStatus.CREATED);
     }
 
@@ -104,5 +119,6 @@ public class SocioController {
         servicio.borrar(id);
         return new ResponseEntity<>("Socio eliminado", HttpStatus.OK);
     }
+
 
 }

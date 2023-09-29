@@ -2,32 +2,35 @@ package utn.t2.s1.gestionsocios.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utn.t2.s1.gestionsocios.modelos.CategoriaDeprecado;
+import utn.t2.s1.gestionsocios.modelos.Categoria;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.CategoriaRepo;
 
-import java.util.List;
 
-//@Service
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Service
 public class CategoriaServicio {
-    /*
+
     @Autowired
     private CategoriaRepo repo;
 
-    public CategoriaDeprecado buscarPorId(long id ){
-        return repo.findById(id).orElse(null);
+    public Categoria buscarPorNombre(String nombre){
+        return repo.findByNombreAndEstado(nombre,Estado.ACTIVO);
     }
-    public List<CategoriaDeprecado> buscarTodas(){
-        return (List<CategoriaDeprecado>) repo.findAll();
+    public List<Categoria> categorias(){
+        return repo.findAllByEstado(Estado.ACTIVO);
     }
-    public CategoriaDeprecado agregar(CategoriaDeprecado categoria){
-        return repo.save(categoria);
+    public List<String> nombresCategoria(){
+        return repo.findAllByEstado(Estado.ACTIVO).stream().map(Categoria::getNombre).toList() ;
     }
-    public CategoriaDeprecado modificar(Long id, CategoriaDeprecado categoria){
-        categoria.setId(id);
-        return repo.save(categoria);
+
+    public Set<Categoria> stringSetToCategoriaSet(Set<String> lista){
+        return  lista.stream()
+                    .map( s -> buscarPorNombre(s))
+                    .collect(Collectors.toSet());
     }
-    public void borrar(Long id){
-        repo.delete(this.buscarPorId(id));
-    }
-    */
+
 }

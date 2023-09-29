@@ -22,6 +22,9 @@ public class SocioDTO {
     @NotBlank( message = "Error, debe asignar una denominacion")
     private String denominacion;
     @NotNull
+    @Pattern(regexp = "^\\d{2}-\\d{8}-\\d{1}$", message = "Debe ser XX-XXXXXXXX-X")
+    private String cuit;
+    @NotNull
     @Pattern(regexp = "^\\+54\s\\d{8,10}$", message = "Debe ser +54 XXXXXXXX")
     @Schema( type = "string",example = "+54 numero")
     private String telefono;
@@ -51,11 +54,12 @@ public class SocioDTO {
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;
     @NotNull
-    private Set<Categoria> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
+    private Set<String> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
-    public Socio toSocio() {
+    public Socio toSocio(Set<Categoria> categorias) {
         Socio socio = new Socio();
         socio.setLogo(this.logo);
+        socio.setCuit(this.cuit);
         socio.setMail(this.mail);
         socio.setFechaAlta(this.fechaAlta);
         socio.setWeb(this.web);
@@ -63,7 +67,7 @@ public class SocioDTO {
         socio.setDenominacion(this.denominacion);
         socio.setDescripcion(this.descripcion);
         socio.setTipo(this.tipo);
-        socio.setCategorias(this.categorias);
+        socio.setCategorias(categorias);
         socio.setDireccion(this.direccion);
         return socio;
     }

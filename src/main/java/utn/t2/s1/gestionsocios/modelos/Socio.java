@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import utn.t2.s1.gestionsocios.persistencia.Persistente;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -22,13 +23,15 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name="socio")
-public class Socio {
+public class Socio extends Persistente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     @Column(name="denominacion", nullable = false)
     private String denominacion;
+    @Column(name="cuit", nullable = false)
+    private String cuit;
     @Column(name="telefono", nullable = false)
     private String telefono;
     @Enumerated(EnumType.STRING)
@@ -46,9 +49,8 @@ public class Socio {
     private LocalDate fechaAlta; //TODO formatear fecha dd-MM-yyyy
     @Column(name="logo", nullable = false)
     private String logo;
-    @ElementCollection(targetClass = Categoria.class)
-    @Enumerated(EnumType.STRING)
-    @JoinTable(name = "categoria", joinColumns = @JoinColumn(name = "id_socio", referencedColumnName = "id"))
-    @Column(name = "categoria", nullable = false)
+//    @ElementCollection(targetClass = Categoria.class)
+    @ManyToMany()
+//    @JoinTable(name = "categoria", joinColumns = @JoinColumn(name = "id_socio", referencedColumnName = "id"))
     private Set<Categoria> categorias =new HashSet<>(); ;
 }

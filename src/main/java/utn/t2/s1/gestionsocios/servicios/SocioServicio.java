@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.SocioRepo;
 
 @Service
@@ -12,12 +13,14 @@ public class SocioServicio {
     @Autowired
     private SocioRepo repo;
 
+
     public Socio buscarPorId(Long id) {
-        return repo.findById(id).orElse(null);
+        return repo.findByIdAndEstado(id, Estado.ACTIVO);
     }
 
     public Page<Socio> buscarTodos(Pageable pageable) {
-        return repo.findAll(pageable);
+
+        return repo.findAllByEstado(pageable, Estado.ACTIVO);
     }
 
     public Socio agregar(Socio socio) {
@@ -25,7 +28,11 @@ public class SocioServicio {
     }
 
     public void borrar(Long id) {
-        repo.delete(this.buscarPorId(id));
+//        repo.delete(this.buscarPorId(id));
+        Socio _socio = this.buscarPorId(id);
+        _socio.setEstado(Estado.ELIMINADO);
+        repo.save(_socio);
+
     }
 
     public Socio modificar(Long id, Socio socio) {
