@@ -151,6 +151,6 @@ jobs:
 
   deploy:
     if: ${{ !failure() }}
-    needs: [build_image_dev, build_image_main]
-    uses: ./.github/workflows/dokku-deploy-commands.yaml
+    needs: [build_dev, build_main]
+    uses: ./.github/workflows/dokku-deply-commands.yaml
     secrets: inherit 
