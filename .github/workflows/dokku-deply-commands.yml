@@ -52,3 +52,21 @@ jobs:
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
         script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-dev && ps:rebuild acc-squad-m1s1-back-dev
+
+    - name: Rebuild on prod
+      if: ${{github.ref == 'refs/heads/main'}}
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ env.HOST }}
+        username: ${{ env.USER }}
+        key: ${{ env.PRIVATE_KEY  }}
+        script: ps:rebuild acc-squad-m1s1-back-prod
+
+    - name: Rebuild on dev
+      if: ${{github.ref == 'refs/heads/main'}}
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ env.HOST }}
+        username: ${{ env.USER }}
+        key: ${{ env.PRIVATE_KEY  }}
+        script: ps:rebuild acc-squad-m1s1-back-dev
