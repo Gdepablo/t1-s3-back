@@ -17,6 +17,6 @@ services:
       image: back-image
       container_name: back
       ports:
-        - "3000:3000"
+        - "3000:8080"
       depends_on:
         - mysql-development
