@@ -63,7 +63,7 @@ jobs:
         script: ps:rebuild acc-squad-m1s1-back-prod
 
     - name: Rebuild on dev
-      if: ${{github.ref == 'refs/heads/main'}}
+      if: ${{github.ref == 'refs/heads/dev'}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ env.HOST }}
