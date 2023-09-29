@@ -148,3 +148,9 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+  deploy:
+    if: ${{ !failure() }}
+    needs: [build_image_dev, build_image_main]
+    uses: ./.github/workflows/dokku-deploy-commands.yaml
+    secrets: inherit 
