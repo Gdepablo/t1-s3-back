@@ -41,7 +41,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-front-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-front:${{ steps.date.outputs.date }}-main && ps:rebuild acc-squad-m1s1-front-prod
+        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-main && ps:rebuild acc-squad-m1s1-back-prod
 
 
     - name: Deploy on dev
@@ -51,4 +51,4 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-front-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-front:${{ steps.date.outputs.date }}-dev && ps:rebuild acc-squad-m1s1-front-dev
+        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-dev && ps:rebuild acc-squad-m1s1-back-dev
