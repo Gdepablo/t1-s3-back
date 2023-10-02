@@ -44,6 +44,10 @@ public class CategoriaServicio {
             return repo.findByIdAndEstado(id, Estado.ACTIVO);
     }
 
+    public Categoria agregar(Categoria categoria) {
+        return repo.save(categoria);
+    }
+
     public void borrar(Long id) {
         Categoria _categoria = this.buscarPorId(id);
         _categoria.setEstado(Estado.ELIMINADO);

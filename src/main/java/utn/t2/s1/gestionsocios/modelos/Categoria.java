@@ -16,7 +16,7 @@ import utn.t2.s1.gestionsocios.persistencia.Persistente;
 @Table(name="categoria")
 public class Categoria extends Persistente {
 
-    @NotBlank( message = "Error, el nombre de la categoria es obligatorio")
+    @Column(name="nombre")
     private String nombre;
 
 }

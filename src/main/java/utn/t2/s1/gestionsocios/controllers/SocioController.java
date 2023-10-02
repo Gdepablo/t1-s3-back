@@ -87,9 +87,8 @@ public class SocioController {
         } catch (CategoriaException e) {
             return new ResponseEntity<>("Una de las categorias no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
-        try {
-            tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
-        } catch (TipoException e) {
+        tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
+        if(tipo == null){
             return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
 
@@ -121,11 +120,15 @@ public class SocioController {
         } catch (CategoriaException e) {
             return new ResponseEntity<>("Una de las categorias no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
-        try {
-            tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
-        } catch (TipoException e) {
+        tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
+        if(tipo == null){
             return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
+//        try {
+//            tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
+//        } catch (TipoException e) {
+//            return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
+//        }
         Socio _socio = socioDTO.toSocio(categorias, tipo);
         _socio.setEstado(Estado.ACTIVO);
 

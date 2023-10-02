@@ -6,12 +6,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.dtos.AtributosDTO;
+import utn.t2.s1.gestionsocios.excepciones.TipoException;
+import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.modelos.TipoSocio;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.servicios.CategoriaServicio;
 import utn.t2.s1.gestionsocios.servicios.TipoSocioServicio;
 
@@ -38,15 +44,19 @@ public class AtributosController {
         return new ResponseEntity<>(categoriaServicio.nombresCategoria(), HttpStatus.OK);
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<Object> agregarCategoria(){ //TODO
-//        return new ResponseEntity<>(null,HttpStatus.OK);
-//    }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Object>modificarCategoria(@PathVariable Long id){ //TODO
-//        return new ResponseEntity<>(null,HttpStatus.OK);
-//    }
-//
+    @PostMapping("/categorias")
+    public ResponseEntity<Object> agregarCategoria(@RequestBody @Valid AtributosDTO categoriaDTO){ //TODO
+        if(categoriaServicio.buscarPorNombre(categoriaDTO.getNombre()) != null){
+            return new ResponseEntity<>("el nombre '"+ categoriaDTO.getNombre()+"' de categoria ya existe", HttpStatus.CREATED);
+        }
+        Categoria _categoria = new Categoria();
+        _categoria.setNombre(categoriaDTO.getNombre());
+        _categoria.setEstado(Estado.ACTIVO);
+        categoriaServicio.agregar(_categoria);
+
+        return new ResponseEntity<>(_categoria, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/categorias/{id}")
     @Operation(summary = "Elimina una categoria en la Base de datos")
     @ApiResponses(value = {
@@ -85,4 +95,18 @@ public class AtributosController {
         tipoSocioServicio.borrar(id);
         return new ResponseEntity<>("Tipo eliminado", HttpStatus.OK);
     }
+
+    @PostMapping("/tipos")
+    public ResponseEntity<Object> agregarTipoSocio(@RequestBody @Valid AtributosDTO categoriaDTO) throws TipoException {
+        if(tipoSocioServicio.buscarPorNombre(categoriaDTO.getNombre()) != null){
+            return new ResponseEntity<>("el nombre '"+ categoriaDTO.getNombre()+"' de tipo ya existe", HttpStatus.CREATED);
+        }
+        TipoSocio _tipo = new TipoSocio();
+        _tipo.setNombre(categoriaDTO.getNombre());
+        _tipo.setEstado(Estado.ACTIVO);
+        tipoSocioServicio.agregar(_tipo);
+
+        return new ResponseEntity<>(_tipo, HttpStatus.CREATED);
+    }
+
 }

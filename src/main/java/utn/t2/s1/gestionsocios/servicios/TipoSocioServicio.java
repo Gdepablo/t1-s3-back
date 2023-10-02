@@ -3,6 +3,7 @@ package utn.t2.s1.gestionsocios.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.excepciones.TipoException;
+import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.TipoSocioRepo;
@@ -14,13 +15,8 @@ public class TipoSocioServicio {
     @Autowired
     TipoSocioRepo repo;
 
-    public TipoSocio buscarPorNombre(String nombre) throws TipoException{
-        TipoSocio tipo = repo.findByNombreAndEstado(nombre,Estado.ACTIVO);
-        if (tipo == null){
-            throw new TipoException();
-        }else{
-            return tipo;
-        }
+    public TipoSocio buscarPorNombre(String nombre){
+        return repo.findByNombreAndEstado(nombre,Estado.ACTIVO);
     }
     public List<TipoSocio> tiposDesocio(){
         return repo.findAllByEstado(Estado.ACTIVO);
@@ -31,6 +27,10 @@ public class TipoSocioServicio {
 
     public TipoSocio buscarPorId(Long id) {
         return repo.findByIdAndEstado(id, Estado.ACTIVO);
+    }
+
+    public TipoSocio agregar(TipoSocio tipo) {
+        return repo.save(tipo);
     }
 
     public void borrar(Long id) {

@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.modelos;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +18,6 @@ import utn.t2.s1.gestionsocios.persistencia.Persistente;
 @Table(name="tipo_socio")
 public class TipoSocio extends Persistente {
 
-    @NotBlank( message = "Error, el nombre del tipo de socio es obligatorio")
+    @Column(name="nombre")
     private String nombre;
 }
