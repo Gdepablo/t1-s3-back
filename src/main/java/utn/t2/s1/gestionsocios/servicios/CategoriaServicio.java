@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.excepciones.CategoriaException;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
+import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.CategoriaRepo;
 
@@ -39,4 +40,17 @@ public class CategoriaServicio {
         }
     }
 
+    public Categoria buscarPorId(Long id) {
+            return repo.findByIdAndEstado(id, Estado.ACTIVO);
+    }
+
+    public Categoria agregar(Categoria categoria) {
+        return repo.save(categoria);
+    }
+
+    public void borrar(Long id) {
+        Categoria _categoria = this.buscarPorId(id);
+        _categoria.setEstado(Estado.ELIMINADO);
+        repo.save(_categoria);
+    }
 }
