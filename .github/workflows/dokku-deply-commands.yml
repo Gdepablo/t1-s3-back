@@ -13,9 +13,8 @@ env:
 
   
 jobs:
-  build:
+  preparation:
     runs-on: ubuntu-latest
-   
     steps:
     - name: Get current date
       id: date
@@ -34,27 +33,23 @@ jobs:
         key: ${{ env.PRIVATE_KEY }}
         script:  registry:login ghcr.io pepinony ${{ env.TOKEN_GHCR }}
 
+
+  deploy_main:
+    if: ${{github.ref == 'refs/heads/main'}}
+    needs: preparation
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Deploy on prod
-      if: ${{github.ref == 'refs/heads/main'}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-main && ps:rebuild acc-squad-m1s1-back-prod
+        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-main 
 
-
-    - name: Deploy on dev
-      if: ${{github.ref == 'refs/heads/dev'}}
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ env.HOST }}
-        username: ${{ env.USER }}
-        key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-dev && ps:rebuild acc-squad-m1s1-back-dev
 
     - name: Rebuild on prod
-      if: ${{github.ref == 'refs/heads/main'}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ env.HOST }}
@@ -62,8 +57,20 @@ jobs:
         key: ${{ env.PRIVATE_KEY  }}
         script: ps:rebuild acc-squad-m1s1-back-prod
 
+  deploy_dev:
+    if: ${{github.ref == 'refs/heads/dev'}}
+    needs: preparation
+    runs-on: ubuntu-latest
+   
+    steps:
+    - name: Deploy on dev
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ env.HOST }}
+        username: ${{ env.USER }}
+        key: ${{ env.PRIVATE_KEY  }}
+        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-dev 
     - name: Rebuild on dev
-      if: ${{github.ref == 'refs/heads/dev'}}
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ env.HOST }}
