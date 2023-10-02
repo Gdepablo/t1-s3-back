@@ -15,6 +15,8 @@ env:
 jobs:
   preparation:
     runs-on: ubuntu-latest
+    outputs: 
+      fecha: ${{ steps.date.outputs.date }}
     steps:
     - name: Get current date
       id: date
@@ -46,7 +48,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-main 
+        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.job1.outputs.fecha }}-main 
 
 
     - name: Rebuild on prod
@@ -69,7 +71,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ steps.date.outputs.date }}-dev 
+        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.job1.outputs.fecha }}-dev 
     - name: Rebuild on dev
       uses: appleboy/ssh-action@v1.0.0
       with:
