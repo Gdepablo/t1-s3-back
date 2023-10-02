@@ -10,9 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
-
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,11 +20,14 @@ public class SocioDTO {
     @NotBlank( message = "Error, debe asignar una denominacion")
     private String denominacion;
     @NotNull
+    @Pattern(regexp = "^\\d{2}-\\d{8}-\\d{1}$", message = "Debe ser XX-XXXXXXXX-X")
+    private String cuit;
+    @NotNull
     @Pattern(regexp = "^\\+54\s\\d{8,10}$", message = "Debe ser +54 XXXXXXXX")
     @Schema( type = "string",example = "+54 numero")
     private String telefono;
     @NotNull //TODO atrapar error valor fuera del enum
-    private TipoSocio tipo;
+    private String tipo;
     @NotNull(message = "La dirección no puede ser nula")
     @Size(max = 254, message = "La dirección no puede ocupar mas de 254 caracteres")
     private String direccion;
@@ -51,19 +52,20 @@ public class SocioDTO {
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;
     @NotNull
-    private Set<Categoria> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
+    private Set<String> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
-    public Socio toSocio() {
+    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo) {
         Socio socio = new Socio();
         socio.setLogo(this.logo);
+        socio.setCuit(this.cuit);
         socio.setMail(this.mail);
         socio.setFechaAlta(this.fechaAlta);
         socio.setWeb(this.web);
         socio.setTelefono(this.telefono);
         socio.setDenominacion(this.denominacion);
         socio.setDescripcion(this.descripcion);
-        socio.setTipo(this.tipo);
-        socio.setCategorias(this.categorias);
+        socio.setTipo(tipo);
+        socio.setCategorias(categorias);
         socio.setDireccion(this.direccion);
         return socio;
     }

@@ -1,6 +1,22 @@
 package utn.t2.s1.gestionsocios.modelos;
 
-public enum TipoSocio {
-    CAMARA,
-    EMPRESA;
-} //TODO revisar si son correctos los nombres
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import utn.t2.s1.gestionsocios.persistencia.Persistente;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name="tipo_socio")
+public class TipoSocio extends Persistente {
+
+    @NotBlank( message = "Error, el nombre del tipo de socio es obligatorio")
+    private String nombre;
+}
