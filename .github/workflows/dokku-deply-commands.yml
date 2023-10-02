@@ -48,7 +48,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.job1.outputs.fecha }}-main 
+        script: git:from-image acc-squad-m1s1-back-prod ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.preparation.outputs.fecha }}-main 
 
 
     - name: Rebuild on prod
@@ -71,7 +71,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.job1.outputs.fecha }}-dev 
+        script: git:from-image acc-squad-m1s1-back-dev ghcr.io/disilab-frba-utn-edu-ar/t2-s1-socios-back:${{ needs.preparation.outputs.fecha }}-dev 
     - name: Rebuild on dev
       uses: appleboy/ssh-action@v1.0.0
       with:
