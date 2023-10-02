@@ -10,9 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
-
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -29,7 +27,7 @@ public class SocioDTO {
     @Schema( type = "string",example = "+54 numero")
     private String telefono;
     @NotNull //TODO atrapar error valor fuera del enum
-    private TipoSocio tipo;
+    private String tipo;
     @NotNull(message = "La dirección no puede ser nula")
     @Size(max = 254, message = "La dirección no puede ocupar mas de 254 caracteres")
     private String direccion;
@@ -56,7 +54,7 @@ public class SocioDTO {
     @NotNull
     private Set<String> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
-    public Socio toSocio(Set<Categoria> categorias) {
+    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo) {
         Socio socio = new Socio();
         socio.setLogo(this.logo);
         socio.setCuit(this.cuit);
@@ -66,7 +64,7 @@ public class SocioDTO {
         socio.setTelefono(this.telefono);
         socio.setDenominacion(this.denominacion);
         socio.setDescripcion(this.descripcion);
-        socio.setTipo(this.tipo);
+        socio.setTipo(tipo);
         socio.setCategorias(categorias);
         socio.setDireccion(this.direccion);
         return socio;

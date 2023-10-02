@@ -2,6 +2,7 @@ package utn.t2.s1.gestionsocios.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import utn.t2.s1.gestionsocios.excepciones.CategoriaException;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.CategoriaRepo;
@@ -17,7 +18,7 @@ public class CategoriaServicio {
     @Autowired
     private CategoriaRepo repo;
 
-    public Categoria buscarPorNombre(String nombre){
+    public Categoria buscarPorNombre(String nombre) {
         return repo.findByNombreAndEstado(nombre,Estado.ACTIVO);
     }
     public List<Categoria> categorias(){
@@ -27,10 +28,15 @@ public class CategoriaServicio {
         return repo.findAllByEstado(Estado.ACTIVO).stream().map(Categoria::getNombre).toList() ;
     }
 
-    public Set<Categoria> stringSetToCategoriaSet(Set<String> lista){
-        return  lista.stream()
-                    .map( s -> buscarPorNombre(s))
+    public  Set<Categoria> stringSetToCategoriaSet(Set<String> lista) throws CategoriaException{
+        Set<Categoria> set =  lista.stream()
+                    .map(this::buscarPorNombre)
                     .collect(Collectors.toSet());
+        if (set.contains(null)){
+            throw new CategoriaException();
+        }else{
+            return set;
+        }
     }
 
 }
