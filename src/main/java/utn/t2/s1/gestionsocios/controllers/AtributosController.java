@@ -47,10 +47,20 @@ public class AtributosController {
 //        return new ResponseEntity<>(null,HttpStatus.OK);
 //    }
 //
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Object> eliminarCategoria(@PathVariable Long id){ //TODO
-//        return new ResponseEntity<>(null,HttpStatus.OK);
-//    }
+    @DeleteMapping("/categorias/{id}")
+    @Operation(summary = "Elimina una categoria en la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categoria eliminada" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404", description = "La categoria no fue encontrada",content = { @Content(schema = @Schema()) }),
+    })
+    public ResponseEntity<Object> eliminarCategoria(@PathVariable Long id){ //TODO
+        if (categoriaServicio.buscarPorId(id) == null){
+            return new ResponseEntity<>("categoria no encontrada", HttpStatus.NOT_FOUND);
+        }
+
+        categoriaServicio.borrar(id);
+        return new ResponseEntity<>("categoria eliminada", HttpStatus.OK);
+    }
 
     @GetMapping("/tipos")
     @Operation(summary = "Retorna todos los nombres de los tipo de socios")
@@ -59,5 +69,20 @@ public class AtributosController {
     })
     public ResponseEntity<Object> verNombresTipos(){
         return new ResponseEntity<>(tipoSocioServicio.nombresSocios(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/tipos/{id}")
+    @Operation(summary = "Elimina un tipo en la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tipo eliminado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404", description = "El tipo no fue encontrado",content = { @Content(schema = @Schema()) }),
+    })
+    public ResponseEntity<Object> eliminarTipo(@PathVariable Long id){ //TODO
+        if (tipoSocioServicio.buscarPorId(id) == null){
+            return new ResponseEntity<>("Tipo no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        tipoSocioServicio.borrar(id);
+        return new ResponseEntity<>("Tipo eliminado", HttpStatus.OK);
     }
 }

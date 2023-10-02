@@ -28,7 +28,6 @@ public class SocioServicio {
     }
 
     public void borrar(Long id) {
-//        repo.delete(this.buscarPorId(id));
         Socio _socio = this.buscarPorId(id);
         _socio.setEstado(Estado.ELIMINADO);
         repo.save(_socio);
