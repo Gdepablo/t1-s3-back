@@ -74,7 +74,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: config:set acc-squad-m1s1-back-dev DB_URL=acc-squad-m1s1-db-dev DB_USER=root DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+        script: config:set acc-squad-m1s1-back-dev DB_URL=acc-squad-m1s1-db-dev DB_USER=root DB_PASSWORD=${{ secrets.DB_PASSWORD }} SQL_INIT=always DDL_MODE= update
 
     - name: Deploy on dev
       env:
