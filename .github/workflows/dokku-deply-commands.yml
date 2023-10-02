@@ -43,7 +43,7 @@ jobs:
     
     steps:
     - env:
-        FECHA: ${{ needs.preparation.outputs.fecha }}
+        FECHA: ${{ jobs.preparation.outputs.fecha }}
     - name: Deploy on prod
       uses: appleboy/ssh-action@v1.0.0
       with:
@@ -68,7 +68,7 @@ jobs:
    
     steps:
     - env:
-        FECHA: ${{ needs.preparation.outputs.fecha }}
+        FECHA: ${{ jobs.preparation.outputs.fecha }}
     - name: Deploy on dev
       uses: appleboy/ssh-action@v1.0.0
       with:
