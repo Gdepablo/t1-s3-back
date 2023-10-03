@@ -48,7 +48,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: config:set acc-squad-m1s1-back-prod DATABASE_URL=jdbc:mariadb://acc-squad-m1s1-db-prod/acc_squad_m1s1_db_prod DB_URL=jdbc:mariadb://acc-squad-m1s1-db-prod/acc_squad_m1s1_db_prod DB_USER=root PASSWORD=${{ secrets.DB_PASSWORD }} SQL_INIT=never DDL_MODE=update SHOW_SQL=false
+        script: config:set acc-squad-m1s1-back-prod DB_URL=jdbc:mariadb://dokku-mariadb-acc-squad-m1s1-db-dev:3306/acc_squad_m1s1_db_dev DB_USER=mariadb PASSWORD=${{ secrets.DB_PASSWORD }} SQL_INIT=never DDL_MODE=update SHOW_SQL=false
     - name: Deploy on prod
       env:
         FECHA: ${{ needs.preparation.outputs.fecha }}
@@ -81,7 +81,7 @@ jobs:
         host: ${{ env.HOST }}
         username: ${{ env.USER }}
         key: ${{ env.PRIVATE_KEY  }}
-        script: config:set acc-squad-m1s1-back-dev DATABASE_URL=jdbc:mariadb://acc-squad-m1s1-db-dev:3307/acc_squad_m1s1_db_dev DB_URL=jdbc:mariadb://acc-squad-m1s1-db-dev:3307/acc_squad_m1s1_db_dev?characterEncoding=utf8 DB_USER=root PASSWORD=${{ secrets.DB_PASSWORD }} SQL_INIT=never DDL_MODE=update SHOW_SQL=false
+        script: config:set acc-squad-m1s1-back-dev DATABASE_URL= DB_URL= DB_USER=root PASSWORD=${{ secrets.DB_PASSWORD }} SQL_INIT=never DDL_MODE=update SHOW_SQL=false
 
     - name: Deploy on dev
       env:
