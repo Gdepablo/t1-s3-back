@@ -15,6 +15,6 @@ WORKDIR /app
 
 COPY --from=MAVEN_BUILD /build/target/gestion-socios-0.0.1-SNAPSHOT.jar /app/
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["java", "-jar", "gestion-socios-0.0.1-SNAPSHOT.jar"]
