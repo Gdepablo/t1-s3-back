@@ -15,6 +15,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Schema
 public class SocioDTO {
     @NotNull
     @NotBlank( message = "Error, debe asignar una denominacion")

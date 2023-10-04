@@ -1,6 +1,7 @@
 package utn.t2.s1.gestionsocios.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -82,7 +82,8 @@ public class SocioController {
         return new ResponseEntity<>(_socio, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE })
+
     @Operation(summary = "Inserta un socio en la Base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Socio creado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Socio.class)) }),
@@ -91,7 +92,11 @@ public class SocioController {
             @ApiResponse(responseCode = "404", description = "El tipo no fue encontrada",content = { @Content(schema = @Schema()) }),
 
     })
-    public ResponseEntity<Object> agregarSocio(@RequestPart("data") @Valid SocioDTO socioDTO, @RequestPart("file") MultipartFile file){ //TODO DTO socio
+    public ResponseEntity<Object> agregarSocio(
+            @RequestPart(value = "socio", required = true ) SocioDTO socioDTO,
+            @RequestPart(value = "file", required = true) MultipartFile file)
+    { //TODO DTO socio
+
 
         String fileName = fileStorageService.storeFile(file);
 
@@ -114,6 +119,7 @@ public class SocioController {
 
         Socio  _socio = socioDTO.toSocio(categorias, tipo,fileDownloadUri);
         _socio.setEstado(Estado.ACTIVO);
+
         servicio.agregar(_socio);
 
         return new ResponseEntity<>(_socio, HttpStatus.CREATED);
