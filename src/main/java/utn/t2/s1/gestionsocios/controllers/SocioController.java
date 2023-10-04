@@ -6,14 +6,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import utn.t2.s1.gestionsocios.dtos.SocioDTO;
 import utn.t2.s1.gestionsocios.excepciones.CategoriaException;
 import utn.t2.s1.gestionsocios.excepciones.TipoException;
@@ -22,8 +28,13 @@ import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.servicios.CategoriaServicio;
+import utn.t2.s1.gestionsocios.servicios.FileStorageService;
 import utn.t2.s1.gestionsocios.servicios.SocioServicio;
 import utn.t2.s1.gestionsocios.servicios.TipoSocioServicio;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 
 @Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
@@ -42,6 +53,8 @@ public class SocioController {
     CategoriaServicio categoriaServicio;
     @Autowired
     TipoSocioServicio tipoServicio;
+    @Autowired
+    FileStorageService fileStorageService;
     @GetMapping()
     @Operation(summary = "Retorna todos los socios de la base de datos") //TODO paginacion
     @ApiResponses(value = {
@@ -78,7 +91,14 @@ public class SocioController {
             @ApiResponse(responseCode = "404", description = "El tipo no fue encontrada",content = { @Content(schema = @Schema()) }),
 
     })
-    public ResponseEntity<Object> agregarSocio(@RequestBody @Valid SocioDTO socioDTO){ //TODO DTO socio
+    public ResponseEntity<Object> agregarSocio(@RequestPart("data") @Valid SocioDTO socioDTO, @RequestPart("file") MultipartFile file){ //TODO DTO socio
+
+        String fileName = fileStorageService.storeFile(file);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/files/")
+                .path(fileName)
+                .toUriString();
 
         Set<Categoria> categorias = null;
         TipoSocio tipo = null;
@@ -92,9 +112,8 @@ public class SocioController {
             return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
 
-        Socio  _socio = socioDTO.toSocio(categorias, tipo);
+        Socio  _socio = socioDTO.toSocio(categorias, tipo,fileDownloadUri);
         _socio.setEstado(Estado.ACTIVO);
-
         servicio.agregar(_socio);
 
         return new ResponseEntity<>(_socio, HttpStatus.CREATED);
@@ -108,7 +127,14 @@ public class SocioController {
             @ApiResponse(responseCode = "404", description = "La categoria no fue encontrada",content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El tipo no fue encontrada",content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<Object> modificarSocio( @PathVariable Long id, @RequestBody @Valid SocioDTO socioDTO){
+    public ResponseEntity<Object> modificarSocio( @PathVariable Long id, @RequestBody @Valid SocioDTO socioDTO, @RequestPart("file") MultipartFile file){
+
+        String fileName = fileStorageService.storeFile(file);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/files/")
+                .path(fileName)
+                .toUriString();
 
         if (servicio.buscarPorId(id) == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); //TODO ver si se devuelve nulo o una cadena de texto
@@ -129,7 +155,7 @@ public class SocioController {
 //        } catch (TipoException e) {
 //            return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
 //        }
-        Socio _socio = socioDTO.toSocio(categorias, tipo);
+        Socio _socio = socioDTO.toSocio(categorias, tipo, fileDownloadUri);
         _socio.setEstado(Estado.ACTIVO);
 
         servicio.modificar(id,_socio);
@@ -152,6 +178,8 @@ public class SocioController {
         servicio.borrar(id);
         return new ResponseEntity<>("Socio eliminado", HttpStatus.OK);
     }
+
+
 
 
 }

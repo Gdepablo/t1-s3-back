@@ -47,16 +47,13 @@ public class SocioDTO {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Schema( type = "string",example = "dd-MM-aaaa")
     private LocalDate fechaAlta; //TODO atrapar error fecha invalida
-    @NotNull
-    @URL(message = "La url del logo debe ser https://www.algo.com")
-    @Schema( type = "string",example = "https://www.string.com")
-    private String logo;
+//    private String logo;
     @NotNull
     private Set<String> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
-    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo) {
+    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo, String logo) {
         Socio socio = new Socio();
-        socio.setLogo(this.logo);
+        socio.setLogo(logo);
         socio.setCuit(this.cuit);
         socio.setMail(this.mail);
         socio.setFechaAlta(this.fechaAlta);
