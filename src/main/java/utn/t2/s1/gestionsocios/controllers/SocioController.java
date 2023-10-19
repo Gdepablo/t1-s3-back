@@ -43,7 +43,7 @@ public class SocioController {
     @Autowired
     TipoSocioServicio tipoServicio;
     @GetMapping()
-    @Operation(summary = "Retorna todos los socios de la base de datos") //TODO paginacion
+    @Operation(summary = "Retorna todos los socios de la base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Socios encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
@@ -52,6 +52,20 @@ public class SocioController {
         Page<Socio> socios = servicio.buscarTodos(pageable);
         return new ResponseEntity<>(socios.get(), HttpStatus.OK);
     }
+
+
+    @GetMapping(value = {"/search", "/search/"})
+    @Operation(summary = "Retorna los socios filtrados y buscados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Socios Filtrados encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
+    })
+    public ResponseEntity<Object> verSociosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String denominacion, @RequestParam(required = false) String tipo){
+
+        Page<Socio> socios = servicio.buscarPorDenominacionYFiltrado(pageable, denominacion, tipo);
+        return new ResponseEntity<>(socios.get(), HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Retorna el socio correspondiente al id")

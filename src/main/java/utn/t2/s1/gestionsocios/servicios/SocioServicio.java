@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.modelos.TipoSocio;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.SocioRepo;
 
@@ -22,6 +23,24 @@ public class SocioServicio {
 
         return repo.findAllByEstado(pageable, Estado.ACTIVO);
     }
+
+
+
+    public Page<Socio> buscarPorDenominacionYFiltrado(Pageable pageable, String denominacion, String tipo) {
+
+        if (denominacion != null && tipo != null){
+            return repo.findByDenominacionContainingAndTipo_NombreAndTipo_EstadoAndEstado(pageable, denominacion, tipo, Estado.ACTIVO, Estado.ACTIVO);
+        } else if (denominacion == null && tipo != null){
+            return repo.findByTipo_NombreAndTipo_EstadoAndEstado(pageable, tipo, Estado.ACTIVO, Estado.ACTIVO);
+        } else if (denominacion != null && tipo == null){
+            return repo.findByDenominacionContainingAndEstado(pageable, denominacion, Estado.ACTIVO);
+        } else {
+            return repo.findAllByEstado(pageable, Estado.ACTIVO);
+        }
+
+
+    }
+
 
     public Socio agregar(Socio socio) {
         return repo.save(socio);
