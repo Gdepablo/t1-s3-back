@@ -54,19 +54,19 @@ public class SocioDTO {
     @NotNull
     private Set<String> categorias; //TODO ver si atrapar error de categoria ya que esta esta seleccionada
 
-    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo) {
-        Socio socio = new Socio();
-        socio.setLogo(this.logo);
-        socio.setCuit(this.cuit);
-        socio.setMail(this.mail);
-        socio.setFechaAlta(this.fechaAlta);
-        socio.setWeb(this.web);
-        socio.setTelefono(this.telefono);
-        socio.setDenominacion(this.denominacion);
-        socio.setDescripcion(this.descripcion);
-        socio.setTipo(tipo);
-        socio.setCategorias(categorias);
-        socio.setDireccion(this.direccion);
-        return socio;
-    }
+//    public Socio toSocio(Set<Categoria> categorias, TipoSocio tipo) {
+//        Socio socio = new Socio();
+//        socio.setLogo(this.logo);
+//        socio.setCuit(this.cuit);
+//        socio.setMail(this.mail);
+//        socio.setFechaAlta(this.fechaAlta);
+//        socio.setWeb(this.web);
+//        socio.setTelefono(this.telefono);
+//        socio.setDenominacion(this.denominacion);
+//        socio.setDescripcion(this.descripcion);
+//        socio.setTipo(tipo);
+//        socio.setCategorias(categorias);
+//        socio.setDireccion(this.direccion);
+//        return socio;
+//    }
 }

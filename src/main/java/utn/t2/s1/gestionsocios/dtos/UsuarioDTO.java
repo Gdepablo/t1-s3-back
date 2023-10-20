@@ -20,10 +20,10 @@ public class UsuarioDTO {
     @Schema( hidden = true)
     private Socio socio;
 
-    public Usuario toUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setNombre(this.nombre);
-        usuario.setContrasenia(this.contrasenia);
-        return usuario;
-    }
+//    public Usuario toUsuario() {
+//        Usuario usuario = new Usuario();
+//        usuario.setNombre(this.nombre);
+//        usuario.setContrasenia(this.contrasenia);
+//        return usuario;
+//    }
 }

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.converters.SocioConverter;
 import utn.t2.s1.gestionsocios.dtos.SocioDTO;
 import utn.t2.s1.gestionsocios.excepciones.CategoriaException;
 import utn.t2.s1.gestionsocios.excepciones.TipoException;
@@ -42,6 +43,8 @@ public class SocioController {
     CategoriaServicio categoriaServicio;
     @Autowired
     TipoSocioServicio tipoServicio;
+    @Autowired
+    SocioConverter socioConverter;
     @GetMapping()
     @Operation(summary = "Retorna todos los socios de la base de datos")
     @ApiResponses(value = {
@@ -106,7 +109,7 @@ public class SocioController {
             return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
 
-        Socio  _socio = socioDTO.toSocio(categorias, tipo);
+        Socio  _socio = socioConverter.toSocio(socioDTO,categorias, tipo);
         _socio.setEstado(Estado.ACTIVO);
 
         servicio.agregar(_socio);
@@ -143,7 +146,7 @@ public class SocioController {
 //        } catch (TipoException e) {
 //            return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
 //        }
-        Socio _socio = socioDTO.toSocio(categorias, tipo);
+        Socio _socio = socioConverter.toSocio(socioDTO,categorias, tipo);
         _socio.setEstado(Estado.ACTIVO);
 
         servicio.modificar(id,_socio);

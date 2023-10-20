@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
@@ -31,6 +32,8 @@ public class SesionController {
 
     @Autowired
     UsuarioServicio servicio;
+    @Autowired
+    UsuarioConverter usuarioConverter;
 
     @PostMapping()
     @Operation(summary = "Ingresar")
@@ -66,7 +69,7 @@ public class SesionController {
         Optional<Usuario> _usuario = servicio.buscarPorNombre(usuarioDTO.getNombre());
 
         if(_usuario.isEmpty()){
-            Usuario usuario = usuarioDTO.toUsuario();
+            Usuario usuario = usuarioConverter.toUsuario(usuarioDTO);
             return new ResponseEntity<>(servicio.agregar(usuario), HttpStatus.CREATED );
         }
 
