@@ -6,10 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
 
 @Getter
 @Setter
-public class UsuarioDTO {
+public class UsuarioDTOSignUp {
     @NotNull
     @NotBlank( message = "Error, el usuario necesita un nombre")
     private String nombre;
@@ -18,6 +19,8 @@ public class UsuarioDTO {
     private String contrasenia;
     @Schema( hidden = true)
     private Socio socio;
-
+    @NotNull
+    @NotBlank( message = "Error, el usuario necesita un tipo de usuario")
+    private Long tipoDeUsuarioId;
 
 }

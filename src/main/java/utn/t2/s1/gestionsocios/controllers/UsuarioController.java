@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
-import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
+import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
+import utn.t2.s1.gestionsocios.dtos.UsuarioDTOSignUp;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
 import utn.t2.s1.gestionsocios.servicios.UsuarioServicio;
@@ -28,7 +29,7 @@ import java.util.Optional;
 @Validated
 @RequestMapping("/acceso")
 @CrossOrigin
-public class SesionController {
+public class UsuarioController {
 
     @Autowired
     UsuarioServicio servicio;
@@ -43,19 +44,19 @@ public class SesionController {
             @ApiResponse(responseCode = "404", description = "El usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
 
     })
-    public ResponseEntity<Object> ingresar(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<?> ingresar(@RequestBody UsuarioDTOLogin usuarioDTOLogin){
 
-        Optional<Usuario> usuario = null;
+        Usuario usuario = new Usuario();
 
         try {
-            usuario = servicio.buscarUsuario(usuarioDTO);
+            usuario = servicio.buscarUsuario(usuarioDTOLogin);
         } catch (UsuarioNombreException e) {
             return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         } catch (UsuarioContraseniaException e) {
             return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
     @PostMapping("/registrar")
@@ -65,12 +66,11 @@ public class SesionController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
 
     })
-    public ResponseEntity<Object> registrar(@RequestBody UsuarioDTO usuarioDTO){
-        Optional<Usuario> _usuario = servicio.buscarPorNombre(usuarioDTO.getNombre());
+    public ResponseEntity<Object> registrar(@RequestBody UsuarioDTOSignUp usuarioDTOSignUp){
+        Optional<Usuario> _usuario = servicio.buscarPorNombre(usuarioDTOSignUp.getNombre());
 
         if(_usuario.isEmpty()){
-            Usuario usuario = usuarioConverter.toUsuario(usuarioDTO);
-            return new ResponseEntity<>(servicio.agregar(usuario), HttpStatus.CREATED );
+            return new ResponseEntity<>(servicio.agregar(usuarioDTOSignUp), HttpStatus.CREATED );
         }
 
         return  new ResponseEntity<>("el nombre de usuario ya existe", HttpStatus.BAD_REQUEST );
