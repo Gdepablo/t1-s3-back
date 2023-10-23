@@ -6,7 +6,7 @@ import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
 import utn.t2.s1.gestionsocios.repositorios.UsuarioRepo;
-import utn.t2.s1.gestionsocios.sesion.Usuario;
+import utn.t2.s1.gestionsocios.modelos.Usuario;
 
 import java.util.Optional;
 

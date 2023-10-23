@@ -1,6 +1,8 @@
 INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'CAMARA');
 INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'EMPRESA');
 
+
+
 INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccion, logo, mail, telefono, tipo, web,cuit) VALUES (0,'2018-09-28', 'Coca-cola', 'Empresa de gaseosas', 'Av Medrano 2709', 'https://www.pngplay.com/wp-content/uploads/9/Coca-Cola-Logo-PNG-Background.png', 'cocacola@gmail.com', '+54 42452124',2, 'https://www.cocacola.com','20-11111111-2');
 INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccion, logo, mail, telefono, tipo, web,cuit) VALUES (0,'2006-09-22', 'Bimbo', 'Empresa de pan', 'Av Fransisco Beiro 3504', 'https://pirconsultoria.com/pluginfile.php/129/block_cocoon_gallery/content/bimbo-logo.png', 'bimbo@gmail.com', '+54 49453924', 2, 'https://www.bimbo.com','20-11111111-2');
 INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccion, logo, mail, telefono, tipo, web,cuit) VALUES (0,'2023-09-14', 'C.A.D.E.S.R.E.D.E.Y.A.', 'Cámara Argentina de Establecimientos de Servicio Rápido de Expendio de Emparedados y Afines', 'Av. Corrientes 2294 Piso 10 Of 50, CABA', 'https://copal.org.ar/wp-content/uploads/2020/03/CADERES-1.jpg', 'camservrap@hotmail.com', '+54 1149514283', 1, 'https:www.C.A.D.E.S.R.E.D.E.Y.A.com','20-11111111-2');
@@ -44,4 +46,9 @@ INSERT INTO socios.socio_categorias (categorias_id, socio_id) VALUES (7, 9);
 INSERT INTO socios.socio_categorias (categorias_id, socio_id) VALUES (4, 9);
 INSERT INTO socios.socio_categorias (categorias_id, socio_id) VALUES (2, 9);
 
-INSERT INTO socios.usuario (socio_id, contrasenia, nombre) VALUES (null, '123456', 'juan');
+INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'ADMIN');
+INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'USER');
+
+
+INSERT INTO socios.usuario (socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (1, '123456', 'juan', 1);
+INSERT INTO socios.usuario (socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (2, '123456', 'pepe', 2);

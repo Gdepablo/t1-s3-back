@@ -2,7 +2,7 @@ package utn.t2.s1.gestionsocios.converters;
 
 import org.springframework.stereotype.Component;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
-import utn.t2.s1.gestionsocios.sesion.Usuario;
+import utn.t2.s1.gestionsocios.modelos.Usuario;
 
 @Component
 public class UsuarioConverter {

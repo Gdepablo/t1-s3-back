@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import utn.t2.s1.gestionsocios.modelos.Socio;
-import utn.t2.s1.gestionsocios.sesion.Usuario;
 
 @Getter
 @Setter
@@ -20,10 +19,5 @@ public class UsuarioDTO {
     @Schema( hidden = true)
     private Socio socio;
 
-//    public Usuario toUsuario() {
-//        Usuario usuario = new Usuario();
-//        usuario.setNombre(this.nombre);
-//        usuario.setContrasenia(this.contrasenia);
-//        return usuario;
-//    }
+
 }

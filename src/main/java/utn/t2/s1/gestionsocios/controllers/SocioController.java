@@ -50,11 +50,10 @@ public class SocioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Socios encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
-    public ResponseEntity<Object> verSocios(Pageable pageable){
-
-        Page<Socio> socios = servicio.buscarTodos(pageable);
-        return new ResponseEntity<>(socios.get(), HttpStatus.OK);
+    public ResponseEntity<Page<Socio>> verSocios(Pageable pageable){
+        return new ResponseEntity<>(servicio.buscarTodos(pageable), HttpStatus.OK);
     }
+
 
 
     @GetMapping(value = {"/search", "/search/"})
@@ -62,10 +61,10 @@ public class SocioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Socios Filtrados encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
-    public ResponseEntity<Object> verSociosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String denominacion, @RequestParam(required = false) String tipo){
+    public ResponseEntity<Page<Socio>> verSociosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String denominacion, @RequestParam(required = false) String tipo){
 
         Page<Socio> socios = servicio.buscarPorDenominacionYFiltrado(pageable, denominacion, tipo);
-        return new ResponseEntity<>(socios.get(), HttpStatus.OK);
+        return new ResponseEntity<>(socios, HttpStatus.OK);
     }
 
 
