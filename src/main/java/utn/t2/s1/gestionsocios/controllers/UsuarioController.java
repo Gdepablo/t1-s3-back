@@ -27,7 +27,7 @@ import java.util.Optional;
 })
 @RestController
 @Validated
-@RequestMapping("/acceso")
+@RequestMapping("/usuarios")
 @CrossOrigin
 public class UsuarioController {
 
@@ -36,7 +36,7 @@ public class UsuarioController {
     @Autowired
     UsuarioConverter usuarioConverter;
 
-    @PostMapping()
+    @PostMapping("/login")
     @Operation(summary = "Ingresar")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuario encontrado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Usuario.class)) }),
@@ -59,7 +59,7 @@ public class UsuarioController {
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
-    @PostMapping("/registrar")
+    @PostMapping
     @Operation(summary = "Registrar usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuario registrado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Usuario.class)) }),
