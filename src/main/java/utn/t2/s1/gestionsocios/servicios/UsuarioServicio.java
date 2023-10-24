@@ -85,12 +85,39 @@ public class UsuarioServicio {
     }
 
     public Usuario actualizar(Long id, UsuarioDTO usuarioDTO) {
-        Optional<Usuario> optionalUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
+        Optional<Usuario> optionalUsuario = usuarioRepo.findById(id);
+        if (!optionalUsuario.isPresent()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+
+
+
+
+
+        Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
         if (!optionalTipoDeUsuario.isPresent()) {
             throw new RuntimeException("Tipo de Usuario no encontrado");
         }
-        //TODO chequear si es nulo
-        socio.setId(id);
-        return repo.save(socio);
+
+        Usuario usuario = usuarioConverter.toUsuario(usuarioDTO, optionalUsuario.get());
+        usuario.setTipoDeUsuario(optionalTipoDeUsuario.get());
+
+        Optional<Socio> optionalSocio;
+        if (usuarioDTO.getSocioId() != null) {
+            optionalSocio = socioRepo.findById(usuarioDTO.getSocioId());
+            if (!optionalSocio.isPresent()) {
+                throw new RuntimeException("Usuario no encontrado");
+            }
+            usuario.setSocio(optionalSocio.get());
+
+        }
+
+
+        return usuarioRepo.save(usuario);
     }
+
+
+
+
 }

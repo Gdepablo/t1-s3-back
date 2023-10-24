@@ -19,6 +19,13 @@ public class UsuarioConverter {
         return usuario;
     }
 
+    public Usuario toUsuario(UsuarioDTO usuarioDTO, Usuario usuario) {
+        usuario.setNombre(usuarioDTO.getNombre());
+        usuario.setContrasenia(usuarioDTO.getContrasenia());
+        //   usuario.setTipoDeUsuario(tipoDeUsuarioConverter.toUsuario( usuarioDTOSignUp.getTipoDeUsuario()));
+        return usuario;
+    }
+
     public Usuario toUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setNombre(usuarioDTO.getNombre());

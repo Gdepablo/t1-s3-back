@@ -77,21 +77,21 @@ public class UsuarioController {
     }
 
 
-//    @PutMapping("/{id}")
-//    @Operation(summary = "Modifica un Usuario en la Base de datos")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "201", description = "Usuario modificado" ,content = { @Content(schema = @Schema()) }),
-//            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
-//            @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
-//    })
-//    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO){
-//        try {
-//            Usuario usuarioUpdate = servicio.actualizar(usuarioDTO, id);
-//            return new ResponseEntity<>(usuarioUpdate, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @PutMapping("/{id}")
+    @Operation(summary = "Modifica un Usuario en la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario modificado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
+    })
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO){
+        try {
+            Usuario usuarioUpdate = servicio.actualizar(id, usuarioDTO);
+            return new ResponseEntity<>(usuarioUpdate, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
+        }
+    }
 
 
     @DeleteMapping("/{id}")
