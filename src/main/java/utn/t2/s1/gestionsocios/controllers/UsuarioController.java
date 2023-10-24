@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,10 +19,12 @@ import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
+import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
 import utn.t2.s1.gestionsocios.servicios.UsuarioServicio;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
@@ -37,6 +41,17 @@ public class UsuarioController {
     UsuarioServicio servicio;
     @Autowired
     UsuarioConverter usuarioConverter;
+
+
+    @GetMapping()
+    @Operation(summary = "Retorna todos los usuarios de la base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "usuarios encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
+    })
+    public ResponseEntity<Page<Usuario>> verUsuarios(Pageable pageable){
+        Page<Usuario> usuarios = servicio.traerUsuarios(pageable);
+        return new ResponseEntity<>(usuarios , HttpStatus.OK);
+    }
 
     @PostMapping("/login")
     @Operation(summary = "Ingresar")

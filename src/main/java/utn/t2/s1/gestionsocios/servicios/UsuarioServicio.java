@@ -1,6 +1,8 @@
 package utn.t2.s1.gestionsocios.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
@@ -9,12 +11,14 @@ import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
+import utn.t2.s1.gestionsocios.modelos.TipoSocio;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.SocioRepo;
 import utn.t2.s1.gestionsocios.repositorios.TipoDeUsuarioRepo;
 import utn.t2.s1.gestionsocios.repositorios.UsuarioRepo;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +32,10 @@ public class UsuarioServicio {
     @Autowired
     private SocioRepo socioRepo;
 
+
+    public Page<Usuario> traerUsuarios(Pageable pageable){
+        return usuarioRepo.findAllByEstado(pageable, Estado.ACTIVO);
+    }
 
     public Usuario agregar(UsuarioDTO usuarioDTO){
 
@@ -90,11 +98,6 @@ public class UsuarioServicio {
             throw new RuntimeException("Usuario no encontrado");
         }
 
-
-
-
-
-
         Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
         if (!optionalTipoDeUsuario.isPresent()) {
             throw new RuntimeException("Tipo de Usuario no encontrado");
@@ -113,11 +116,8 @@ public class UsuarioServicio {
 
         }
 
-
         return usuarioRepo.save(usuario);
     }
-
-
 
 
 }
