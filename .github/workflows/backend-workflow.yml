@@ -1,4 +1,4 @@
-name: Frontend CI Workflow
+name: Backend CI Workflow
 
 on:
   push:
@@ -24,7 +24,8 @@ jobs:
       id-token: write 
 
     steps:
-      - name: Get current date
+      - 
+        name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d.%m.%y')"
       - 
@@ -85,6 +86,21 @@ jobs:
     needs: build-and-registry-ghcr
 
     steps:
+
+      - name: Check trigguer
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=env_name::prod"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::dev"
+          elif [ "${{ github.ref }}" = "refs/heads/qa" ]; then
+            echo "::set-output name=env_name::qa"
+          else
+            echo "::set-output name=env_name::dev"
+          fi
+
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d.%m.%y')"
@@ -106,4 +122,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            git:from-image acc-squad-m1s3-back-dev ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.REPOSITORY }}:${{ steps.date.outputs.date }}-${{ github.ref_name }}.${{ github.run_number }}
+            git:from-image acc-squad-m1s3-back-${{ steps.branch_check.outputs.env_name }} ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.REPOSITORY }}:${{ steps.date.outputs.date }}-${{ steps.branch_check.outputs.env_name }}.${{ github.run_number }}
