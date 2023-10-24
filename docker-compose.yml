@@ -14,9 +14,10 @@ services:
         - 8080:80
       environment:
         - DB_URL=jdbc:mariadb://mariadb-container:3306/socios
-        - DB_USER=root
-        - PASSWORD=test1234
-        - DDL_MODE=create-drop
-        - SHOW_SQL=true
-        - SQL_INIT=always
+        - DB_USERNAME=root
+        - DB_PASSWORD=test1234
+        - SPRINGBOOT_HIBERNATE_DDL_AUTO=create-drop
+        - SPRINGBOOT_SHOW_SQL=true
+        - SPRINGBOOT_SQL_INIT=always
+        - SPRINGBOOT_PORT=8080
       restart: on-failure
