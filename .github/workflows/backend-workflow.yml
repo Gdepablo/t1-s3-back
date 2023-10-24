@@ -24,23 +24,43 @@ jobs:
       id-token: write 
 
     steps:
+      
+      - 
+        name: Check trigguer
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=env_name::prod"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::dev"
+          elif [ "${{ github.ref }}" = "refs/heads/qa" ]; then
+            echo "::set-output name=env_name::qa"
+          else
+            echo "::set-output name=env_name::dev"
+          fi
+      
       - 
         name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d.%m.%y')"
+      
       - 
         name: Checkout code
         uses: actions/checkout@v3
+      
       - 
         name: Install cosign
         uses: sigstore/cosign-installer@6e04d228eb30da1757ee4e1dd75a0ec73a653e06 #v3.1.1
         with:
           cosign-release: 'v2.1.1'
+      
       -
         # Set up BuildKit Docker container builder to be able to build
         # multi-platform images and export cache
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.0.0
+      
       - 
         # Login against a Docker Registry
         name: Docker Login Registry
@@ -50,6 +70,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
+      
       - 
         # Extract metadata (tags, labels) for Docker
         name: Extract Docker metadata
@@ -57,7 +78,8 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.REPOSITORY }}
-          tags: ${{ steps.date.outputs.date }}-${{ github.ref_name }}.${{ github.run_number }}
+          tags: ${{ steps.date.outputs.date }}-${{ steps.branch_check.outputs.env_name }}.${{ github.run_number }}
+      
       -  
         # Build and push Docker image with Buildx
         name: Build Docker Image
@@ -87,7 +109,8 @@ jobs:
 
     steps:
 
-      - name: Check trigguer
+      - 
+        name: Check trigguer
         id: branch_check
         run: |
           echo "Running on branch ${{ github.ref }}"
@@ -101,9 +124,11 @@ jobs:
             echo "::set-output name=env_name::dev"
           fi
 
-      - name: Get current date
+      - 
+        name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d.%m.%y')"
+      
       -
         name: Login to GHCR
         uses: appleboy/ssh-action@v1.0.0
