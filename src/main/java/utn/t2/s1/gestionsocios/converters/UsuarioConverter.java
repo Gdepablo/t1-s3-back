@@ -3,7 +3,7 @@ package utn.t2.s1.gestionsocios.converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
-import utn.t2.s1.gestionsocios.dtos.UsuarioDTOSignUp;
+import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
 
 @Component
@@ -19,10 +19,10 @@ public class UsuarioConverter {
         return usuario;
     }
 
-    public Usuario toUsuario(UsuarioDTOSignUp usuarioDTOSignUp) {
+    public Usuario toUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
-        usuario.setNombre(usuarioDTOSignUp.getNombre());
-        usuario.setContrasenia(usuarioDTOSignUp.getContrasenia());
+        usuario.setNombre(usuarioDTO.getNombre());
+        usuario.setContrasenia(usuarioDTO.getContrasenia());
      //   usuario.setTipoDeUsuario(tipoDeUsuarioConverter.toUsuario( usuarioDTOSignUp.getTipoDeUsuario()));
         return usuario;
     }

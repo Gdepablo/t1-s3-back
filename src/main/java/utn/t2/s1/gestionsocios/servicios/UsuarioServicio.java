@@ -3,12 +3,14 @@ package utn.t2.s1.gestionsocios.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
-import utn.t2.s1.gestionsocios.dtos.TipoDeUsuarioDTO;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
-import utn.t2.s1.gestionsocios.dtos.UsuarioDTOSignUp;
+import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
+import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
+import utn.t2.s1.gestionsocios.repositorios.SocioRepo;
 import utn.t2.s1.gestionsocios.repositorios.TipoDeUsuarioRepo;
 import utn.t2.s1.gestionsocios.repositorios.UsuarioRepo;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
@@ -18,24 +20,40 @@ import java.util.Optional;
 @Service
 public class UsuarioServicio {
     @Autowired
-    private UsuarioRepo repo;
+    private UsuarioRepo usuarioRepo;
     @Autowired
     private TipoDeUsuarioRepo tipoDeUsuarioRepo;
     @Autowired
     private UsuarioConverter usuarioConverter;
+    @Autowired
+    private SocioRepo socioRepo;
 
-    public Usuario agregar(UsuarioDTOSignUp usuarioDTOSignUp){
 
-        Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTOSignUp.getTipoDeUsuarioId());
+    public Usuario agregar(UsuarioDTO usuarioDTO){
+
+        Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
         if (!optionalTipoDeUsuario.isPresent()) {
             throw new RuntimeException("Tipo de Usuario no encontrado");
         }
 
-        Usuario usuario = usuarioConverter.toUsuario(usuarioDTOSignUp);
+        Usuario usuario = usuarioConverter.toUsuario(usuarioDTO);
         usuario.setTipoDeUsuario(optionalTipoDeUsuario.get());
 
-        return repo.save(usuario);
+        Optional<Socio> optionalSocio;
+        if (usuarioDTO.getSocioId() != null) {
+            optionalSocio = socioRepo.findById(usuarioDTO.getSocioId());
+            if (!optionalSocio.isPresent()) {
+                throw new RuntimeException("Usuario no encontrado");
+            }
+            usuario.setSocio(optionalSocio.get());
+
+        }
+
+
+        usuario.setEstado(Estado.ACTIVO);
+        return usuarioRepo.save(usuario);
     }
+
 
     public Usuario buscarUsuario(UsuarioDTOLogin usuarioDTOLogin) throws UsuarioNombreException, UsuarioContraseniaException {
         Optional<Usuario> usuario = buscarPorNombre(usuarioDTOLogin.getNombre());
@@ -52,7 +70,27 @@ public class UsuarioServicio {
         return usuarioUpdate;
     }
 
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepo.findByIdAndEstado(id, Estado.ACTIVO);
+    }
+
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
-        return repo.findByNombre(nombreUsuario);
+        return usuarioRepo.findByNombre(nombreUsuario);
+    }
+
+    public void eliminarUsuario(Long id){
+        Usuario usuario = this.buscarPorId(id);
+        usuario.setEstado(Estado.ELIMINADO);
+        usuarioRepo.save(usuario);
+    }
+
+    public Usuario actualizar(Long id, UsuarioDTO usuarioDTO) {
+        Optional<Usuario> optionalUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
+        if (!optionalTipoDeUsuario.isPresent()) {
+            throw new RuntimeException("Tipo de Usuario no encontrado");
+        }
+        //TODO chequear si es nulo
+        socio.setId(id);
+        return repo.save(socio);
     }
 }

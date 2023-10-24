@@ -50,5 +50,5 @@ INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'ADMIN');
 INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'USER');
 
 
-INSERT INTO socios.usuario (socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (1, '123456', 'juan', 1);
-INSERT INTO socios.usuario (socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (2, '123456', 'pepe', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'juan', 1);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'pepe', 2);

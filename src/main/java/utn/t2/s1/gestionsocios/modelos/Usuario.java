@@ -19,7 +19,8 @@ public class Usuario extends Persistente {
     private String nombre;
     private String contrasenia;
 
-    @OneToOne
+    @JoinColumn
+    @ManyToOne()
     private Socio socio;
 
     @JoinColumn(name="tipo_de_usuario", nullable = false)

@@ -11,11 +11,8 @@ public interface SocioRepo extends JpaRepository<Socio, Long> {
 
     public Socio findByIdAndEstado(Long id, Estado estado);
     public Page<Socio> findAllByEstado(Pageable pageable, Estado estado);
-
     public Page<Socio> findByDenominacionContainingAndTipo_NombreAndTipo_EstadoAndEstado(Pageable pageable, String denominacion, String tipo, Estado estadoTipo ,Estado estado);
-
     public Page<Socio> findByTipo_NombreAndTipo_EstadoAndEstado(Pageable pageable, String tipo, Estado estadoTipo, Estado estado);
-
     public Page<Socio> findByDenominacionContainingAndEstado(Pageable pageable, String denominacion, Estado estado);
 
 }

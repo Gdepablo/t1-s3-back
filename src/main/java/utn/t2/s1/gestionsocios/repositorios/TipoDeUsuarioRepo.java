@@ -18,4 +18,5 @@ public interface TipoDeUsuarioRepo extends JpaRepository<TipoDeUsuario,Long> {
 
     TipoDeUsuario findByTipoAndEstado(String tipo, Estado estado);
 
+
 }

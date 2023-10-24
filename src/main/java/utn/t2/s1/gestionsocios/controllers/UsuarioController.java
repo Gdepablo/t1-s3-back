@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
+import utn.t2.s1.gestionsocios.dtos.TipoDeUsuarioDTO;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
-import utn.t2.s1.gestionsocios.dtos.UsuarioDTOSignUp;
+import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
+import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
 import utn.t2.s1.gestionsocios.servicios.UsuarioServicio;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
 
@@ -39,12 +41,11 @@ public class UsuarioController {
     @PostMapping("/login")
     @Operation(summary = "Ingresar")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario encontrado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Usuario.class)) }),
-            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", description = "El usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
-
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "El usuario no fue encontrado", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> ingresar(@RequestBody UsuarioDTOLogin usuarioDTOLogin){
+    public ResponseEntity<?> ingresar(@RequestBody UsuarioDTOLogin usuarioDTOLogin) {
 
         Usuario usuario = new Usuario();
 
@@ -62,18 +63,49 @@ public class UsuarioController {
     @PostMapping
     @Operation(summary = "Registrar usuario")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuario registrado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Usuario.class)) }),
-            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
-
+            @ApiResponse(responseCode = "201", description = "Usuario registrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<Object> registrar(@RequestBody UsuarioDTOSignUp usuarioDTOSignUp){
-        Optional<Usuario> _usuario = servicio.buscarPorNombre(usuarioDTOSignUp.getNombre());
+    public ResponseEntity<Object> registrar(@RequestBody UsuarioDTO usuarioDTO) {
+        Optional<Usuario> _usuario = servicio.buscarPorNombre(usuarioDTO.getNombre());
 
-        if(_usuario.isEmpty()){
-            return new ResponseEntity<>(servicio.agregar(usuarioDTOSignUp), HttpStatus.CREATED );
+        if (_usuario.isEmpty()) {
+            return new ResponseEntity<>(servicio.agregar(usuarioDTO), HttpStatus.CREATED);
         }
 
-        return  new ResponseEntity<>("el nombre de usuario ya existe", HttpStatus.BAD_REQUEST );
+        return new ResponseEntity<>("el nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
     }
 
+
+//    @PutMapping("/{id}")
+//    @Operation(summary = "Modifica un Usuario en la Base de datos")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "201", description = "Usuario modificado" ,content = { @Content(schema = @Schema()) }),
+//            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
+//            @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
+//    })
+//    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO){
+//        try {
+//            Usuario usuarioUpdate = servicio.actualizar(usuarioDTO, id);
+//            return new ResponseEntity<>(usuarioUpdate, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+    })
+    public ResponseEntity<Object> eliminarUsuario(@PathVariable Long id) {
+        if (servicio.buscarPorId(id) == null) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        servicio.eliminarUsuario(id);
+        return new ResponseEntity<>("Usuario eliminado", HttpStatus.OK);
+
+    }
 }
