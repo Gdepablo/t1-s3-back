@@ -12,33 +12,35 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.converters.RolConverter;
 import utn.t2.s1.gestionsocios.converters.TipoDeUsuarioConverter;
+import utn.t2.s1.gestionsocios.dtos.RolDTO;
 import utn.t2.s1.gestionsocios.dtos.TipoDeUsuarioDTO;
+import utn.t2.s1.gestionsocios.modelos.Rol;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoDeUsuario;
+import utn.t2.s1.gestionsocios.servicios.RolServicio;
 import utn.t2.s1.gestionsocios.servicios.TipoDeUsuarioServicio;
+
 import java.util.List;
 
 
-
-@Tag(name = "Operaciones para los usuarios", description = "Api para realizar las operaciones de alta, baja y modificacion de un tipo de usuario")
+@Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
 @RestController
-@RequestMapping("/tipodeusuario")
+@RequestMapping("/roles")
 @Validated
 @CrossOrigin
-public class TipoDeUsuarioController {
+public class RolController {
 
 
     @Autowired
-    TipoDeUsuarioServicio tipoDeUsuarioServicio;
+    RolServicio rolServicio;
 
     @Autowired
-    TipoDeUsuarioConverter tipoDeUsuarioConverter;
-
-
+    RolConverter rolConverter;
 
 
 
@@ -47,27 +49,23 @@ public class TipoDeUsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
-    public ResponseEntity<List<TipoDeUsuario>> verTiposDeUsuarios(){
+    public ResponseEntity<List<Rol>> verRoles(){
 
-        List<TipoDeUsuario> tipoDeUsuarios = tipoDeUsuarioServicio.buscarTodos();
-        return new ResponseEntity<>(tipoDeUsuarios , HttpStatus.OK);
+        List<Rol> roles = rolServicio.buscarTodos();
+        return new ResponseEntity<>(roles , HttpStatus.OK);
     }
-
-
 
 
     @PostMapping()
-    public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid TipoDeUsuarioDTO tipoDeUsuarioDTO){
-        if(tipoDeUsuarioServicio.buscarPorNombre(tipoDeUsuarioDTO.getNombreTipoDeUsuario()) != null){
-            return new ResponseEntity<>("el nombre '"+ tipoDeUsuarioDTO.getNombreTipoDeUsuario()+"' de tipo de usuario ya existe", HttpStatus.CREATED);
+    public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid RolDTO rolDTO){
+        if(rolServicio.buscarPorNombre(rolDTO.getNombre()) != null){
+            return new ResponseEntity<>("el rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
         }
 
-        TipoDeUsuario tipoDeUsuario = tipoDeUsuarioServicio.agregar(tipoDeUsuarioDTO);
+        Rol rol = rolServicio.agregar(rolDTO);
 
-        return new ResponseEntity<>(tipoDeUsuario, HttpStatus.CREATED);
+        return new ResponseEntity<>(rol, HttpStatus.CREATED);
     }
-
-
 
 
     @PutMapping("/{id}")
@@ -77,27 +75,24 @@ public class TipoDeUsuarioController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El tipo de usuario no fue encontrada",content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> actualizarTipoDeUsuario(@PathVariable Long id, @RequestBody TipoDeUsuarioDTO tipoDeUsuarioDTO){
+    public ResponseEntity<?> actualizarTipoDeUsuario(@PathVariable Long id, @RequestBody RolDTO rolDTO){
         try {
-            TipoDeUsuario tipoDeUsuarioUpdate = tipoDeUsuarioServicio.actualizar(tipoDeUsuarioDTO, id);
-            return new ResponseEntity<>(tipoDeUsuarioUpdate, HttpStatus.OK);
+            Rol rolUpdate = rolServicio.actualizar(rolDTO, id);
+            return new ResponseEntity<>(rolUpdate, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }
     }
 
-
-
-
     @DeleteMapping(value = {"/{id}", "/{id}/"})
-    @Operation(summary = "Elimina un tipo de usuario en la Base de datos")
+    @Operation(summary = "Elimina un Rol en la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Tipo de usuario eliminado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "200", description = "Rol eliminado" ,content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> deleteTipoDeUsuario(@PathVariable Long id){
+    public ResponseEntity<?> deleteRol(@PathVariable Long id){
         try {
-            tipoDeUsuarioServicio.eliminar(id);
-            return new ResponseEntity<>("Tipo de usuario eliminado", HttpStatus.OK);
+            rolServicio.eliminar(id);
+            return new ResponseEntity<>("Rol eliminado", HttpStatus.OK);
 //            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
