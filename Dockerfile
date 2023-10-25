@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-17-slim AS MAVEN_BUILD
+FROM maven:3.9.4-eclipse-temurin-17-alpine AS MAVEN_BUILD
 
 LABEL org.opencontainers.image.source=https://github.com/disilab-frba-utn-edu-ar/t2-s1-socios-back
 
@@ -9,10 +9,8 @@ COPY .mvn /build/.mvn/
 WORKDIR /build/
 RUN mvn package
 
-FROM openjdk:17-jdk-slim-bullseye
-
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-
 COPY --from=MAVEN_BUILD /build/target/gestion-socios-0.0.1-SNAPSHOT.jar /app/
 
 EXPOSE 80
