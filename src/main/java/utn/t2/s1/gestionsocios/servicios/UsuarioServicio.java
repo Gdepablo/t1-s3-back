@@ -79,7 +79,7 @@ public class UsuarioServicio {
     }
 
     public Usuario buscarPorId(Long id) {
-        return usuarioRepo.findByIdAndEstado(id, Estado.ACTIVO);
+        return usuarioRepo.findByIdAndEstado(id, Estado.ACTIVO).get();
     }
 
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
@@ -93,8 +93,10 @@ public class UsuarioServicio {
     }
 
     public Usuario actualizar(Long id, UsuarioDTO usuarioDTO) {
+
+
         Optional<Usuario> optionalUsuario = usuarioRepo.findById(id);
-        if (!optionalUsuario.isPresent()) {
+        if (!optionalUsuario.isPresent()) {    //TODO CAMBIARLO, ESTA MAL
             throw new RuntimeException("Usuario no encontrado");
         }
 

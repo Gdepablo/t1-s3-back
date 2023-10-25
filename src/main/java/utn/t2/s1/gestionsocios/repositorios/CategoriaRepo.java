@@ -8,8 +8,8 @@ import java.util.List;
 
 
 public interface CategoriaRepo extends JpaRepository<Categoria,Long> {
-    public Categoria findByIdAndEstado(Long id, Estado estado);
-    public Categoria findByNombreAndEstado(String nombre,Estado estado);
-    public List<Categoria> findAllByEstado(Estado estado);
+    Categoria findByIdAndEstado(Long id, Estado estado);
+    Categoria findByNombreAndEstado(String nombre,Estado estado);
+    List<Categoria> findAllByEstado(Estado estado);
 
 }
