@@ -47,9 +47,9 @@ public class TipoDeUsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
-    public ResponseEntity<List<String>> verTiposDeUsuarios(){
+    public ResponseEntity<List<TipoDeUsuario>> verTiposDeUsuarios(){
 
-        List<String> tipoDeUsuarios = tipoDeUsuarioServicio.buscarTodos();
+        List<TipoDeUsuario> tipoDeUsuarios = tipoDeUsuarioServicio.buscarTodos();
         return new ResponseEntity<>(tipoDeUsuarios , HttpStatus.OK);
     }
 

@@ -23,8 +23,8 @@ public class TipoDeUsuarioServicio {
     TipoDeUsuarioConverter tipoDeUsuarioConverter;
 
 
-    public List<String> buscarTodos() {
-        return tipoDeUsuarioRepository.findAllByEstado(Estado.ACTIVO).stream().map(TipoDeUsuario::getTipo).toList() ;
+    public List<TipoDeUsuario> buscarTodos() {
+        return tipoDeUsuarioRepository.findAllByEstado(Estado.ACTIVO) ;
     }
 
 
