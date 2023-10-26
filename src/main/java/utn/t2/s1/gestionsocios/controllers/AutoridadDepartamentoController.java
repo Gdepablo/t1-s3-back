@@ -33,27 +33,41 @@ public class AutoridadDepartamentoController {
     AutoridadDepartamentoServicio autoridadDepartamentoServicio;
 
 
-    @GetMapping("/{idDepartamento}")
-    @Operation(summary = "Retorna todos las autoridades de un departamento")
+
+    @GetMapping("/{idAutoridad}")
+    @Operation(summary = "Retorna una autoridad por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
+            @ApiResponse(responseCode = "200", description = "Autoridad encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = AutoridadDepartamento.class))})
     })
-    public ResponseEntity<Page<AutoridadDepartamento>> verAutoridadesPorDepartamento(Pageable pageable, @PathVariable Long idDepartamento){
-        Page<AutoridadDepartamento> autoridades = autoridadDepartamentoServicio.traerAutoridadesPorDepartamento(pageable, idDepartamento);
-        return new ResponseEntity<>(autoridades , HttpStatus.OK);
+    public ResponseEntity<AutoridadDepartamento> verAutoridadPorId(@PathVariable Long idAutoridad){
+        AutoridadDepartamento autoridad = autoridadDepartamentoServicio.buscarPorId(idAutoridad);
+        return new ResponseEntity<>(autoridad , HttpStatus.OK);
     }
 
-    @PostMapping("/{idDepartamento}")
-    @Operation(summary = "Ingresar")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
-            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
-            @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
-    })
-    public ResponseEntity<?> agregarAutoridad(@PathVariable Long idDepartamento, @RequestBody AutoridadDTO autoridadDTO){
-        AutoridadDepartamento autoridadDepartamento = autoridadDepartamentoServicio.agregar(idDepartamento, autoridadDTO);
-        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.OK);
-    }
+// departamento/autoridades/aut_dep/{idAut}
+
+//    @GetMapping("/{idDepartamento}/autoridades") // departamento/autoridades/{idDepartamento}/autoridades
+//
+//    @Operation(summary = "Retorna todos las autoridades de un departamento")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
+//    })
+//    public ResponseEntity<Page<AutoridadDepartamento>> verAutoridadesPorDepartamento(Pageable pageable, @PathVariable Long idDepartamento){
+//        Page<AutoridadDepartamento> autoridades = autoridadDepartamentoServicio.traerAutoridadesPorDepartamento(pageable, idDepartamento);
+//        return new ResponseEntity<>(autoridades , HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/{idDepartamento}/autoridades")
+//    @Operation(summary = "Ingresar")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+//            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
+//            @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
+//    })
+//    public ResponseEntity<?> agregarAutoridad(@PathVariable Long idDepartamento, @RequestBody AutoridadDTO autoridadDTO){
+//        AutoridadDepartamento autoridadDepartamento = autoridadDepartamentoServicio.agregar(idDepartamento, autoridadDTO);
+//        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{idAutoridad}")
     @Operation(summary = "Eliminar Autoridad")

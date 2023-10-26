@@ -47,7 +47,7 @@ public class DepartamentoServicio {
     }
 
 
-    
+
     public Departamento agregar(DepartamentoDTO departamentoDTO){
 
 

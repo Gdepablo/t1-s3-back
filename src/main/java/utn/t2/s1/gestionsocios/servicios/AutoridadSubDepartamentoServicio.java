@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.converters.UsuarioConverter;
 import utn.t2.s1.gestionsocios.dtos.AutoridadDTO;
+import utn.t2.s1.gestionsocios.excepciones.AutoridadSubDepartamentoException;
 import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.*;
@@ -63,15 +64,15 @@ public class AutoridadSubDepartamentoServicio {
 
 
 
-    public AutoridadSubDepartamento buscarPorId(Long id) {
-        return autoridadSubDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new RuntimeException("Autoridad no encontrada"));
+    public AutoridadSubDepartamento buscarPorId(Long id) throws AutoridadSubDepartamentoException {
+        return autoridadSubDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new AutoridadSubDepartamentoException("Autoridad no encontrada"));
     }
 
 //    public Optional<Usuario> buscarPorNombre(String nombreUsuario){
 //        return usuarioRepo.findByNombre(nombreUsuario);
 //    }
 
-    public void eliminarAutoridadSubDepartamento(Long id){
+    public void eliminarAutoridadSubDepartamento(Long id) throws AutoridadSubDepartamentoException{
         AutoridadSubDepartamento autoridadSubDepartamento = this.buscarPorId(id);
         autoridadSubDepartamento.setEstado(Estado.ELIMINADO);
         autoridadSubDepartamentoRepo.save(autoridadSubDepartamento);

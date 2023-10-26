@@ -13,14 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.t2.s1.gestionsocios.dtos.AutoridadDTO;
 import utn.t2.s1.gestionsocios.dtos.DepartamentoDTO;
 import utn.t2.s1.gestionsocios.dtos.SubDepartamentoDTO;
 import utn.t2.s1.gestionsocios.excepciones.DepartamentoException;
 import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
-import utn.t2.s1.gestionsocios.modelos.Departamento;
-import utn.t2.s1.gestionsocios.modelos.Socio;
-import utn.t2.s1.gestionsocios.modelos.SubDepartamento;
-import utn.t2.s1.gestionsocios.modelos.Usuario;
+import utn.t2.s1.gestionsocios.modelos.*;
+import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.DepartamentoServicio;
 
 import java.util.List;
@@ -37,6 +36,9 @@ public class DepartamentoController {
 
     @Autowired
     DepartamentoServicio departamentoServicio;
+
+    @Autowired
+    AutoridadDepartamentoServicio autoridadDepartamentoServicio;
 
 
     @GetMapping()
@@ -101,6 +103,31 @@ public class DepartamentoController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    // ------------------------------------------------------------------------------------------------
+
+    @GetMapping("/{idDepartamento}/autoridades")
+    @Operation(summary = "Retorna todos las autoridades de un departamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
+    })
+    public ResponseEntity<Page<AutoridadDepartamento>> verAutoridadesPorDepartamento(Pageable pageable, @PathVariable Long idDepartamento){
+        Page<AutoridadDepartamento> autoridades = autoridadDepartamentoServicio.traerAutoridadesPorDepartamento(pageable, idDepartamento);
+        return new ResponseEntity<>(autoridades , HttpStatus.OK);
+    }
+
+    @PostMapping("/{idDepartamento}/autoridades")
+    @Operation(summary = "Ingresar")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
+    })
+    public ResponseEntity<?> agregarAutoridad(@PathVariable Long idDepartamento, @RequestBody AutoridadDTO autoridadDTO){
+        AutoridadDepartamento autoridadDepartamento = autoridadDepartamentoServicio.agregar(idDepartamento, autoridadDTO);
+        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.OK);
     }
 
 
