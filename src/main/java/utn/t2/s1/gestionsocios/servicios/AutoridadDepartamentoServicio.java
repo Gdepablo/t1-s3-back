@@ -96,9 +96,9 @@ public class AutoridadDepartamentoServicio {
         autoridadDepartamentoRepo.save(autoridadDepartamento);
     }
 
-    public AutoridadDepartamento actualizar(Long departamentoId, AutoridadDTO autoridadDto) {
+    public AutoridadDepartamento actualizar(Long autoridadId, AutoridadDTO autoridadDto) {
 
-        Optional<AutoridadDepartamento> optionalAutoridadDepartamento = autoridadDepartamentoRepo.findByIdAndEstado(autoridadDto.getAutoridadId(), Estado.ACTIVO);
+        Optional<AutoridadDepartamento> optionalAutoridadDepartamento = autoridadDepartamentoRepo.findByIdAndEstado(autoridadId, Estado.ACTIVO);
         if (!optionalAutoridadDepartamento.isPresent()) {
             throw new RuntimeException("Autoridad no encontrado");
         }
@@ -113,13 +113,8 @@ public class AutoridadDepartamentoServicio {
             throw new RuntimeException("Rol no encontrado");
         }
 
-        Optional<Departamento> optionalDepartamento = departamentoRepo.findByIdAndEstado(departamentoId, Estado.ACTIVO);
-        if (!optionalDepartamento.isPresent()) {
-            throw new RuntimeException("Departamento no encontrado");
-        }
 
         AutoridadDepartamento autoridadDepartamento = optionalAutoridadDepartamento.get();
-        autoridadDepartamento.setDepartamento(optionalDepartamento.get());
         autoridadDepartamento.setRol(optionalRol.get());
         autoridadDepartamento.setUsuario(optionalUsuario.get());
         autoridadDepartamento.setEstado(Estado.ACTIVO);

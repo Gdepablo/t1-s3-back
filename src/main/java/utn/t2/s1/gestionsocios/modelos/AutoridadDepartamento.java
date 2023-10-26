@@ -1,5 +1,7 @@
 package utn.t2.s1.gestionsocios.modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
@@ -19,6 +21,7 @@ public class AutoridadDepartamento extends Persistente {
     private Rol rol;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "departamento_id")
     private Departamento departamento;
 

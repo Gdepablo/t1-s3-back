@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class AutoridadDTO {
 
-    private Long autoridadId;
-
     @NotNull
     private Long usuarioId;
     @NotNull

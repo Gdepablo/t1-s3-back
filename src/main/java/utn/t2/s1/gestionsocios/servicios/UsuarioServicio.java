@@ -83,7 +83,7 @@ public class UsuarioServicio {
     }
 
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
-        return usuarioRepo.findByNombre(nombreUsuario);
+        return usuarioRepo.findByNombre(nombreUsuario);  //TODO AGREGAR VALIDACION DE ESTADO
     }
 
     public void eliminarUsuario(Long id){
