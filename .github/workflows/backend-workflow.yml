@@ -16,7 +16,7 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  build-and-verify-springboot:
+  verify-springboot-package-construction:
     runs-on: self-hosted
     timeout-minutes: 15
 
@@ -28,7 +28,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - name: Build with Maven
+      - name: Build in Verbose Mode (Debug)
         run: mvn -e -X verify
 
   docker-image-push-registry:
@@ -40,7 +40,7 @@ jobs:
       # This is used to complete the identity challenge
       id-token: write 
     needs:
-      - build-and-verify-springboot
+      - verify-springboot-package-construction
     
     steps:
       
@@ -118,8 +118,8 @@ jobs:
     #if: ${{ github.event_name == 'push' }}
     runs-on: self-hosted
     needs:
+      - verify-springboot-package-construction
       - docker-image-push-registry
-      - build-and-verify-springboot
 
     steps:
 
