@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.AutoridadDTO;
 import utn.t2.s1.gestionsocios.dtos.SubDepartamentoDTO;
+import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
 import utn.t2.s1.gestionsocios.modelos.AutoridadDepartamento;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.SubDepartamento;
@@ -42,7 +43,7 @@ public class SubDepartamentoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
     })
-    public ResponseEntity<SubDepartamento> verAutoridadesPorDepartamento(@PathVariable Long idSubDepartamento){
+    public ResponseEntity<SubDepartamento> verAutoridadesPorDepartamento(@PathVariable Long idSubDepartamento) throws SubDepartamentoException {
         SubDepartamento subDepartamento = subDepartamentoServicio.buscarPorId(idSubDepartamento);
         return new ResponseEntity<>(subDepartamento , HttpStatus.OK);
     }
@@ -64,7 +65,7 @@ public class SubDepartamentoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
-    public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idSubDepartamento) {
+    public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idSubDepartamento)throws SubDepartamentoException {
         if (subDepartamentoServicio.buscarPorId(idSubDepartamento) == null) {
             return new ResponseEntity<>("SubDepartamento no encontrado", HttpStatus.NOT_FOUND);
         }

@@ -9,7 +9,14 @@ import utn.t2.s1.gestionsocios.persistencia.Estado;
 
 import java.util.Optional;
 
-public interface AutoridadDepartamentoRepo extends AutoridadRepo<AutoridadDepartamento, Long> {
+public interface AutoridadDepartamentoRepo extends JpaRepository<AutoridadDepartamento, Long> {
+
+
+    Page<AutoridadDepartamento> findAllByEstado(Pageable pageable, Estado estado);
+
+    Optional<AutoridadDepartamento> findByIdAndEstado(Long id, Estado estado);
+
+
 
     Page<AutoridadDepartamento> findAllByDepartamentoIdAndEstado(Pageable pageable, Long departamentoId, Estado estado);
 

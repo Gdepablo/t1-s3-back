@@ -9,6 +9,7 @@ import utn.t2.s1.gestionsocios.dtos.AutoridadDTO;
 import utn.t2.s1.gestionsocios.dtos.SubDepartamentoDTO;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTO;
 import utn.t2.s1.gestionsocios.dtos.UsuarioDTOLogin;
+import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioContraseniaException;
 import utn.t2.s1.gestionsocios.excepciones.UsuarioNombreException;
 import utn.t2.s1.gestionsocios.modelos.*;
@@ -50,15 +51,15 @@ public class SubDepartamentoServicio {
     }
 
 
-    public SubDepartamento buscarPorId(Long id) {
-        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO);
+    public SubDepartamento buscarPorId(Long id) throws SubDepartamentoException {
+        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new SubDepartamentoException("Subdepartamento no encontrado"));
     }
 
     public Page<SubDepartamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
         return subDepartamentoRepo.findByNombreSubDepartamentoContainsAndEstado(pageable, nombreUsuario, Estado.ACTIVO);
     }
 
-    public void eliminarSubDepartamento(Long id){
+    public void eliminarSubDepartamento(Long id) throws SubDepartamentoException{
         SubDepartamento subDepartamento = this.buscarPorId(id);
         subDepartamento.setEstado(Estado.ELIMINADO);
         subDepartamentoRepo.save(subDepartamento);

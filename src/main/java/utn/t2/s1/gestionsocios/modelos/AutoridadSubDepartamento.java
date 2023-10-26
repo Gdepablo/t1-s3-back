@@ -24,6 +24,7 @@ public class AutoridadSubDepartamento extends Persistente {
     private Rol rol;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "subdepartamento_id")
     private SubDepartamento subDepartamento;
 

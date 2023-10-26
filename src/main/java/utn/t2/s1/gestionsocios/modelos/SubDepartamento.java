@@ -2,6 +2,7 @@ package utn.t2.s1.gestionsocios.modelos;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
@@ -21,6 +22,7 @@ public class SubDepartamento extends Persistente {
 
 
     @OneToMany(mappedBy = "subDepartamento", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<AutoridadSubDepartamento> autoridadSubDepartamentos;
 
 

@@ -8,10 +8,11 @@ import utn.t2.s1.gestionsocios.modelos.SubDepartamento;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubDepartamentoRepo extends JpaRepository<SubDepartamento, Long> {
 
-    SubDepartamento findByIdAndEstado(Long id, Estado estado);
+    Optional<SubDepartamento> findByIdAndEstado(Long id, Estado estado);
 //    SubDepartamento findByNombreAndEstado(String nombre,Estado estado);
 
     List<SubDepartamento> findAllByEstado(Estado estado);
