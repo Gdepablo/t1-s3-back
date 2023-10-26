@@ -7,11 +7,9 @@ import lombok.Setter;
 @Data
 public class DepartamentoDTO {
 
-/*    private Long idDepartamento;
-
     @NotNull
     private String nombre;
 
     @NotNull
-    private String objetivo;*/
+    private String objetivo;
 }
