@@ -24,7 +24,7 @@ import utn.t2.s1.gestionsocios.servicios.DepartamentoServicio;
 
 import java.util.List;
 
-@Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
+@Tag(name = "Operaciones de Departamento", description = "Api para realizar las operaciones de Departamento")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -53,11 +53,11 @@ public class DepartamentoController {
 
 
     @GetMapping("/{idDepartamento}")
-    @Operation(summary = "Retorna todos los SubDepartamentos de un departamento")
+    @Operation(summary = "Retorna un departamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
+            @ApiResponse(responseCode = "200", description = "Departamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
     })
-    public ResponseEntity<Departamento> verAutoridadesPorDepartamento(@PathVariable Long idDepartamento) throws DepartamentoException {
+    public ResponseEntity<Departamento> verDepartamentoPorId(@PathVariable Long idDepartamento) throws DepartamentoException {
         Departamento departamento = departamentoServicio.buscarPorId(idDepartamento);
         return new ResponseEntity<>(departamento , HttpStatus.OK);
     }

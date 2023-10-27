@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ public class SocioServicio {
 
 
     public Socio buscarPorId(Long id) {
-        return repo.findByIdAndEstado(id, Estado.ACTIVO);
+        return repo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Socio no encontrado"));
     }
 
     public Page<Socio> buscarTodos(Pageable pageable) {
@@ -54,7 +55,7 @@ public class SocioServicio {
     }
 
     public Socio modificar(Long id, Socio socio) {
-        //TODO chequear si es nulo
+        this.buscarPorId(id); // si no existe lanza EntityNotFoundException
         socio.setId(id);
         return repo.save(socio);
     }

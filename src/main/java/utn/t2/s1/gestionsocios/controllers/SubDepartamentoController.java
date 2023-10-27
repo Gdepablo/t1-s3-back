@@ -21,7 +21,7 @@ import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.SubDepartamentoServicio;
 
-@Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
+@Tag(name = "Operaciones de Sub Departamento", description = "Api para realizar las operaciones de Sub Departamento")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -50,7 +50,7 @@ public class SubDepartamentoController {
     }
 
     @PostMapping()
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agregar un Sub departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SubDepartamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
@@ -101,7 +101,7 @@ public class SubDepartamentoController {
     }
 
     @PostMapping("/{idSubDepartamento}/autoridades")
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega una autoridad de un sub departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),

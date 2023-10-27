@@ -140,11 +140,7 @@ public class SocioController {
         if(tipo == null){
             return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
         }
-//        try {
-//            tipo = tipoServicio.buscarPorNombre(socioDTO.getTipo());
-//        } catch (TipoException e) {
-//            return new ResponseEntity<>("El tipo no existe en la base de datos", HttpStatus.NOT_FOUND);
-//        }
+
         Socio _socio = socioConverter.toSocio(socioDTO,categorias, tipo);
         _socio.setEstado(Estado.ACTIVO);
 
@@ -160,11 +156,6 @@ public class SocioController {
             @ApiResponse(responseCode = "404", description = "El socio no fue encontrado",content = { @Content(schema = @Schema()) }),
     })
     public ResponseEntity<String> eliminarSocio(@PathVariable Long id){
-
-        if (servicio.buscarPorId(id) == null){
-            return new ResponseEntity<>("Socio no encontrado", HttpStatus.NOT_FOUND);
-        }
-
         servicio.borrar(id);
         return new ResponseEntity<>("Socio eliminado", HttpStatus.OK);
     }

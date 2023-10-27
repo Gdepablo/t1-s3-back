@@ -45,7 +45,7 @@ public class RolController {
 
 
     @GetMapping()
-    @Operation(summary = "Retorna el rol de la base de datos")
+    @Operation(summary = "Retorna los roles de la Base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "tipo de rol encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Rol.class)) }),
     })
@@ -57,6 +57,7 @@ public class RolController {
 
 
     @PostMapping()
+    @Operation(summary = "Agrega un rol a la Base de datos")
     public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid RolDTO rolDTO){
         if(rolServicio.buscarPorNombre(rolDTO.getNombre()) != null){
             return new ResponseEntity<>("el rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);

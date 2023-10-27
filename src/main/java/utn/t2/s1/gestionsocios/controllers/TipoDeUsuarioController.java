@@ -31,7 +31,6 @@ import java.util.List;
 @CrossOrigin
 public class TipoDeUsuarioController {
 
-
     @Autowired
     TipoDeUsuarioServicio tipoDeUsuarioServicio;
 
@@ -39,13 +38,10 @@ public class TipoDeUsuarioController {
     TipoDeUsuarioConverter tipoDeUsuarioConverter;
 
 
-
-
-
     @GetMapping()
     @Operation(summary = "Retorna todos los tipo de usuario de la base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
+            @ApiResponse(responseCode = "200", description = "Tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
     public ResponseEntity<List<TipoDeUsuario>> verTiposDeUsuarios(){
 
@@ -59,7 +55,7 @@ public class TipoDeUsuarioController {
     @PostMapping()
     public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid TipoDeUsuarioDTO tipoDeUsuarioDTO){
         if(tipoDeUsuarioServicio.buscarPorNombre(tipoDeUsuarioDTO.getNombreTipoDeUsuario()) != null){
-            return new ResponseEntity<>("el nombre '"+ tipoDeUsuarioDTO.getNombreTipoDeUsuario()+"' de tipo de usuario ya existe", HttpStatus.CREATED);
+            return new ResponseEntity<>("El nombre '"+ tipoDeUsuarioDTO.getNombreTipoDeUsuario()+"' de tipo de usuario ya existe", HttpStatus.CREATED);
         }
 
         TipoDeUsuario tipoDeUsuario = tipoDeUsuarioServicio.agregar(tipoDeUsuarioDTO);
@@ -85,7 +81,6 @@ public class TipoDeUsuarioController {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }
     }
-
 
 
 
