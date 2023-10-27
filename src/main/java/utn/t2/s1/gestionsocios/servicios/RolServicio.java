@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class RolServicio {
     public Rol actualizar(RolDTO rolDTO, long id) {
         Optional<Rol> optionalRol = rolRepo.findById(id);
         if (!optionalRol.isPresent()) {
-            throw new RuntimeException("Tipo de usuario no encontrado");
+            throw new EntityNotFoundException("Rol no encontrado");
         }
         Rol rolUpdate = optionalRol.get();
         rolUpdate.setNombreRol(rolDTO.getNombre());
@@ -68,7 +69,7 @@ public class RolServicio {
 
         Optional<Rol> optionalRol = rolRepo.findById(id);
         if (!optionalRol.isPresent() || optionalRol.get().getEstado() == Estado.ELIMINADO) {
-            throw new RuntimeException("ROL no encontrado");
+            throw new EntityNotFoundException("ROL no encontrado");
         }
 
         Rol rol = optionalRol.get();

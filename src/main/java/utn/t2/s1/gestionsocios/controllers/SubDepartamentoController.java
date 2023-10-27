@@ -67,10 +67,6 @@ public class SubDepartamentoController {
             @ApiResponse(responseCode = "201", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
     public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idSubDepartamento)throws SubDepartamentoException {
-        if (subDepartamentoServicio.buscarPorId(idSubDepartamento) == null) {
-            return new ResponseEntity<>("SubDepartamento no encontrado", HttpStatus.NOT_FOUND);
-        }
-
         subDepartamentoServicio.eliminarSubDepartamento(idSubDepartamento);
         return new ResponseEntity<>("SubDepartamento eliminado", HttpStatus.OK);
     }

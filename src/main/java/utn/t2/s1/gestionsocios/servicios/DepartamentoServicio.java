@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class DepartamentoServicio {
     }
 
     public Departamento buscarPorId(Long id) throws DepartamentoException {
-        Departamento departamento = departamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(()-> new DepartamentoException("Departamento no encontrado"));
+        Departamento departamento = departamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Departamento no encontrado"));
         return filtrarSubDepartamentosActivos(departamento);
     }
 

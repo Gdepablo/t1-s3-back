@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class SubDepartamentoServicio {
 
         Optional<Departamento> optionalDepartamento = departamentoRepo.findByIdAndEstado(subDepartamentoDTO.getIdDepartamento(), Estado.ACTIVO);
         if (!optionalDepartamento.isPresent()) {
-            throw new RuntimeException("Departamento no encontrado");
+            throw new EntityNotFoundException("Departamento no encontrado");
         }
 
         SubDepartamento subDepartamento = new SubDepartamento();
@@ -52,7 +53,7 @@ public class SubDepartamentoServicio {
 
 
     public SubDepartamento buscarPorId(Long id) throws SubDepartamentoException {
-        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new SubDepartamentoException("Subdepartamento no encontrado"));
+        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("SubDepartamento no encontrado"));
     }
 
     public Page<SubDepartamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
