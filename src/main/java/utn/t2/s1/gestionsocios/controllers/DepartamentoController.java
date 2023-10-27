@@ -63,7 +63,7 @@ public class DepartamentoController {
     }
 
     @PostMapping()
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega un departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Departamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
@@ -75,7 +75,7 @@ public class DepartamentoController {
     }
 
     @DeleteMapping("/{idDepartamento}")
-    @Operation(summary = "Eliminar SubDepartamento")
+    @Operation(summary = "Eliminar Departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Departamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
@@ -115,7 +115,7 @@ public class DepartamentoController {
     }
 
     @PostMapping("/{idDepartamento}/autoridades")
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega autoridades en un departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),

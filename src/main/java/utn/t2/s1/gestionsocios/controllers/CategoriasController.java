@@ -34,7 +34,7 @@ public class CategoriasController {
 
 
     @GetMapping(value = {"/", ""})
-    @Operation(summary = "Retorna todos los nombres de las categorías")
+    @Operation(summary = "Retorna todas las categorías")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Categorías encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
     })
@@ -43,6 +43,7 @@ public class CategoriasController {
     }
 
     @PostMapping(value = {"/", ""})
+    @Operation(summary = "Agrega una categoría en la Base de datos")
     public ResponseEntity<Object> agregarCategoria(@RequestBody @Valid AtributosDTO categoriaDTO){ //TODO
         if(categoriaServicio.buscarPorNombre(categoriaDTO.getNombre()) != null){
             return new ResponseEntity<>("El nombre '"+ categoriaDTO.getNombre()+"' de categoria ya existe", HttpStatus.CREATED);
