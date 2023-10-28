@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
     mariadb-container:
       image: mariadb:11.1.2
@@ -6,12 +6,12 @@ services:
         MARIADB_ROOT_PASSWORD: test1234
         MARIADB_DATABASE: socios
       ports:
-        - 3306:3306
+        - 127.0.0.1:3306:3306
       restart: unless-stopped
     springboot-container:
       build: .
       ports:
-        - 8080:80
+        - 127.0.0.1:8080:80
       environment:
         - DB_URL=jdbc:mariadb://mariadb-container:3306/socios
         - DB_USERNAME=root
