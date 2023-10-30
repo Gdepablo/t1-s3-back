@@ -55,6 +55,7 @@ public class DepartamentoServicio {
         Departamento departamento = new Departamento();
         departamento.setNombreDepartamento(departamentoDTO.getNombre());
         departamento.setObjetivo(departamentoDTO.getObjetivo());
+        departamento.setLogo(departamentoDTO.getLogo());
         departamento.setEstado(Estado.ACTIVO);
 
         return departamentoRepo.save(departamento);
@@ -82,6 +83,8 @@ public class DepartamentoServicio {
         Departamento departamentoUpdate = optionalDepartamento.get();
         departamentoUpdate.setNombreDepartamento(departamentoDTO.getNombre());
         departamentoUpdate.setObjetivo(departamentoDTO.getObjetivo());
+        departamentoUpdate.setLogo(departamentoDTO.getLogo());
+
 
         return departamentoRepo.save(departamentoUpdate);
     }

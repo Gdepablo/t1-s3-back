@@ -46,6 +46,7 @@ public class SubDepartamentoServicio {
         subDepartamento.setDepartamento(optionalDepartamento.get());
         subDepartamento.setNombreSubDepartamento(subDepartamentoDTO.getNombre());
         subDepartamento.setObjetivo(subDepartamentoDTO.getObjetivo());
+        subDepartamento.setLogo(subDepartamentoDTO.getLogo());
         subDepartamento.setEstado(Estado.ACTIVO);
 
         return subDepartamentoRepo.save(subDepartamento);
@@ -76,6 +77,8 @@ public class SubDepartamentoServicio {
         SubDepartamento subDepartamento = optionalSubDepartamento.get();
         subDepartamento.setNombreSubDepartamento(subDepartamentoDTO.getNombre());
         subDepartamento.setObjetivo(subDepartamentoDTO.getObjetivo());
+        subDepartamento.setLogo(subDepartamentoDTO.getLogo());
+
 
         return subDepartamentoRepo.save(subDepartamento);
     }
