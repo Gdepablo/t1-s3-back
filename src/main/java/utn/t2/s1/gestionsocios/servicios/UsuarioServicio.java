@@ -112,7 +112,6 @@ public class UsuarioServicio {
                 throw new RuntimeException("Socio no encontrado");
             }
             usuario.setSocio(optionalSocio.get());
-
         }
 
         return usuarioRepo.save(usuario);
