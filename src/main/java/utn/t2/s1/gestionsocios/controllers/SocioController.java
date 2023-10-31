@@ -21,10 +21,13 @@ import utn.t2.s1.gestionsocios.excepciones.TipoException;
 import utn.t2.s1.gestionsocios.modelos.Categoria;
 import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.TipoSocio;
+import utn.t2.s1.gestionsocios.modelos.Usuario;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.servicios.CategoriaServicio;
 import utn.t2.s1.gestionsocios.servicios.SocioServicio;
 import utn.t2.s1.gestionsocios.servicios.TipoSocioServicio;
+
+import java.util.Optional;
 import java.util.Set;
 
 @Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
@@ -111,10 +114,20 @@ public class SocioController {
         Socio  _socio = socioConverter.toSocio(socioDTO,categorias, tipo);
         _socio.setEstado(Estado.ACTIVO);
 
-        servicio.agregar(_socio);
 
-        return new ResponseEntity<>(_socio, HttpStatus.CREATED);
+
+        Optional<Socio> _socioOpcional = servicio.buscarPorNombre(socioDTO.getDenominacion());
+
+        if (_socioOpcional.isEmpty()) {
+            return new ResponseEntity<>(servicio.agregar(_socio), HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("La denominacion de socio ya existe", HttpStatus.BAD_REQUEST);
+
+
     }
+
+
     @PutMapping("/{id}")
     @Operation(summary = "Modifica un socio en la Base de datos")
     @ApiResponses(value = {

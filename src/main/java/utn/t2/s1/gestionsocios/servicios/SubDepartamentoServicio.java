@@ -57,8 +57,8 @@ public class SubDepartamentoServicio {
         return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("SubDepartamento no encontrado"));
     }
 
-    public Page<SubDepartamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
-        return subDepartamentoRepo.findByNombreSubDepartamentoContainsAndEstado(pageable, nombreUsuario, Estado.ACTIVO);
+    public Optional<SubDepartamento> buscarPorNombreYPorDepartamento(String nombreUsuario, Long idDepartamento){
+        return subDepartamentoRepo.findByNombreSubDepartamentoAndEstadoAndDepartamento_Id(nombreUsuario,Estado.ACTIVO, idDepartamento);
     }
 
     public void eliminarSubDepartamento(Long id) throws SubDepartamentoException{

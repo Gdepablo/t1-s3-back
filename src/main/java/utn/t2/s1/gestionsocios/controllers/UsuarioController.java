@@ -88,7 +88,7 @@ public class UsuarioController {
             return new ResponseEntity<>(servicio.agregar(usuarioDTO), HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>("el nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("El nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
     }
 
 

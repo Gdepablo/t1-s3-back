@@ -63,8 +63,8 @@ public class DepartamentoServicio {
 
 
 
-    public Page<Departamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
-        return departamentoRepo.findByNombreDepartamentoContainsAndEstado(pageable, nombreUsuario, Estado.ACTIVO);
+    public Optional<Departamento> buscarPorNombre(String nombreUsuario){
+        return departamentoRepo.findByNombreDepartamentoAndEstado(nombreUsuario, Estado.ACTIVO);
     }
 
     public void eliminarDepartamento(Long id) throws DepartamentoException{

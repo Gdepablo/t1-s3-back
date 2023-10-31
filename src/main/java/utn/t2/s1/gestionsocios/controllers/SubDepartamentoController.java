@@ -21,6 +21,8 @@ import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.SubDepartamentoServicio;
 
+import java.util.Optional;
+
 @Tag(name = "Operaciones de Sub Departamento", description = "Api para realizar las operaciones de Sub Departamento")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
@@ -57,8 +59,18 @@ public class SubDepartamentoController {
             @ApiResponse(responseCode = "404", description = "El SubDepartamento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<?> agregarSubDepartamento(@RequestBody SubDepartamentoDTO subDepartamentoDTO){
-        SubDepartamento subDepartamento = subDepartamentoServicio.agregar(subDepartamentoDTO);
-        return new ResponseEntity<>(subDepartamento, HttpStatus.OK);
+
+
+
+        Optional<SubDepartamento> _opcionalSubDepartamento = subDepartamentoServicio.buscarPorNombreYPorDepartamento(subDepartamentoDTO.getNombre(), subDepartamentoDTO.getIdDepartamento());
+
+        if (_opcionalSubDepartamento.isEmpty()) {
+            return new ResponseEntity<>(subDepartamentoServicio.agregar(subDepartamentoDTO), HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("El nombre del subdepartamento ya existe para este departamento", HttpStatus.BAD_REQUEST);
+
+
     }
 
     @DeleteMapping("/{idSubDepartamento}")

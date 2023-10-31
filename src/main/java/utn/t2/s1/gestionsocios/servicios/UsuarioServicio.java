@@ -38,6 +38,7 @@ public class UsuarioServicio {
         return usuarioRepo.findAllByEstado(pageable, Estado.ACTIVO);
     }
 
+
     public Usuario agregar(UsuarioDTO usuarioDTO){
 
         Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
@@ -84,7 +85,7 @@ public class UsuarioServicio {
     }
 
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
-        return usuarioRepo.findByNombre(nombreUsuario);  //TODO AGREGAR VALIDACION DE ESTADO
+        return usuarioRepo.findByNombreAndEstado(nombreUsuario, Estado.ACTIVO);
     }
 
     public void eliminarUsuario(Long id){

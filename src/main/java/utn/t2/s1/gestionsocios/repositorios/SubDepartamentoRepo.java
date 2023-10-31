@@ -13,13 +13,13 @@ import java.util.Optional;
 public interface SubDepartamentoRepo extends JpaRepository<SubDepartamento, Long> {
 
     Optional<SubDepartamento> findByIdAndEstado(Long id, Estado estado);
-//    SubDepartamento findByNombreAndEstado(String nombre,Estado estado);
 
     List<SubDepartamento> findAllByEstado(Estado estado);
 
     Page<SubDepartamento> findAllByDepartamentoIdAndEstado(Pageable page, Long departamentoId, Estado estado);
 
-//    Page<SubDepartamento> findAllByDepartamentoAndEstado(Pageable page, Long departamentoId, Estado estado);
     Page<SubDepartamento> findByNombreSubDepartamentoContainsAndEstado(Pageable page, String nombre, Estado estado);
+
+    Optional<SubDepartamento> findByNombreSubDepartamentoAndEstadoAndDepartamento_Id(String nombre, Estado estado, Long idDepartamento);
 
 }

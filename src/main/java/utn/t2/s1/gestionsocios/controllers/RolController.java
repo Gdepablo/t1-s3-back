@@ -60,7 +60,7 @@ public class RolController {
     @Operation(summary = "Agrega un rol a la Base de datos")
     public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid RolDTO rolDTO){
         if(rolServicio.buscarPorNombre(rolDTO.getNombre()) != null){
-            return new ResponseEntity<>("el rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
+            return new ResponseEntity<>("El rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
         }
 
         Rol rol = rolServicio.agregar(rolDTO);

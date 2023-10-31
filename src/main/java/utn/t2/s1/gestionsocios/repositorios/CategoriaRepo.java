@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface CategoriaRepo extends JpaRepository<Categoria,Long> {
 
     Optional<Categoria> findByIdAndEstado(Long id, Estado estado);
-//    Categoria findByIdAndEstado(Long id, Estado estado);
     Categoria findByNombreAndEstado(String nombre,Estado estado);
     List<Categoria> findAllByEstado(Estado estado);
 

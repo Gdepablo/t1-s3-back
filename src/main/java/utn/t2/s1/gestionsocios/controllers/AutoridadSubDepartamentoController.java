@@ -34,8 +34,7 @@ public class AutoridadSubDepartamentoController {
     @Autowired
     AutoridadSubDepartamentoServicio autoridadSubDepartamentoServicio;
 
-
-
+    
     @GetMapping("/{idAutoridad}")
     @Operation(summary = "Retorna una autoridad (Sub departamento) por id")
     @ApiResponses(value = {

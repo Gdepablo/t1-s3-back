@@ -94,7 +94,6 @@ public class TipoDeUsuarioController {
         try {
             tipoDeUsuarioServicio.eliminar(id);
             return new ResponseEntity<>("Tipo de usuario eliminado", HttpStatus.OK);
-//            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }
