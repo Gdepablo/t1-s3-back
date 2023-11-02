@@ -25,6 +25,8 @@ public class SubDepartamentoServicio {
     private SubDepartamentoRepo subDepartamentoRepo;
     @Autowired
     private DepartamentoRepo departamentoRepo;
+    @Autowired
+    private LogoServicio logoServicio;
 
 
 
@@ -62,7 +64,12 @@ public class SubDepartamentoServicio {
     }
 
     public void eliminarSubDepartamento(Long id) throws SubDepartamentoException{
+        
         SubDepartamento subDepartamento = this.buscarPorId(id);
+
+        logoServicio.deletePorSubDepartamento(subDepartamento.getId());
+        subDepartamento.setLogo(null);
+
         subDepartamento.setEstado(Estado.ELIMINADO);
         subDepartamentoRepo.save(subDepartamento);
     }

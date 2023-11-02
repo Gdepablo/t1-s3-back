@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import utn.t2.s1.gestionsocios.repositorios.DepartamentoRepo;
+import utn.t2.s1.gestionsocios.repositorios.SubDepartamentoRepo;
 
 import java.io.*;
 import java.util.UUID;
@@ -17,6 +17,9 @@ public class LogoServicio {
 
     @Autowired
     private DepartamentoRepo departamentoRepo;
+
+    @Autowired
+    private SubDepartamentoRepo subDepartamentoRepo;
 
 
     public void showLogo(String imageName, HttpServletResponse response) throws IOException {
@@ -64,7 +67,7 @@ public class LogoServicio {
 
 
 
-    public void delete(long id){
+    public void deletePorDepartamento(long id){
 
         departamentoRepo.findById(id).ifPresent(departamento -> {
 
@@ -80,6 +83,24 @@ public class LogoServicio {
 
         });
 
+    };
+
+
+    public void deletePorSubDepartamento(long id){
+
+        subDepartamentoRepo.findById(id).ifPresent(subDepartamento -> {
+
+            String url = subDepartamento.getLogo();
+
+            // Encontrar el índice de "logo/"
+            int i = url.indexOf("logo/");
+            // Extraer la subcadena desde el índice i + 5 (para saltar el "logo/")
+            String sub = url.substring(i + 5);
+
+            File file = new File("./uploads/" + sub);
+            file.delete();
+
+        });
 
     };
 

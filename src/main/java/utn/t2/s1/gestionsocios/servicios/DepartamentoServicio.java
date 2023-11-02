@@ -6,16 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.dtos.DepartamentoDTO;
-import utn.t2.s1.gestionsocios.dtos.SubDepartamentoDTO;
 import utn.t2.s1.gestionsocios.excepciones.DepartamentoException;
-import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
 import utn.t2.s1.gestionsocios.modelos.Departamento;
 import utn.t2.s1.gestionsocios.modelos.SubDepartamento;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.DepartamentoRepo;
-import utn.t2.s1.gestionsocios.repositorios.SubDepartamentoRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,7 +70,7 @@ public class DepartamentoServicio {
     public void eliminarDepartamento(Long id) throws DepartamentoException{
         Departamento departamento = this.buscarPorId(id);
         //eliminar imagen
-        logoServicio.delete(departamento.getId());
+        logoServicio.deletePorDepartamento(departamento.getId());
         departamento.setLogo(null);
 
         departamento.setEstado(Estado.ELIMINADO);

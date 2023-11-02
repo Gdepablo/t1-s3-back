@@ -28,8 +28,6 @@ import utn.t2.s1.gestionsocios.servicios.LogoServicio;
 
 
 import java.io.File;
-import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Operaciones de Departamento", description = "Api para realizar las operaciones de Departamento")
 @ApiResponses(value = {
@@ -183,7 +181,7 @@ public class DepartamentoController {
 
             if( logo != null ){ // si hay un logo, entonces hace esto
                 // Borra el logo viejo a partir del userID
-                logoServicio.delete(idDepartamento);
+                logoServicio.deletePorDepartamento(idDepartamento);
 
                 url = logoServicio.save(logo);
 
