@@ -27,6 +27,10 @@ public class DepartamentoServicio {
     private DepartamentoRepo departamentoRepo;
 
 
+    @Autowired
+    private LogoServicio logoServicio;
+
+
     public Page<Departamento> traerDepartamentos(Pageable pageable){
         Page<Departamento> departamentoPage = departamentoRepo.findAllByEstado(pageable, Estado.ACTIVO);
         departamentoPage.stream().map(this::filtrarSubDepartamentosActivos).collect(Collectors.toList());
@@ -69,7 +73,12 @@ public class DepartamentoServicio {
 
     public void eliminarDepartamento(Long id) throws DepartamentoException{
         Departamento departamento = this.buscarPorId(id);
+        //eliminar imagen
+        logoServicio.delete(departamento.getId());
+        departamento.setLogo(null);
+
         departamento.setEstado(Estado.ELIMINADO);
+
         departamentoRepo.save(departamento);
     }
 
