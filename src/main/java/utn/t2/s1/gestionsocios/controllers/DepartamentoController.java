@@ -79,7 +79,7 @@ public class DepartamentoController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "El Departamento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> agregarDepartamento( @RequestParam("logo") MultipartFile logo,@Valid @RequestParam("departamento") String departamentoString){
+    public ResponseEntity<?> agregarDepartamento( @RequestParam(value = "logo", required = false) MultipartFile logo,@Valid @RequestParam("departamento") String departamentoString){
 
 //        public ResponseEntity<?> agregarDepartamento( @RequestParam("logo") MultipartFile logo,@Valid @RequestParam("departamento") String departamentoDTO)
 
@@ -89,10 +89,16 @@ public class DepartamentoController {
         File file = new File(imagePath);
 
         try {
-            if(logo.isEmpty() ){
-                return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
+            String url;
+            if(   logo != null  ){
+                //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
+                url = logoServicio.save(logo);
+
+            }else {
+                url = null;
             }
-            String url = logoServicio.save(logo);
+
+
 
             ObjectMapper objectMapper = new ObjectMapper();
             DepartamentoDTO departamentoDTO = objectMapper.readValue(departamentoString, DepartamentoDTO.class);
