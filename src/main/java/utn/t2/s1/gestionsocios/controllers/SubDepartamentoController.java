@@ -76,7 +76,7 @@ public class SubDepartamentoController {
     @DeleteMapping("/{idSubDepartamento}")
     @Operation(summary = "Eliminar SubDepartamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "200", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
     public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idSubDepartamento)throws SubDepartamentoException {
         subDepartamentoServicio.eliminarSubDepartamento(idSubDepartamento);
@@ -87,7 +87,7 @@ public class SubDepartamentoController {
     @PutMapping("/{idSubDepartamento}")
     @Operation(summary = "Modifica una SubDepartamento en la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "SubDepartamento modificado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "200", description = "SubDepartamento modificado" ,content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
     })
@@ -121,7 +121,7 @@ public class SubDepartamentoController {
     })
     public ResponseEntity<?> agregarAutoridad(@PathVariable Long idSubDepartamento, @RequestBody AutoridadDTO autoridadDTO){
         AutoridadSubDepartamento autoridadSubDepartamento = autoridadSubDepartamentoServicio.agregar(idSubDepartamento, autoridadDTO);
-        return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.OK);
+        return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.CREATED);
     }
 
 

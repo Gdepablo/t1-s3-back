@@ -126,14 +126,14 @@ public class DepartamentoController {
     @PostMapping("/{idDepartamento}/autoridades")
     @Operation(summary = "Agrega autoridades en un departamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "201", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<?> agregarAutoridad(@PathVariable Long idDepartamento, @RequestBody AutoridadDTO autoridadDTO){
 
         AutoridadDepartamento autoridadDepartamento = autoridadDepartamentoServicio.agregar(idDepartamento, autoridadDTO);
-        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.OK);
+        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.CREATED);
     }
 
 
