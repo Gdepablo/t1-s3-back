@@ -7,12 +7,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.EventoDTO;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
 import utn.t2.s1.gestionsocios.modelos.Lugar;
 import utn.t2.s1.gestionsocios.modelos.Participante;
 import utn.t2.s1.gestionsocios.modelos.Evento;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
+import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.repositorios.EventoRepo;
 import java.util.Optional;
 
@@ -109,6 +111,31 @@ public class EventoServicio {
         evento.setEstado(Estado.ELIMINADO);
 
         eventoRepo.save(evento);
+    }
+
+
+    public Evento cambiarEstado(long id, EstadoEventoDTO estadoEventoDTO) {
+        Optional<Evento> optionalEvento = eventoRepo.findById(id);
+        if (!optionalEvento.isPresent()) {
+            throw new EntityNotFoundException("Evento no encontrado");
+        }
+        Evento eventoUpdate = optionalEvento.get();
+//        if (estado.equals("ACTIVO")){
+//            eventoUpdate.setEstadoEvento(EstadoEvento.ACTIVO);
+//        }
+//        if (estado.equals("INACTIVO")){
+//            eventoUpdate.setEstadoEvento(EstadoEvento.INACTIVO);
+//        }
+//        if (estado.equals("INACTIVO")) {
+//
+//        } else {
+//
+//        }
+
+        eventoUpdate.setEstadoEvento(estadoEventoDTO.getEstadoEvento());
+        eventoUpdate = eventoRepo.save(eventoUpdate);
+
+        return eventoUpdate;
     }
 
 }

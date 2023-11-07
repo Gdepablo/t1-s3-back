@@ -16,14 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.EventoDTO;
+import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
-import utn.t2.s1.gestionsocios.dtos.RolDTO;
 import utn.t2.s1.gestionsocios.modelos.*;
+import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.servicios.EventoServicio;
 import utn.t2.s1.gestionsocios.servicios.LugarServicio;
 import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
-
-import java.util.List;
 
 @Tag(name = "Operaciones para los participantes", description = "Api para realizar las operaciones de alta, baja y modificacion de participantes")
 @ApiResponses(value = {
@@ -49,9 +48,9 @@ public class EventoController {
     @GetMapping()
     @Operation(summary = "Retorna los eventos de la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tipo de evento encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Rol.class)) }),
+            @ApiResponse(responseCode = "200", description = "tipo de evento encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Rol.class))}),
     })
-    public ResponseEntity<Page<Evento>> verEventos(Pageable page){
+    public ResponseEntity<Page<Evento>> verEventos(Pageable page) {
         Page<Evento> eventos = eventoServicio.buscarTodos(page);
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
@@ -60,25 +59,24 @@ public class EventoController {
     @GetMapping(value = {"/search", "/search/"})
     @Operation(summary = "Retorna los Eventos filtrados y buscados")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Eventos Filtrados encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Evento.class)) }),
+            @ApiResponse(responseCode = "200", description = "Eventos Filtrados encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Evento.class))}),
     })
-    public ResponseEntity<Page<Evento>> verEventosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String nombre){
+    public ResponseEntity<Page<Evento>> verEventosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String nombre) {
 
         Page<Evento> eventos = eventoServicio.buscarPorNombre(pageable, nombre);
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
 
 
-
     @GetMapping("/{id}")
     @Operation(summary = "Retorna el evento  correspondiente al id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Evento encontrado" ,content = { @Content(mediaType = "application/json",schema = @Schema( implementation = Evento.class)) }),
-            @ApiResponse(responseCode = "404", description = "El evento no fue encontrado",content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "200", description = "Evento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Evento.class))}),
+            @ApiResponse(responseCode = "404", description = "El evento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<Evento> verEvento(@PathVariable Long id) {
 
-        if (eventoServicio.buscarPorId(id) == null){
+        if (eventoServicio.buscarPorId(id) == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
@@ -89,13 +87,12 @@ public class EventoController {
 
     @PostMapping()
     @Operation(summary = "Agrega un evento a la Base de datos")
-    public ResponseEntity<Object> agregarEvento(@RequestBody @Valid EventoDTO eventoDTO){
+    public ResponseEntity<Object> agregarEvento(@RequestBody @Valid EventoDTO eventoDTO) {
 //        if(eventoServicio.buscarPorNombre(eventoDTO.getNombre()) != null){
 //            return new ResponseEntity<>("El evento '"+ eventoDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
 //        }
 
         Evento evento = eventoServicio.agregar(eventoDTO);
-
 
 
         return new ResponseEntity<>(evento, HttpStatus.CREATED);
@@ -105,29 +102,60 @@ public class EventoController {
     @PutMapping("/{id}")
     @Operation(summary = "Modifica un evento en la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Evento modificado" ,content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", description = "El evento no fue encontrada",content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "201", description = "Evento modificado", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "El evento no fue encontrada", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> actualizarEvento(@PathVariable Long id, @RequestBody EventoDTO eventoDTO){
+    public ResponseEntity<?> actualizarEvento(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
         Evento eventoUpdate = eventoServicio.actualizar(eventoDTO, id);
-        return new ResponseEntity<>(eventoUpdate , HttpStatus.OK);
+        return new ResponseEntity<>(eventoUpdate, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = {"/{id}", "/{id}/"})
-    @Operation(summary = "Elimina un evento en la Base de datos")
+// COMPLETAMENTE FUNCIONAL
+//    @DeleteMapping(value = {"/{id}", "/{id}/"})
+//    @Operation(summary = "Elimina un evento en la Base de datos")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "evento eliminado" ,content = { @Content(schema = @Schema()) }),
+//    })
+//    public ResponseEntity<?> deleteEvento(@PathVariable Long id){
+//        eventoServicio.eliminar(id);
+//        return new ResponseEntity<>("Evento eliminado", HttpStatus.OK);
+//    }
+
+
+    // -----------ESTADO-------------------------------------------------------------------------------------
+    //Cambio de estado rapido
+    @PatchMapping("/{id}/estado")
+    @Operation(summary = "Cambia el estado del evento correspondiente al id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "evento eliminado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "200", description = "Estado cambiado" ,content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> deleteEvento(@PathVariable Long id){
-        eventoServicio.eliminar(id);
-        return new ResponseEntity<>("Evento eliminado", HttpStatus.OK);
+    public ResponseEntity<?> cambiarEstado(@PathVariable Long id, @RequestBody EstadoEventoDTO estadoEventoDTO){
+
+        eventoServicio.cambiarEstado(id, estadoEventoDTO);
+
+        return new ResponseEntity<>("Estado cambiado", HttpStatus.OK);
+
     }
+
+    //Devuelve los estados
+    @GetMapping("/estados")
+    @Operation(summary = "Retorna los estados de los eventos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estados encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = EstadoEvento.class)) }),
+    })
+    public ResponseEntity<EstadoEvento[]> verEstados() {
+        EstadoEvento[] estados = EstadoEvento.values();
+        return new ResponseEntity<>(estados, HttpStatus.OK);
+    }
+
+    
+
 
 
     // -----------PARTICIPANTES-------------------------------------------------------------------------------------
 
-       @GetMapping("/{id}/participantes")
+    @GetMapping("/{id}/participantes")
     @Operation(summary = "Retorna los participantes del evento correspondiente al id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Participantes encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Participante.class)) }),
