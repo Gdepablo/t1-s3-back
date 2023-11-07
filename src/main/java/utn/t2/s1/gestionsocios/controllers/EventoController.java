@@ -20,6 +20,7 @@ import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
 import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
+import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.servicios.EventoServicio;
 import utn.t2.s1.gestionsocios.servicios.LugarServicio;
 import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
@@ -149,8 +150,19 @@ public class EventoController {
         return new ResponseEntity<>(estados, HttpStatus.OK);
     }
 
-    
 
+    // -----------MODALIDADES-------------------------------------------------------------------------------------
+
+    //Devuelve las modalidades
+    @GetMapping("/modalidades")
+    @Operation(summary = "Retorna las modalidades de los eventos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Modalidades encontradas" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Modalidad.class)) }),
+    })
+    public ResponseEntity<Modalidad[]> verModalidades() {
+        Modalidad[] modalidades = Modalidad.values();
+        return new ResponseEntity<>(modalidades, HttpStatus.OK);
+    }
 
 
     // -----------PARTICIPANTES-------------------------------------------------------------------------------------
