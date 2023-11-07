@@ -3,6 +3,8 @@ package utn.t2.s1.gestionsocios.dtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.Setter;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link utn.t2.s1.gestionsocios.modelos.Participante}
  */
-@Value
+@Data
 public class ParticipanteDTO implements Serializable {
     @NotNull
     @NotEmpty
@@ -27,6 +29,8 @@ public class ParticipanteDTO implements Serializable {
     String referente;
     @NotNull
     EmpresaEventoDTO empresaEvento;
-    @NotNull
-    EventoDTO evento;
+
+    Long eventoId;
+
+
 }

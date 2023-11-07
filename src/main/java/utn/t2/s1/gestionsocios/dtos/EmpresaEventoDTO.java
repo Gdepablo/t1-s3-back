@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.dtos;
 
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -7,8 +8,8 @@ import java.io.Serializable;
 /**
  * DTO for {@link utn.t2.s1.gestionsocios.modelos.EmpresaEvento}
  */
-@Value
+@Data
 public class EmpresaEventoDTO implements Serializable {
-    SocioDTO socio;
+    Long socioId;
     String otraEmpresa;
 }

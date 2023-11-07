@@ -1,6 +1,8 @@
 package utn.t2.s1.gestionsocios.modelos;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
@@ -31,6 +33,7 @@ public class Evento extends Persistente {
 
     @Column(name = "direccion", nullable = false)
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Participante> participantes;
     @Column(name = "direccion", nullable = false)
     private EstadoEvento estadoEvento;

@@ -16,11 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.dtos.EventoDTO;
+import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
 import utn.t2.s1.gestionsocios.dtos.RolDTO;
-import utn.t2.s1.gestionsocios.modelos.Evento;
-import utn.t2.s1.gestionsocios.modelos.Lugar;
-import utn.t2.s1.gestionsocios.modelos.Rol;
-import utn.t2.s1.gestionsocios.modelos.Socio;
+import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.servicios.EventoServicio;
 import utn.t2.s1.gestionsocios.servicios.LugarServicio;
 import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
@@ -125,6 +123,54 @@ public class EventoController {
         eventoServicio.eliminar(id);
         return new ResponseEntity<>("Evento eliminado", HttpStatus.OK);
     }
+
+
+    // -----------PARTICIPANTES-------------------------------------------------------------------------------------
+
+       @GetMapping("/{id}/participantes")
+    @Operation(summary = "Retorna los participantes del evento correspondiente al id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Participantes encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Participante.class)) }),
+    })
+    public ResponseEntity<Page<Participante>> verParticipantes(@PathVariable Long id, Pageable pageable) {
+        Page<Participante> participantes = participanteServicio.buscarTodos(pageable);
+        return new ResponseEntity<>(participantes, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/participantes/search")
+    @Operation(summary = "Retorna los participantes del evento correspondiente al id buscados por nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Participantes encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Participante.class)) }),
+    })
+    public ResponseEntity<Page<Participante>> verParticipantesFiltradoBuscado(@PathVariable Long id, @RequestParam(required = true) String nombre, Pageable pageable) {
+
+        if (participanteServicio.buscarPorNombre(pageable, nombre) == null){
+            Page<Participante> participantes = participanteServicio.buscarTodos(pageable);
+            return new ResponseEntity<>(participantes, HttpStatus.OK);
+        }
+
+        Page<Participante> participantes = participanteServicio.buscarPorNombre(pageable, nombre);
+        return new ResponseEntity<>(participantes, HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/participantes")
+    @Operation(summary = "Agrega un participante al evento correspondiente al id")
+    public ResponseEntity<Participante> agregarParticipante(@PathVariable Long id, @RequestBody @Valid ParticipanteDTO participanteDTO){
+//        if(eventoServicio.buscarPorNombre(eventoDTO.getNombre()) != null){
+//            return new ResponseEntity<>("El evento '"+ eventoDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
+//        }
+        participanteDTO.setEventoId(id);
+
+
+        Participante participante = participanteServicio.agregar(participanteDTO);
+
+        return new ResponseEntity<>(participante, HttpStatus.CREATED);
+    }
+
+
+
+
+
 
 
 }

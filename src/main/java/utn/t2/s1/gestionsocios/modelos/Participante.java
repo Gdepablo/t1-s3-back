@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
@@ -19,6 +20,7 @@ public class Participante extends Persistente {
     @OneToOne
     private EmpresaEvento empresaEvento;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "evento_id")
     private Evento evento;
 }
