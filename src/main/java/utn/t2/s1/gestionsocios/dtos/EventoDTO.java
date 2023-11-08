@@ -21,11 +21,13 @@ public class EventoDTO implements Serializable {
     @FutureOrPresent
     Date fechaInicio;
 
+    @NotNull
     @FutureOrPresent
     Date fechaFin;
 
 //    String lugar;
 
+    @NotNull
     LugarDTO lugar;
 
     @NotNull
@@ -35,6 +37,7 @@ public class EventoDTO implements Serializable {
     @NotNull
     Modalidad modalidad;
 
+    @NotNull
     EstadoEvento estadoEvento;
 
     @NotNull

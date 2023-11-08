@@ -15,6 +15,7 @@ import utn.t2.s1.gestionsocios.modelos.Participante;
 import utn.t2.s1.gestionsocios.modelos.Evento;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
+import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.repositorios.EventoRepo;
 import java.util.Optional;
 
@@ -45,15 +46,85 @@ public class EventoServicio {
         return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
     }
 
+    //filtrado por modalidades y por estado
+    public Page<Evento> buscarPorNombreFiltrandoPorModalidadYOEstadoEvento(Pageable page, String nombre,String modalidad, String estadoEvento) {
+
+//        System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAA");
+//        System.out.println(modalidad.isBlank());
+//        System.out.println(modalidad.isEmpty());
+//        System.out.println(  (     modalidad == null || modalidad.isBlank()     )  );
+//        System.out.println((modalidad == null  ));
+//        System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAA");
+
+
+        if (nombre != null && modalidad != null && estadoEvento != null) {
+
+            Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
+            EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
+            return eventoRepo.findByNombreContainsAndModalidadAndEstadoEventoAndEstado(page, nombre, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+        } else if (nombre == null && modalidad != null && estadoEvento != null) {
+
+            Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
+            EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
+            return eventoRepo.findByModalidadAndEstadoEventoAndEstado(page, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+        } else if (nombre != null && (modalidad == null  ) && estadoEvento != null) {
+
+//            System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
+            return eventoRepo.findByNombreContainsAndEstadoEventoAndEstado(page, nombre, estadoEventoEnum, Estado.ACTIVO);
+
+        } else if (nombre != null && modalidad != null && estadoEvento == null) {
+
+            Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
+            return eventoRepo.findByNombreContainsAndModalidadAndEstado(page, nombre, modalidadEnum, Estado.ACTIVO);
+
+        } else if (nombre == null && modalidad == null && estadoEvento != null) {
+
+            EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
+            return eventoRepo.findByEstadoEventoAndEstado(page, estadoEventoEnum, Estado.ACTIVO);
+
+        } else if (nombre == null && modalidad != null && estadoEvento == null) {
+
+            Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
+            return eventoRepo.findByModalidadAndEstado(page, modalidadEnum, Estado.ACTIVO);
+
+        } else if (nombre != null && modalidad == null && estadoEvento == null) {
+
+            return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
+
+        } else {
+            return eventoRepo.findAllByEstado(page, Estado.ACTIVO);
+        }
+
+
+
+//        return eventoRepo.findByModalidadAndEstado(page, modalidad, estadoEvento, Estado.ACTIVO);
+    }
 
 
     public Evento agregar(EventoDTO eventoDTO) {
+
+
+//        if (empresaEvento.getSocio() != null && empresaEvento.getOtraEmpresa() != null) {
+//            throw new IllegalArgumentException("No se puede asignar un socio y otra empresa al mismo tiempo.");
+//        }
+//
+//        if (empresaEvento.getSocio() == null && empresaEvento.getOtraEmpresa() == null) {
+//            throw new IllegalArgumentException("Se debe asignar un socio o una empresa");
+//        }
 
         ModelMapper modelMapper = new ModelMapper();
         Evento evento = modelMapper.map(eventoDTO, Evento.class);
 
 
         Lugar lugar = lugarServicio.agregar(eventoDTO.getLugar());
+
+        if (evento.getLugar().getDireccion() == null && evento.getLugar().getLinkVirtual() == null && evento.getLugar().getLinkMaps() == null) {
+            throw new IllegalArgumentException("Se debe asignar una dirección, un link de maps o un link virtual");
+        }
+
         evento.setLugar(lugar);
 
 

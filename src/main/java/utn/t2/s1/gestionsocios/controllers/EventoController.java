@@ -56,13 +56,25 @@ public class EventoController {
 
 
     @GetMapping(value = {"/search", "/search/"})
-    @Operation(summary = "Retorna los Eventos filtrados y buscados")
+    @Operation(summary = "Retorna los Eventos buscados por nombre")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Eventos Filtrados encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Evento.class))}),
     })
-    public ResponseEntity<Page<Evento>> verEventosFiltradoBuscado(Pageable pageable, @RequestParam(required = false) String nombre) {
+    public ResponseEntity<Page<Evento>> verEventosBuscadoPorNombre(Pageable pageable, @RequestParam(required = false) String nombre) {
 
         Page<Evento> eventos = eventoServicio.buscarPorNombre(pageable, nombre);
+        return new ResponseEntity<>(eventos, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = {"/search/filtro", "/search/filtro/"})
+    @Operation(summary = "Retorna los Eventos buscados por nombre y filtrados por MODALIDAD y/o ESTADOEVENTO")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Eventos Filtrados encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Evento.class))}),
+    })
+    public ResponseEntity<Page<Evento>> verEventosBuscadosYFiltradoPorModalidadYEstadoEvento(Pageable pageable, @RequestParam(required = false) String nombre, @RequestParam(required = false) String modalidad, @RequestParam(required = false) String estadoEvento) {
+
+        Page<Evento> eventos = eventoServicio.buscarPorNombreFiltrandoPorModalidadYOEstadoEvento(pageable, nombre, modalidad, estadoEvento);
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
 
