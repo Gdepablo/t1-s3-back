@@ -12,4 +12,5 @@ public interface TipoSocioRepo extends JpaRepository<TipoSocio,Long> {
     public TipoSocio findByNombreAndEstado(String nombre, Estado estado);
 
     public Optional<TipoSocio> findByIdAndEstado(Long id, Estado estado);
+
 }

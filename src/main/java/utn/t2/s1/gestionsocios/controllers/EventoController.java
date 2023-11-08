@@ -25,7 +25,7 @@ import utn.t2.s1.gestionsocios.servicios.EventoServicio;
 import utn.t2.s1.gestionsocios.servicios.LugarServicio;
 import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
 
-@Tag(name = "Operaciones para los participantes", description = "Api para realizar las operaciones de alta, baja y modificacion de participantes")
+@Tag(name = "Operaciones para los eventos", description = "Api para realizar las operaciones de alta, baja y modificacion de eventos")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema(allOf = Evento.class)) })
 })
@@ -34,7 +34,6 @@ import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
 @Validated
 @CrossOrigin
 public class EventoController {
-
 
     @Autowired
     ParticipanteServicio participanteServicio;
@@ -45,11 +44,10 @@ public class EventoController {
     @Autowired
     LugarServicio lugarServicio;
 
-
     @GetMapping()
     @Operation(summary = "Retorna los eventos de la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tipo de evento encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Rol.class))}),
+            @ApiResponse(responseCode = "200", description = "Eventos encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Evento.class))}),
     })
     public ResponseEntity<Page<Evento>> verEventos(Pageable page) {
         Page<Evento> eventos = eventoServicio.buscarTodos(page);
