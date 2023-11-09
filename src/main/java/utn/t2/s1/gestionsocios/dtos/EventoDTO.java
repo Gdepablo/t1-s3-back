@@ -10,6 +10,7 @@ import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -19,11 +20,13 @@ import java.util.Date;
 public class EventoDTO implements Serializable {
     @NotNull
     @FutureOrPresent
-    Date fechaInicio;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime fechaInicio;
 
     @NotNull
     @FutureOrPresent
-    Date fechaFin;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime fechaFin;
 
 //    String lugar;
 

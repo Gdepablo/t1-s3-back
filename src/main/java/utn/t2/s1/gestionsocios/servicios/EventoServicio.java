@@ -52,7 +52,7 @@ public class EventoServicio {
 
         modalidad = modalidad == null ? null : modalidad.isEmpty() ? null : modalidad;
         estadoEvento = estadoEvento == null ? null : estadoEvento.isEmpty() ? null : estadoEvento;
-        
+
 
         if (nombre != null && modalidad != null && estadoEvento != null) {
 

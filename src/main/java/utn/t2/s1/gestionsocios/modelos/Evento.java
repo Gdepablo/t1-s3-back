@@ -8,6 +8,8 @@ import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +21,10 @@ public class Evento extends Persistente {
     private String nombre;
 
     @Column(name = "fecha_de_inicio", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "America/Argentina/Buenos_Aires")
-    private Date fechaInicio;
+    private LocalDateTime fechaInicio;
 
     @Column(name = "fecha_fin", nullable = false)
-    @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "America/Argentina/Buenos_Aires")
-    private Date fechaFin;
+    private LocalDateTime fechaFin;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Lugar lugar;
