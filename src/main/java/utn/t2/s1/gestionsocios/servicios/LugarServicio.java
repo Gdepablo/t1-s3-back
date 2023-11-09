@@ -28,6 +28,24 @@ public class LugarServicio {
         ModelMapper modelMapper = new ModelMapper();
         Lugar lugar = modelMapper.map(lugarDTO, Lugar.class);
 
+        if(lugar.getDireccion() != null){
+            if (lugar.getDireccion().isEmpty()){
+                lugar.setDireccion(null);
+            }
+        }
+
+        if(lugar.getLinkVirtual() != null){
+            if (lugar.getLinkVirtual().isEmpty()){
+                lugar.setLinkVirtual(null);
+            }
+        }
+
+        if(lugar.getLinkMaps() != null){
+            if (lugar.getLinkMaps().isEmpty()){
+                lugar.setLinkMaps(null);
+            }
+        }
+
         lugar.setEstado(Estado.ACTIVO);
 
         lugar = lugarRepo.save(lugar);

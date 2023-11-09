@@ -17,6 +17,8 @@ import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.repositorios.EventoRepo;
+import utn.t2.s1.gestionsocios.repositorios.LugarRepo;
+
 import java.util.Optional;
 
 
@@ -28,7 +30,8 @@ public class EventoServicio {
 
     @Autowired
     private LugarServicio lugarServicio;
-
+    @Autowired
+    private LugarRepo lugarRepo;
 
 
     public Page<Evento> buscarTodos(Pageable page) {
@@ -115,7 +118,8 @@ public class EventoServicio {
 
         Lugar lugar = lugarServicio.agregar(eventoDTO.getLugar());
 
-        if (evento.getLugar().getDireccion() == null && evento.getLugar().getLinkVirtual() == null && evento.getLugar().getLinkMaps() == null) {
+
+        if ((evento.getLugar().getDireccion() == null || evento.getLugar().getDireccion().isEmpty()) && (evento.getLugar().getLinkVirtual() == null || evento.getLugar().getLinkVirtual().isEmpty() ) && (evento.getLugar().getLinkMaps() == null || evento.getLugar().getLinkMaps().isEmpty())) {
             throw new IllegalArgumentException("Se debe asignar una dirección, un link de maps o un link virtual");
         }
 
