@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -83,7 +84,7 @@ public class AutoridadDepartamentoServicio {
 //    }
 
     public AutoridadDepartamento buscarPorId(Long id) {
-        return autoridadDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new RuntimeException("Autoridad no encontrada"));
+        return autoridadDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Autoridad no encontrada"));
     }
 
 //    public Optional<Usuario> buscarPorNombre(String nombreUsuario){

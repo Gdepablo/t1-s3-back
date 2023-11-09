@@ -21,7 +21,7 @@ import java.util.List;
 
 
 
-@Tag(name = "Operaciones para los usuarios", description = "Api para realizar las operaciones de alta, baja y modificacion de un tipo de usuario")
+@Tag(name = "Operaciones para los tipo de usuarios", description = "Api para realizar las operaciones de alta, baja y modificacion de un tipo de usuario")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -31,7 +31,6 @@ import java.util.List;
 @CrossOrigin
 public class TipoDeUsuarioController {
 
-
     @Autowired
     TipoDeUsuarioServicio tipoDeUsuarioServicio;
 
@@ -39,13 +38,10 @@ public class TipoDeUsuarioController {
     TipoDeUsuarioConverter tipoDeUsuarioConverter;
 
 
-
-
-
     @GetMapping()
-    @Operation(summary = "Retorna todos los tipo de usuario de la base de datos")
+    @Operation(summary = "Retorna todos los tipo de usuario de la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
+            @ApiResponse(responseCode = "200", description = "Tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
     })
     public ResponseEntity<List<TipoDeUsuario>> verTiposDeUsuarios(){
 
@@ -57,9 +53,10 @@ public class TipoDeUsuarioController {
 
 
     @PostMapping()
+    @Operation(summary = "Agrega un tipo de usuario en la Base de datos")
     public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid TipoDeUsuarioDTO tipoDeUsuarioDTO){
         if(tipoDeUsuarioServicio.buscarPorNombre(tipoDeUsuarioDTO.getNombreTipoDeUsuario()) != null){
-            return new ResponseEntity<>("el nombre '"+ tipoDeUsuarioDTO.getNombreTipoDeUsuario()+"' de tipo de usuario ya existe", HttpStatus.CREATED);
+            return new ResponseEntity<>("El nombre '"+ tipoDeUsuarioDTO.getNombreTipoDeUsuario()+"' de tipo de usuario ya existe", HttpStatus.CREATED);
         }
 
         TipoDeUsuario tipoDeUsuario = tipoDeUsuarioServicio.agregar(tipoDeUsuarioDTO);
@@ -88,7 +85,6 @@ public class TipoDeUsuarioController {
 
 
 
-
     @DeleteMapping(value = {"/{id}", "/{id}/"})
     @Operation(summary = "Elimina un tipo de usuario en la Base de datos")
     @ApiResponses(value = {
@@ -98,7 +94,6 @@ public class TipoDeUsuarioController {
         try {
             tipoDeUsuarioServicio.eliminar(id);
             return new ResponseEntity<>("Tipo de usuario eliminado", HttpStatus.OK);
-//            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
         }

@@ -21,7 +21,9 @@ import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.SubDepartamentoServicio;
 
-@Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
+import java.util.Optional;
+
+@Tag(name = "Operaciones de Sub Departamento", description = "Api para realizar las operaciones de Sub Departamento")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -50,27 +52,33 @@ public class SubDepartamentoController {
     }
 
     @PostMapping()
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agregar un Sub departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SubDepartamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "El SubDepartamento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<?> agregarSubDepartamento(@RequestBody SubDepartamentoDTO subDepartamentoDTO){
-        SubDepartamento subDepartamento = subDepartamentoServicio.agregar(subDepartamentoDTO);
-        return new ResponseEntity<>(subDepartamento, HttpStatus.OK);
+
+
+
+        Optional<SubDepartamento> _opcionalSubDepartamento = subDepartamentoServicio.buscarPorNombreYPorDepartamento(subDepartamentoDTO.getNombre(), subDepartamentoDTO.getIdDepartamento());
+
+        if (_opcionalSubDepartamento.isEmpty()) {
+            return new ResponseEntity<>(subDepartamentoServicio.agregar(subDepartamentoDTO), HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("El nombre del subdepartamento ya existe para este departamento", HttpStatus.BAD_REQUEST);
+
+
     }
 
     @DeleteMapping("/{idSubDepartamento}")
     @Operation(summary = "Eliminar SubDepartamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "200", description = "SubDepartamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
     public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idSubDepartamento)throws SubDepartamentoException {
-        if (subDepartamentoServicio.buscarPorId(idSubDepartamento) == null) {
-            return new ResponseEntity<>("SubDepartamento no encontrado", HttpStatus.NOT_FOUND);
-        }
-
         subDepartamentoServicio.eliminarSubDepartamento(idSubDepartamento);
         return new ResponseEntity<>("SubDepartamento eliminado", HttpStatus.OK);
     }
@@ -79,7 +87,7 @@ public class SubDepartamentoController {
     @PutMapping("/{idSubDepartamento}")
     @Operation(summary = "Modifica una SubDepartamento en la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "SubDepartamento modificado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "200", description = "SubDepartamento modificado" ,content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
     })
@@ -105,7 +113,7 @@ public class SubDepartamentoController {
     }
 
     @PostMapping("/{idSubDepartamento}/autoridades")
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega una autoridad de un sub departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
@@ -113,7 +121,7 @@ public class SubDepartamentoController {
     })
     public ResponseEntity<?> agregarAutoridad(@PathVariable Long idSubDepartamento, @RequestBody AutoridadDTO autoridadDTO){
         AutoridadSubDepartamento autoridadSubDepartamento = autoridadSubDepartamentoServicio.agregar(idSubDepartamento, autoridadDTO);
-        return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.OK);
+        return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.CREATED);
     }
 
 

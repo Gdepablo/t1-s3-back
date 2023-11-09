@@ -18,7 +18,8 @@ public class SubDepartamento extends Persistente {
     private String nombreSubDepartamento;
     @Column(name = "objetivo", nullable = false)
     private String objetivo;
-
+    @Column(name="logo", nullable = false, length = 400)
+    private String logo;
 
 
     @OneToMany(mappedBy = "subDepartamento", cascade = CascadeType.ALL)

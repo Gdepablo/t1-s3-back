@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class DepartamentoServicio {
     }
 
     public Departamento buscarPorId(Long id) throws DepartamentoException {
-        Departamento departamento = departamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(()-> new DepartamentoException("Departamento no encontrado"));
+        Departamento departamento = departamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Departamento no encontrado"));
         return filtrarSubDepartamentosActivos(departamento);
     }
 
@@ -54,6 +55,7 @@ public class DepartamentoServicio {
         Departamento departamento = new Departamento();
         departamento.setNombreDepartamento(departamentoDTO.getNombre());
         departamento.setObjetivo(departamentoDTO.getObjetivo());
+        departamento.setLogo(departamentoDTO.getLogo());
         departamento.setEstado(Estado.ACTIVO);
 
         return departamentoRepo.save(departamento);
@@ -61,8 +63,8 @@ public class DepartamentoServicio {
 
 
 
-    public Page<Departamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
-        return departamentoRepo.findByNombreDepartamentoContainsAndEstado(pageable, nombreUsuario, Estado.ACTIVO);
+    public Optional<Departamento> buscarPorNombre(String nombreUsuario){
+        return departamentoRepo.findByNombreDepartamentoAndEstado(nombreUsuario, Estado.ACTIVO);
     }
 
     public void eliminarDepartamento(Long id) throws DepartamentoException{
@@ -81,6 +83,8 @@ public class DepartamentoServicio {
         Departamento departamentoUpdate = optionalDepartamento.get();
         departamentoUpdate.setNombreDepartamento(departamentoDTO.getNombre());
         departamentoUpdate.setObjetivo(departamentoDTO.getObjetivo());
+        departamentoUpdate.setLogo(departamentoDTO.getLogo());
+
 
         return departamentoRepo.save(departamentoUpdate);
     }

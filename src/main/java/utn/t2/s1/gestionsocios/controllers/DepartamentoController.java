@@ -23,8 +23,9 @@ import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.DepartamentoServicio;
 
 import java.util.List;
+import java.util.Optional;
 
-@Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
+@Tag(name = "Operaciones de Departamento", description = "Api para realizar las operaciones de Departamento")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -53,37 +54,41 @@ public class DepartamentoController {
 
 
     @GetMapping("/{idDepartamento}")
-    @Operation(summary = "Retorna todos los SubDepartamentos de un departamento")
+    @Operation(summary = "Retorna un departamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
+            @ApiResponse(responseCode = "200", description = "Departamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
     })
-    public ResponseEntity<Departamento> verAutoridadesPorDepartamento(@PathVariable Long idDepartamento) throws DepartamentoException {
+    public ResponseEntity<Departamento> verDepartamentoPorId(@PathVariable Long idDepartamento) throws DepartamentoException {
         Departamento departamento = departamentoServicio.buscarPorId(idDepartamento);
         return new ResponseEntity<>(departamento , HttpStatus.OK);
     }
 
     @PostMapping()
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega un departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Departamento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "El Departamento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> agregarSubDepartamento(@RequestBody DepartamentoDTO departamentoDTO){
-        Departamento departamento = departamentoServicio.agregar(departamentoDTO);
-        return new ResponseEntity<>(departamento, HttpStatus.OK);
+    public ResponseEntity<?> agregarDepartamento(@RequestBody DepartamentoDTO departamentoDTO){
+
+
+        Optional<Departamento> _opcionalDepartamento = departamentoServicio.buscarPorNombre(departamentoDTO.getNombre());
+
+        if (_opcionalDepartamento.isEmpty()) {
+            return new ResponseEntity<>(departamentoServicio.agregar(departamentoDTO), HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("El nombre de departamento ya existe", HttpStatus.BAD_REQUEST);
+
     }
 
     @DeleteMapping("/{idDepartamento}")
-    @Operation(summary = "Eliminar SubDepartamento")
+    @Operation(summary = "Eliminar Departamento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Departamento eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
     public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idDepartamento)throws DepartamentoException {
-        if (departamentoServicio.buscarPorId(idDepartamento) == null) {
-            return new ResponseEntity<>("Departamento no encontrado", HttpStatus.NOT_FOUND);
-        }
-
         departamentoServicio.eliminarDepartamento(idDepartamento);
         return new ResponseEntity<>("Departamento eliminado", HttpStatus.OK);
     }
@@ -119,15 +124,16 @@ public class DepartamentoController {
     }
 
     @PostMapping("/{idDepartamento}/autoridades")
-    @Operation(summary = "Ingresar")
+    @Operation(summary = "Agrega autoridades en un departamento")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "201", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<?> agregarAutoridad(@PathVariable Long idDepartamento, @RequestBody AutoridadDTO autoridadDTO){
+
         AutoridadDepartamento autoridadDepartamento = autoridadDepartamentoServicio.agregar(idDepartamento, autoridadDTO);
-        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.OK);
+        return new ResponseEntity<>(autoridadDepartamento, HttpStatus.CREATED);
     }
 
 

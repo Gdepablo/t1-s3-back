@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,13 +39,14 @@ public class SubDepartamentoServicio {
 
         Optional<Departamento> optionalDepartamento = departamentoRepo.findByIdAndEstado(subDepartamentoDTO.getIdDepartamento(), Estado.ACTIVO);
         if (!optionalDepartamento.isPresent()) {
-            throw new RuntimeException("Departamento no encontrado");
+            throw new EntityNotFoundException("Departamento no encontrado");
         }
 
         SubDepartamento subDepartamento = new SubDepartamento();
         subDepartamento.setDepartamento(optionalDepartamento.get());
         subDepartamento.setNombreSubDepartamento(subDepartamentoDTO.getNombre());
         subDepartamento.setObjetivo(subDepartamentoDTO.getObjetivo());
+        subDepartamento.setLogo(subDepartamentoDTO.getLogo());
         subDepartamento.setEstado(Estado.ACTIVO);
 
         return subDepartamentoRepo.save(subDepartamento);
@@ -52,11 +54,11 @@ public class SubDepartamentoServicio {
 
 
     public SubDepartamento buscarPorId(Long id) throws SubDepartamentoException {
-        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new SubDepartamentoException("Subdepartamento no encontrado"));
+        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("SubDepartamento no encontrado"));
     }
 
-    public Page<SubDepartamento> buscarPorNombre(Pageable pageable, String nombreUsuario){
-        return subDepartamentoRepo.findByNombreSubDepartamentoContainsAndEstado(pageable, nombreUsuario, Estado.ACTIVO);
+    public Optional<SubDepartamento> buscarPorNombreYPorDepartamento(String nombreUsuario, Long idDepartamento){
+        return subDepartamentoRepo.findByNombreSubDepartamentoAndEstadoAndDepartamento_Id(nombreUsuario,Estado.ACTIVO, idDepartamento);
     }
 
     public void eliminarSubDepartamento(Long id) throws SubDepartamentoException{
@@ -75,6 +77,8 @@ public class SubDepartamentoServicio {
         SubDepartamento subDepartamento = optionalSubDepartamento.get();
         subDepartamento.setNombreSubDepartamento(subDepartamentoDTO.getNombre());
         subDepartamento.setObjetivo(subDepartamentoDTO.getObjetivo());
+        subDepartamento.setLogo(subDepartamentoDTO.getLogo());
+
 
         return subDepartamentoRepo.save(subDepartamento);
     }

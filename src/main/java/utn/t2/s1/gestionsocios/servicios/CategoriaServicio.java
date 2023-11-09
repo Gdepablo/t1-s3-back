@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.excepciones.CategoriaException;
@@ -25,9 +26,9 @@ public class CategoriaServicio {
     public List<Categoria> categorias(){
         return repo.findAllByEstado(Estado.ACTIVO);
     }
-    public List<String> nombresCategoria(){
-        return repo.findAllByEstado(Estado.ACTIVO).stream().map(Categoria::getNombre).toList() ;
-    }
+//    public List<String> nombresCategoria(){
+//        return repo.findAllByEstado(Estado.ACTIVO).stream().map(Categoria::getNombre).toList() ;
+//    }
 
     public  Set<Categoria> stringSetToCategoriaSet(Set<String> lista) throws CategoriaException{
         Set<Categoria> set =  lista.stream()
@@ -41,7 +42,7 @@ public class CategoriaServicio {
     }
 
     public Categoria buscarPorId(Long id) {
-            return repo.findByIdAndEstado(id, Estado.ACTIVO);
+        return repo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada"));
     }
 
     public Categoria agregar(Categoria categoria) {

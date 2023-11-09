@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.excepciones.TipoException;
@@ -21,12 +22,13 @@ public class TipoSocioServicio {
     public List<TipoSocio> tiposDesocio(){
         return repo.findAllByEstado(Estado.ACTIVO);
     }
-    public List<String> nombresSocios(){
-        return repo.findAllByEstado(Estado.ACTIVO).stream().map(TipoSocio::getNombre).toList() ;
-    }
+
+//    public List<String> nombresSocios(){
+//        return repo.findAllByEstado(Estado.ACTIVO).stream().map(TipoSocio::getNombre).toList() ;
+//    }
 
     public TipoSocio buscarPorId(Long id) {
-        return repo.findByIdAndEstado(id, Estado.ACTIVO);
+        return repo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Tipo de socio no encontrado"));
     }
 
     public TipoSocio agregar(TipoSocio tipo) {

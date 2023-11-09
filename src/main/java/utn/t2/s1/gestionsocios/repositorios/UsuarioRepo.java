@@ -15,8 +15,10 @@ public interface UsuarioRepo extends JpaRepository<Usuario, Long> {
 
     Page<Usuario> findAllByEstado(Pageable pageable, Estado estado);
 
-    Optional<Usuario> findByNombre(String nombreUsuario);
+    Optional<Usuario> findByNombreAndEstado(String nombreUsuario, Estado estado);
 
     Optional<Usuario> findByIdAndEstado(Long id, Estado estado);
+
+
 
 }

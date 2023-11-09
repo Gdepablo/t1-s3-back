@@ -52,6 +52,7 @@ INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'USER');
 
 INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'juan', 1);
 INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'pepe', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'carlos', 2);
 
 
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Presidente');
@@ -59,6 +60,21 @@ INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Vice president
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Secretario');
 
 
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`) VALUES ('0', 'Tecnico', 'Mantener los sistemas');
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`) VALUES ('0', 'Filosofico', 'Filosofar');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Tecnico', 'Mantener los sistemas','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Filosofico', 'Filosofar','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Logistico', 'Enviar cosas','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+
+
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Asuntos Laborales', 'Administrar Asuntos',1,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Politica fiscal', 'Administrar Politica',2,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Normativa', 'Administrar Normativas',3,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+
+
+INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 1, 1, 1);
+INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 2, 2, 2);
+INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 3, 3, 3);
+
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 1, 1, 1);
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 2, 2, 2);
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 3, 3, 3);
 

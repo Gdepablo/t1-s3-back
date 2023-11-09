@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -34,5 +35,12 @@ public class GlobalExceptionHandler {
         String errorMessage = "Error en la deserialización del JSON: " + ex.getRootCause().getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
+        String errorMessage = "Entidad no encontrada - " + ex.getMessage();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
 
 }

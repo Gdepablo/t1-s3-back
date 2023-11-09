@@ -25,9 +25,9 @@ import utn.t2.s1.gestionsocios.servicios.TipoDeUsuarioServicio;
 import java.util.List;
 
 
-@Tag(name = "Operaciones para los socios", description = "Api para realizar las operaciones de alta, baja y modificacion de un socio")
+@Tag(name = "Operaciones para los roles", description = "Api para realizar las operaciones de alta, baja y modificacion de roles")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
+        @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema(allOf = Rol.class)) })
 })
 @RestController
 @RequestMapping("/roles")
@@ -45,9 +45,9 @@ public class RolController {
 
 
     @GetMapping()
-    @Operation(summary = "Retorna todos los tipo de usuario de la base de datos")
+    @Operation(summary = "Retorna los roles de la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "tipo de usuario encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Socio.class)) }),
+            @ApiResponse(responseCode = "200", description = "tipo de rol encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Rol.class)) }),
     })
     public ResponseEntity<List<Rol>> verRoles(){
 
@@ -57,9 +57,10 @@ public class RolController {
 
 
     @PostMapping()
+    @Operation(summary = "Agrega un rol a la Base de datos")
     public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid RolDTO rolDTO){
         if(rolServicio.buscarPorNombre(rolDTO.getNombre()) != null){
-            return new ResponseEntity<>("el rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
+            return new ResponseEntity<>("El rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
         }
 
         Rol rol = rolServicio.agregar(rolDTO);
@@ -69,19 +70,15 @@ public class RolController {
 
 
     @PutMapping("/{id}")
-    @Operation(summary = "Modifica un tipo de usuario en la Base de datos")
+    @Operation(summary = "Modifica un rol en la Base de datos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Tipo de usuario modificado" ,content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "201", description = "Rol modificado" ,content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", description = "El tipo de usuario no fue encontrada",content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404", description = "El rol no fue encontrada",content = { @Content(schema = @Schema()) }),
     })
     public ResponseEntity<?> actualizarTipoDeUsuario(@PathVariable Long id, @RequestBody RolDTO rolDTO){
-        try {
             Rol rolUpdate = rolServicio.actualizar(rolDTO, id);
-            return new ResponseEntity<>(rolUpdate, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
-        }
+            return new ResponseEntity<>(rolUpdate , HttpStatus.OK);
     }
 
     @DeleteMapping(value = {"/{id}", "/{id}/"})
@@ -90,13 +87,8 @@ public class RolController {
             @ApiResponse(responseCode = "200", description = "Rol eliminado" ,content = { @Content(schema = @Schema()) }),
     })
     public ResponseEntity<?> deleteRol(@PathVariable Long id){
-        try {
             rolServicio.eliminar(id);
             return new ResponseEntity<>("Rol eliminado", HttpStatus.OK);
-//            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
-        }
     }
 
 

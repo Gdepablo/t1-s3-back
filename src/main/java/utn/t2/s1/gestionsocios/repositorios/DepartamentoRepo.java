@@ -15,6 +15,8 @@ public interface DepartamentoRepo extends JpaRepository<Departamento, Long> {
 
     Page<Departamento> findAllByEstado(Pageable pageable, Estado estado);
 
+    Optional<Departamento> findByNombreDepartamentoAndEstado(String nombre, Estado estado);
+
 
 //    Page<Departamento> findAllByDepartamentoIdAndEstado(Pageable page, Long departamentoId, Estado estado);
 

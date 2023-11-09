@@ -1,5 +1,6 @@
 package utn.t2.s1.gestionsocios.servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,7 @@ public class UsuarioServicio {
     public Page<Usuario> traerUsuarios(Pageable pageable){
         return usuarioRepo.findAllByEstado(pageable, Estado.ACTIVO);
     }
+
 
     public Usuario agregar(UsuarioDTO usuarioDTO){
 
@@ -79,11 +81,11 @@ public class UsuarioServicio {
     }
 
     public Usuario buscarPorId(Long id) {
-        return usuarioRepo.findByIdAndEstado(id, Estado.ACTIVO).get();
+        return usuarioRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
     }
 
     public Optional<Usuario> buscarPorNombre(String nombreUsuario){
-        return usuarioRepo.findByNombre(nombreUsuario);  //TODO AGREGAR VALIDACION DE ESTADO
+        return usuarioRepo.findByNombreAndEstado(nombreUsuario, Estado.ACTIVO);
     }
 
     public void eliminarUsuario(Long id){
@@ -94,28 +96,23 @@ public class UsuarioServicio {
 
     public Usuario actualizar(Long id, UsuarioDTO usuarioDTO) {
 
-
-        Optional<Usuario> optionalUsuario = usuarioRepo.findById(id);
-        if (!optionalUsuario.isPresent()) {    //TODO CAMBIARLO, ESTA MAL
-            throw new RuntimeException("Usuario no encontrado");
-        }
+        Usuario usuario1 = buscarPorId(id);
 
         Optional<TipoDeUsuario> optionalTipoDeUsuario = tipoDeUsuarioRepo.findById(usuarioDTO.getTipoDeUsuarioId());
         if (!optionalTipoDeUsuario.isPresent()) {
             throw new RuntimeException("Tipo de Usuario no encontrado");
         }
 
-        Usuario usuario = usuarioConverter.toUsuario(usuarioDTO, optionalUsuario.get());
+        Usuario usuario = usuarioConverter.toUsuario(usuarioDTO, usuario1);
         usuario.setTipoDeUsuario(optionalTipoDeUsuario.get());
 
         Optional<Socio> optionalSocio;
         if (usuarioDTO.getSocioId() != null) {
             optionalSocio = socioRepo.findById(usuarioDTO.getSocioId());
             if (!optionalSocio.isPresent()) {
-                throw new RuntimeException("Usuario no encontrado");
+                throw new RuntimeException("Socio no encontrado");
             }
             usuario.setSocio(optionalSocio.get());
-
         }
 
         return usuarioRepo.save(usuario);

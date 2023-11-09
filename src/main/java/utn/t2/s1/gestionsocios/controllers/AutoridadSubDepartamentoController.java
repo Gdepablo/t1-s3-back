@@ -21,7 +21,7 @@ import utn.t2.s1.gestionsocios.modelos.Socio;
 import utn.t2.s1.gestionsocios.modelos.Usuario;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
 
-@Tag(name = "Operaciones de sesión", description = "Api para realizar las operaciones de sesión")
+@Tag(name = "Operaciones de Autoridades (Sub Departamento)", description = "Api para realizar las operaciones de Autoridades (Sub Departamento)")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema()) })
 })
@@ -35,9 +35,8 @@ public class AutoridadSubDepartamentoController {
     AutoridadSubDepartamentoServicio autoridadSubDepartamentoServicio;
 
 
-
     @GetMapping("/{idAutoridad}")
-    @Operation(summary = "Retorna una autoridad por id")
+    @Operation(summary = "Retorna una autoridad (Sub departamento) por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autoridad encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = AutoridadDepartamento.class))})
     })
@@ -47,45 +46,19 @@ public class AutoridadSubDepartamentoController {
     }
 
 
-//    @GetMapping("/{idSubDepartamento}")
-//    @Operation(summary = "Retorna todos las autoridades de un subdepartamento")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Autoridades encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Socio.class))})
-//    })
-//    public ResponseEntity<Page<AutoridadSubDepartamento>> verAutoridadesPorDepartamento(Pageable pageable, @PathVariable Long idSubDepartamento){
-//        Page<AutoridadSubDepartamento> autoridades = autoridadSubDepartamentoServicio.traerAutoridadesPorSubDepartamento(pageable, idSubDepartamento);
-//        return new ResponseEntity<>(autoridades , HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/{idSubDepartamento}")
-//    @Operation(summary = "Ingresar")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Autoridad encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
-//            @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
-//            @ApiResponse(responseCode = "404", description = "La autoridad no fue encontrado", content = {@Content(schema = @Schema())}),
-//    })
-//    public ResponseEntity<?> agregarAutoridad(@PathVariable Long idSubDepartamento, @RequestBody AutoridadDTO autoridadDTO){
-//        AutoridadSubDepartamento autoridadSubDepartamento = autoridadSubDepartamentoServicio.agregar(idSubDepartamento, autoridadDTO);
-//        return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.OK);
-//    }
-
     @DeleteMapping("/{idAutoridad}")
-    @Operation(summary = "Eliminar Autoridad")
+    @Operation(summary = "Eliminar Autoridad (Sub departamento)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Autoridad eliminado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))}),
     })
     public ResponseEntity<Object> eliminarAutoridad(@PathVariable Long idAutoridad) throws AutoridadSubDepartamentoException{
-        if (autoridadSubDepartamentoServicio.buscarPorId(idAutoridad) == null) {
-            return new ResponseEntity<>("Autoridad no encontrado", HttpStatus.NOT_FOUND);
-        }
-
         autoridadSubDepartamentoServicio.eliminarAutoridadSubDepartamento(idAutoridad);
         return new ResponseEntity<>("Autoridad eliminado", HttpStatus.OK);
     }
 
 
     @PutMapping("/{idAutoridad}")
-    @Operation(summary = "Modifica una Autoridad en la Base de datos")
+    @Operation(summary = "Modifica una Autoridad (Sub departamento) en la Base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Autoridad modificado" ,content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
