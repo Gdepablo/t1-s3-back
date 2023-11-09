@@ -60,14 +60,14 @@ INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Vice president
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Secretario');
 
 
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Tecnico', 'Mantener los sistemas','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Filosofico', 'Filosofar','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Logistico', 'Enviar cosas','https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Tecnico', 'Mantener los sistemas','/logo/1.jpg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Filosofico', 'Filosofar','/logo/2.jpg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Logistico', 'Enviar cosas','/logo/3.jpg');
 
 
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Asuntos Laborales', 'Administrar Asuntos',1,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Politica fiscal', 'Administrar Politica',2,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Normativa', 'Administrar Normativas',3,'https://lamoto.com.ar/wp-content/uploads/2020/08/bmw-s1000-3.jpeg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Asuntos Laborales', 'Administrar Asuntos',1,'/logo/4.jpg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Politica fiscal', 'Administrar Politica',2,'/logo/5.jpg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Normativa', 'Administrar Normativas',3,'/logo/6.jpg');
 
 
 INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 1, 1, 1);
