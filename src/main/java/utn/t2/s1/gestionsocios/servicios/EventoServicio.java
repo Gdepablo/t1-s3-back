@@ -49,13 +49,10 @@ public class EventoServicio {
     //filtrado por modalidades y por estado
     public Page<Evento> buscarPorNombreFiltrandoPorModalidadYOEstadoEvento(Pageable page, String nombre,String modalidad, String estadoEvento) {
 
-//        System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAA");
-//        System.out.println(modalidad.isBlank());
-//        System.out.println(modalidad.isEmpty());
-//        System.out.println(  (     modalidad == null || modalidad.isBlank()     )  );
-//        System.out.println((modalidad == null  ));
-//        System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAA");
 
+        modalidad = modalidad == null ? null : modalidad.isEmpty() ? null : modalidad;
+        estadoEvento = estadoEvento == null ? null : estadoEvento.isEmpty() ? null : estadoEvento;
+        
 
         if (nombre != null && modalidad != null && estadoEvento != null) {
 
@@ -69,9 +66,8 @@ public class EventoServicio {
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
             return eventoRepo.findByModalidadAndEstadoEventoAndEstado(page, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
 
-        } else if (nombre != null && (modalidad == null  ) && estadoEvento != null) {
+        } else if (nombre != null && modalidad == null && estadoEvento != null) {
 
-//            System.out.println("ENTRA ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
             return eventoRepo.findByNombreContainsAndEstadoEventoAndEstado(page, nombre, estadoEventoEnum, Estado.ACTIVO);
 
@@ -99,8 +95,6 @@ public class EventoServicio {
         }
 
 
-
-//        return eventoRepo.findByModalidadAndEstado(page, modalidad, estadoEvento, Estado.ACTIVO);
     }
 
 
