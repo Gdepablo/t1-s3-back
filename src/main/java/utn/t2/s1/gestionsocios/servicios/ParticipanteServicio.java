@@ -59,6 +59,7 @@ public class ParticipanteServicio {
         ModelMapper modelMapper = new ModelMapper();
         Participante participante = modelMapper.map(participanteDTO, Participante.class);
 
+
         //Buscar evento por id
         Evento evento = eventoServicio.buscarPorId(participanteDTO.getEventoId());
 

@@ -30,6 +30,12 @@ public class EmpresaEventoServicio {
         ModelMapper modelMapper = new ModelMapper();
         EmpresaEvento empresaEvento = modelMapper.map(empresaEventoDTO, EmpresaEvento.class);
 
+
+        if (empresaEventoDTO.getSocioId() != null) {
+            Socio socio = socioService.buscarPorId(empresaEventoDTO.getSocioId());
+            empresaEvento.setSocio(socio);
+        }
+
         if (empresaEvento.getSocio() != null && empresaEvento.getOtraEmpresa() != null) {
             throw new IllegalArgumentException("No se puede asignar un socio y otra empresa al mismo tiempo.");
         }
@@ -38,10 +44,7 @@ public class EmpresaEventoServicio {
             throw new IllegalArgumentException("Se debe asignar un socio o una empresa");
         }
 
-        if (empresaEventoDTO.getSocioId() != null) {
-            Socio socio = socioService.buscarPorId(empresaEventoDTO.getSocioId());
-            empresaEvento.setSocio(socio);
-        }
+
 
 
         empresaEvento.setEstado(Estado.ACTIVO);
