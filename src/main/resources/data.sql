@@ -53,6 +53,9 @@ INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'USER');
 INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'juan', 1);
 INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'pepe', 2);
 INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'carlos', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'Cristian', 1);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Emi', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Nico', 2);
 
 
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Presidente');
@@ -74,7 +77,7 @@ INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, 
 INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 2, 2, 2);
 INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 3, 3, 3);
 
-INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 1, 1, 1);
-INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 2, 2, 2);
-INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 3, 3, 3);
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 4, 1, 1);
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 5, 2, 2);
+INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 6, 3, 3);
 

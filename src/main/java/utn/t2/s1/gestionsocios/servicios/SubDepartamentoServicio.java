@@ -17,7 +17,9 @@ import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SubDepartamentoServicio {
@@ -29,13 +31,33 @@ public class SubDepartamentoServicio {
     private LogoServicio logoServicio;
 
 
+    public SubDepartamento buscarPorId(Long id) throws SubDepartamentoException {
+
+        SubDepartamento subDepartamento= subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("SubDepartamento no encontrado"));
+
+        subDepartamento = filtrarAutoridadesActivas(subDepartamento);
+
+        return subDepartamento;
+    }
 
     public Page<SubDepartamento> traerSubDepartamentosPorDepartamento(Pageable pageable , Long departamentoId){
         // List<AutoridadDepartamento> autoridades = departamentoRepo.findById(departamentoId).get().getAutoridadDepartamentos();
 
-        return subDepartamentoRepo.findAllByDepartamentoIdAndEstado(pageable, departamentoId, Estado.ACTIVO);
+        Page<SubDepartamento> subDepartamentoPage = subDepartamentoRepo.findAllByDepartamentoIdAndEstado(pageable, departamentoId, Estado.ACTIVO);
+
+        subDepartamentoPage.stream().map(this::filtrarAutoridadesActivas).collect(Collectors.toList());
+
+        return subDepartamentoPage;
     }
 
+    public SubDepartamento filtrarAutoridadesActivas(SubDepartamento subDepartamento){
+        List<AutoridadSubDepartamento> autoridadSubDepartamentos = subDepartamento.getAutoridadSubDepartamentos().stream()
+                .filter((y) -> y.getEstado().equals(Estado.ACTIVO))
+                .collect(Collectors.toList());
+        subDepartamento.setAutoridadSubDepartamentos(autoridadSubDepartamentos);
+
+        return subDepartamento;
+    }
 
     public SubDepartamento agregar(SubDepartamentoDTO subDepartamentoDTO){
 
@@ -55,9 +77,7 @@ public class SubDepartamentoServicio {
     }
 
 
-    public SubDepartamento buscarPorId(Long id) throws SubDepartamentoException {
-        return subDepartamentoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow(() -> new EntityNotFoundException("SubDepartamento no encontrado"));
-    }
+
 
     public Optional<SubDepartamento> buscarPorNombreYPorDepartamento(String nombreUsuario, Long idDepartamento){
         return subDepartamentoRepo.findByNombreSubDepartamentoAndEstadoAndDepartamento_Id(nombreUsuario,Estado.ACTIVO, idDepartamento);
