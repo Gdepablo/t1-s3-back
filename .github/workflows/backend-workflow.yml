@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   verify-springboot-package-construction:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     timeout-minutes: 15
 
     steps:
@@ -32,7 +32,7 @@ jobs:
         run: mvn -e -X verify
 
   docker-image-push-registry:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     timeout-minutes: 25
     permissions:
       contents: read
@@ -116,7 +116,7 @@ jobs:
 
   deploy-to-dokku:
     #if: ${{ github.event_name == 'push' }}
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     needs:
       - verify-springboot-package-construction
       - docker-image-push-registry
