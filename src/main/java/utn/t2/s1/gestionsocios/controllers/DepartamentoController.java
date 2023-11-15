@@ -88,7 +88,7 @@ public class DepartamentoController {
 
         try {
             String url;
-            if(   logo != null  ){
+            if(   logo != null  && !logo.isEmpty()){ // si hay un logo, entonces hace esto
                 //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
                 url = logoServicio.save(logo);
 
@@ -179,7 +179,7 @@ public class DepartamentoController {
 
             String url = departamentoServicio.buscarPorId(idDepartamento).getLogo();
 
-            if( logo != null ){ // si hay un logo, entonces hace esto
+            if( logo != null && !logo.isEmpty()){ // si hay un logo, entonces hace esto
                 // Borra el logo viejo a partir del userID
                 logoServicio.deletePorDepartamento(idDepartamento);
 
