@@ -1,6 +1,7 @@
 package utn.t2.s1.gestionsocios.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -45,9 +46,6 @@ public class EventoDTO implements Serializable {
 
     @NotNull
     @NotEmpty
-    String linkInscripcion;
-
-    @NotNull
-    @NotEmpty
     String nombre;
+
 }

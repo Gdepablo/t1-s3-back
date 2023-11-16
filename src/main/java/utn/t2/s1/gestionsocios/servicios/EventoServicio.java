@@ -157,7 +157,6 @@ public class EventoServicio {
         eventoUpdate.setFechaInicio(eventoDTO.getFechaInicio());
         eventoUpdate.setFechaFin(eventoDTO.getFechaFin());
         eventoUpdate.setDescripcion(eventoDTO.getDescripcion());
-        eventoUpdate.setLinkInscripcion(eventoDTO.getLinkInscripcion());
         eventoUpdate.setEstadoEvento(eventoDTO.getEstadoEvento());
         eventoUpdate.setModalidad(eventoDTO.getModalidad());
 
