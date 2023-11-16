@@ -81,3 +81,22 @@ INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_i
 INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 5, 2, 2);
 INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 6, 3, 3);
 
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_1");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_2");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_3");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_4");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_5");
+
+
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"PENDIENTE");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"ACEPTADO");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"ACEPTADO_PARCIALMENTE");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"RECHAZADO");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"CANCELADO");
+
+
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"NOTEBOOK_1");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"NOTEBOOK_2");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PIZARRON");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"MARCADORES");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PROYECTOR");

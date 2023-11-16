@@ -71,6 +71,10 @@ public class LogoServicio {
 
         departamentoRepo.findById(id).ifPresent(departamento -> {
 
+            if(departamento.getLogo() == null){
+                return;
+            }
+
             String url = departamento.getLogo();
 
             // Encontrar el índice de "logo/"
@@ -89,6 +93,10 @@ public class LogoServicio {
     public void deletePorSubDepartamento(long id){
 
         subDepartamentoRepo.findById(id).ifPresent(subDepartamento -> {
+
+            if(subDepartamento.getLogo() == null){
+                return;
+            }
 
             String url = subDepartamento.getLogo();
 
