@@ -13,6 +13,8 @@ public interface EspacioFisicoRepo extends JpaRepository<EspacioFisico,Long> {
 
     Optional<EspacioFisico> findByIdAndEstado(Long id, Estado estado);
 
+    Optional<EspacioFisico> findByNombreContainsAndEstado(String nombre, Estado estado);
+
     List<EspacioFisico> findAllByEstado(Estado estado);
 
 

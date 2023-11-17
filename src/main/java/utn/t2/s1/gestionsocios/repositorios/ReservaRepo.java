@@ -15,7 +15,10 @@ public interface ReservaRepo extends JpaRepository<Reserva,Long> {
 
     List<Reserva> findAllByEstado(Estado estado);
 
-    List<Reserva> findAllByFechaIsBetweenAndEstado(LocalDateTime fechaInicio, LocalDateTime fechaFin, Estado estado);
+//    List<Reserva> findAllByFechaIsBetweenAndEstado(LocalDateTime fechaInicio, LocalDateTime fechaFin, Estado estado);
+
+    List<Reserva> findAllByFechaInicioIsBetweenAndEstado(LocalDateTime fechaInicio, LocalDateTime fechaFin, Estado estado);
+
 
 
 }

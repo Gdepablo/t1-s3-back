@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,13 +21,20 @@ public class ReservaDto implements Serializable {
     @NotEmpty
     @Length(max = 500)
     String descripcion;
+
     @NotNull
     @FutureOrPresent
-    LocalDateTime fecha;
+    LocalDateTime fechaInicio;
+
     @NotNull
-    Float duracion;
-    Set<RecursoDto> recursos;
+    @FutureOrPresent
+    LocalDateTime fechaFin;
+
+    List<RecursoDto> recursos;
+
     EspacioFisicoDto espacioFisico;
+
     EstadoReservaDto estadoReserva;
+
     EncargadoDto encargado;
 }

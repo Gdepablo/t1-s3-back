@@ -13,6 +13,8 @@ public interface EncargadoRepo extends JpaRepository<Encargado,Long> {
 
     Optional<Encargado> findByIdAndEstado(Long id, Estado estado);
 
+    Optional<Encargado> findByNombreContainsAndEstado(String nombre, Estado estado);
+
     List<Encargado> findAllByEstado(Estado estado);
 
 

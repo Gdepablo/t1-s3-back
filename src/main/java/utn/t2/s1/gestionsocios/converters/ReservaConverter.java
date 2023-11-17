@@ -11,11 +11,18 @@ import utn.t2.s1.gestionsocios.persistencia.Estado;
 @Component
 public class ReservaConverter {
     public Reserva toReserva(ReservaDto reservaDto) {
+
         Reserva reserva = new Reserva();
+        this.toReserva(reservaDto, reserva);
+
+        return reserva;
+    }
+
+    public Reserva toReserva(ReservaDto reservaDto, Reserva reserva){
+
         reserva.setDescripcion(reservaDto.getDescripcion());
-        reserva.setDuracion(reservaDto.getDuracion());
-        reserva.setFecha(reservaDto.getFecha());
-//        reserva.
+        reserva.setFechaInicio(reservaDto.getFechaInicio());
+        reserva.setFechaFin(reservaDto.getFechaFin());
 
 
         return reserva;

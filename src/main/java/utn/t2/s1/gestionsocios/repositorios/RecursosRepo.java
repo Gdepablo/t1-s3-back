@@ -13,6 +13,8 @@ public interface RecursosRepo extends JpaRepository<Recurso,Long> {
 
     Optional<Recurso> findByIdAndEstado(Long id, Estado estado);
 
+    Optional<Recurso> findByNombreContainsAndEstado(String nombre, Estado estado);
+
     List<Recurso> findAllByEstado(Estado estado);
 
 

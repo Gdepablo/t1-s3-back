@@ -13,7 +13,10 @@ public interface EstadoReservaRepo extends JpaRepository<EstadoReserva,Long> {
 
     Optional<EstadoReserva> findByIdAndEstado(Long id, Estado estado);
 
+    Optional<EstadoReserva> findByNombreContainsAndEstado(String nombre, Estado estado);
+
     List<EstadoReserva> findAllByEstado(Estado estado);
+
 
 
 
