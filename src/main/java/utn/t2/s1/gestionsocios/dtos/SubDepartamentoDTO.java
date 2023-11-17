@@ -18,7 +18,6 @@ public class SubDepartamentoDTO {
     @NotNull
     private String objetivo;
 
-    @NotNull
     @URL(message = "La url del logo debe ser https://www.algo.com")
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;

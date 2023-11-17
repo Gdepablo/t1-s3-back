@@ -1,11 +1,15 @@
 package utn.t2.s1.gestionsocios.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,15 +17,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import utn.t2.s1.gestionsocios.dtos.AutoridadDTO;
 import utn.t2.s1.gestionsocios.dtos.SubDepartamentoDTO;
 import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
 import utn.t2.s1.gestionsocios.modelos.*;
-import utn.t2.s1.gestionsocios.servicios.AutoridadDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
+import utn.t2.s1.gestionsocios.servicios.LogoServicio;
 import utn.t2.s1.gestionsocios.servicios.SubDepartamentoServicio;
 
-import java.util.Optional;
+import java.io.File;
 
 @Tag(name = "Operaciones de Sub Departamento", description = "Api para realizar las operaciones de Sub Departamento")
 @ApiResponses(value = {
@@ -38,6 +43,9 @@ public class SubDepartamentoController {
 
     @Autowired
     AutoridadSubDepartamentoServicio autoridadSubDepartamentoServicio;
+
+    @Autowired
+    LogoServicio logoServicio;
 
 
 
@@ -58,17 +66,67 @@ public class SubDepartamentoController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "El SubDepartamento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> agregarSubDepartamento(@RequestBody SubDepartamentoDTO subDepartamentoDTO){
+    public ResponseEntity<?> agregarSubDepartamento(@RequestParam(value = "logo", required = false) MultipartFile logo, @Valid @RequestParam("subdepartamento") String subDepartamentoString){
+//    public ResponseEntity<?> agregarSubDepartamento(@RequestBody SubDepartamentoDTO subDepartamentoDTO){
+
+
+        //public ResponseEntity<?> agregarSubDepartamento( @RequestParam(value = "logo", required = false) MultipartFile logo,@Valid @RequestParam("subdepartamento") String subDepartamentoString){
 
 
 
-        Optional<SubDepartamento> _opcionalSubDepartamento = subDepartamentoServicio.buscarPorNombreYPorDepartamento(subDepartamentoDTO.getNombre(), subDepartamentoDTO.getIdDepartamento());
+        String imagePath = "./uploads/";
+        File file = new File(imagePath);
 
-        if (_opcionalSubDepartamento.isEmpty()) {
-            return new ResponseEntity<>(subDepartamentoServicio.agregar(subDepartamentoDTO), HttpStatus.CREATED);
+        try {
+            String url;
+            if(   logo != null && !logo.isEmpty() ){
+                //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
+                url = logoServicio.save(logo);
+
+            }else {
+                url = null;
+            }
+
+
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            SubDepartamentoDTO subDepartamentoDTO = objectMapper.readValue(subDepartamentoString, SubDepartamentoDTO.class);
+
+            subDepartamentoDTO.setLogo(url);
+
+
+            SubDepartamento subDepartamento = subDepartamentoServicio.agregar(subDepartamentoDTO);
+            return new ResponseEntity<>(subDepartamento, HttpStatus.CREATED);
+
+        }catch (ConstraintViolationException e) {
+            boolean borrado = file.delete();
+            String mensaje = "";
+            // Recorremos el conjunto de violaciones y mostramos solo el mensaje
+            for (ConstraintViolation violation : e.getConstraintViolations()) {
+                mensaje += violation.getPropertyPath() + " " + violation.getMessage() + "\n";
+            }
+            return new ResponseEntity<>(mensaje, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        catch (NullPointerException e) {
+            boolean borrado = file.delete();
+            return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            boolean borrado = file.delete();
+            return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("El nombre del subdepartamento ya existe para este departamento", HttpStatus.BAD_REQUEST);
+
+
+
+
+//        Optional<SubDepartamento> _opcionalSubDepartamento = subDepartamentoServicio.buscarPorNombreYPorDepartamento(subDepartamentoDTO.getNombre(), subDepartamentoDTO.getIdDepartamento());
+//
+//        if (_opcionalSubDepartamento.isEmpty()) {
+//            return new ResponseEntity<>(subDepartamentoServicio.agregar(subDepartamentoDTO), HttpStatus.CREATED);
+//        }
+//
+//        return new ResponseEntity<>("El nombre del subdepartamento ya existe para este departamento", HttpStatus.BAD_REQUEST);
 
 
     }
@@ -91,13 +149,54 @@ public class SubDepartamentoController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El Usuario no fue encontrado",content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> actualizarUsuario(@PathVariable Long idSubDepartamento, @RequestBody SubDepartamentoDTO subDepartamentoDTO){
+//    public ResponseEntity<?> actualizarSubUsuario(@PathVariable Long idSubDepartamento, @RequestBody SubDepartamentoDTO subDepartamentoDTO){
+        public ResponseEntity<?> actualizarSubDepartamento(@Valid @PathVariable Long idSubDepartamento,  @RequestParam(value = "logo", required = false) MultipartFile logo,@Valid @RequestParam("subdepartamento") String subDepartamentoString){
+
+
         try {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            SubDepartamentoDTO subDepartamentoDTO = objectMapper.readValue(subDepartamentoString, SubDepartamentoDTO.class);
+
+
+            String url = subDepartamentoServicio.buscarPorId(idSubDepartamento).getLogo();
+
+            if( logo != null && !logo.isEmpty() ){ // si hay un logo, entonces hace esto
+                // Borra el logo viejo a partir del userID
+                logoServicio.deletePorSubDepartamento(idSubDepartamento);
+
+                url = logoServicio.save(logo);
+
+            }
+
+            subDepartamentoDTO.setLogo(url);
             SubDepartamento subDepartamento = subDepartamentoServicio.actualizar(idSubDepartamento, subDepartamentoDTO);
-            return new ResponseEntity<>(subDepartamento, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(subDepartamento, HttpStatus.CREATED);
+
+        } catch (ConstraintViolationException e) {
+            String mensaje = "";
+            // Recorremos el conjunto de violaciones y mostramos solo el mensaje
+            for (ConstraintViolation violation : e.getConstraintViolations()) {
+                mensaje += violation.getPropertyPath() + " " + violation.getMessage() + "\n";
+
+            }
+            return new ResponseEntity<>(mensaje, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+        catch (NullPointerException e) {
+            return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
+        }
+
+
+
+//        try {
+//            SubDepartamento subDepartamento = subDepartamentoServicio.actualizar(idSubDepartamento, subDepartamentoDTO);
+//            return new ResponseEntity<>(subDepartamento, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage() , HttpStatus.NOT_FOUND);
+//        }
     }
 
     //---------------------------------------------------------------------------------------------------------------
