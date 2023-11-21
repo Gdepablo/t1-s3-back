@@ -91,6 +91,16 @@ public class ReservaServicio {
     }
 
 
+    public Reserva buscarPorCodigoDeSeguimiento(String codigoDeSeguimiento) {
+        Optional<Reserva> optionalReserva = reservaRepo.findByCodigoDeSeguimientoAndEstado(codigoDeSeguimiento, Estado.ACTIVO);
+        if (!optionalReserva.isPresent() || optionalReserva.get().getEstado() == Estado.ELIMINADO) {
+            throw new EntityNotFoundException("Reserva no encontrado");
+        }
+
+        return optionalReserva.get();
+    }
+
+
     public Reserva actualizar(ReservaDto reservaDto, long id) {
         Optional<Reserva> optionalReserva = reservaRepo.findById(id);
         if (!optionalReserva.isPresent()) {
