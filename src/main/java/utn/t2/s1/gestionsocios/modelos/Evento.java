@@ -2,9 +2,11 @@ package utn.t2.s1.gestionsocios.modelos;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
@@ -12,11 +14,20 @@ import utn.t2.s1.gestionsocios.persistencia.Persistente;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @Table(name="evento")
-public class Evento extends Persistente {
+public class Evento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @JsonIgnore
+    private Estado estado;
+
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
@@ -42,6 +53,7 @@ public class Evento extends Persistente {
     private EstadoEvento estadoEvento;
     @Column(name = "link_descripcion", nullable = false)
     private String linkInscripcion;
+
 
 
 

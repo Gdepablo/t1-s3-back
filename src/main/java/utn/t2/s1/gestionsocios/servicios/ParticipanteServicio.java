@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import utn.t2.s1.gestionsocios.converters.ParticipanteConverter;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
 import utn.t2.s1.gestionsocios.modelos.EmpresaEvento;
 import utn.t2.s1.gestionsocios.modelos.Evento;
@@ -17,6 +18,7 @@ import utn.t2.s1.gestionsocios.repositorios.ParticipanteRepo;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ParticipanteServicio {
@@ -30,10 +32,17 @@ public class ParticipanteServicio {
     @Autowired
     private EventoServicio eventoServicio;
 
+    @Autowired
+    private ParticipanteConverter participanteConverter;
 
 
-    public Page<Participante> buscarTodos(Pageable page) {
-        return participanteRepo.findAllByEstado(page , Estado.ACTIVO) ;
+
+    public Page<Participante> buscarTodos(Pageable page, UUID id){
+
+        Evento evento = eventoServicio.buscarPorId(id);
+
+
+        return participanteRepo.findAllByEstadoAndEvento(page , Estado.ACTIVO, evento) ;
     }
 
 
@@ -44,20 +53,10 @@ public class ParticipanteServicio {
 
     public Participante agregar(ParticipanteDTO participanteDTO) {
 
-//        ModelMapper modelMapper = new ModelMapper();
-//        Evento evento = modelMapper.map(eventoDTO, Evento.class);
-//
-//
-//        Lugar lugar = lugarServicio.agregar(eventoDTO.getLugar());
-//        evento.setLugar(lugar);
-//
-//
-//        evento.setEstado(Estado.ACTIVO);
-//
-//        evento = eventoRepo.save(evento);
 
         ModelMapper modelMapper = new ModelMapper();
-        Participante participante = modelMapper.map(participanteDTO, Participante.class);
+
+        Participante participante = participanteConverter.toParticipante(participanteDTO);
 
 
         //Buscar evento por id
@@ -72,28 +71,10 @@ public class ParticipanteServicio {
         participante = participanteRepo.save(participante);
 
 
-//        try {
-//            participante = participanteRepo.save(participante);
-//        } catch (DataIntegrityViolationException e) {
-//            // Manejar la excepción de violación de restricción única (rol duplicado)
-//            throw new IllegalArgumentException("El nombre del participante ya existe en la base de datos.");
-//        }
         return participante;
     }
 
 
-//    public Participante actualizar(ParticipanteDTO participanteDTO, long id) {
-//        Optional<Participante> optionalParticipante = participanteRepo.findById(id);
-//        if (!optionalParticipante.isPresent()) {
-//            throw new EntityNotFoundException("Participante no encontrado");
-//        }
-//        Participante participanteUpdate = optionalParticipante.get();
-//        participanteUpdate.setNombreRol(participanteDTO.getNombre());
-//        participanteUpdate = participanteRepo.save(participanteUpdate);
-//
-//        return participanteUpdate;
-//    }
-//
 
     public void eliminar(long id) {
 

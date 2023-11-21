@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.Value;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * DTO for {@link utn.t2.s1.gestionsocios.modelos.Participante}
@@ -35,7 +36,7 @@ public class ParticipanteDTO implements Serializable {
     @NotNull
     EmpresaEventoDTO empresaEvento;
 
-    Long eventoId;
+    UUID eventoId;
 
 
 }

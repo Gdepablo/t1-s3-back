@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import utn.t2.s1.gestionsocios.converters.EventoConverter;
 import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.EventoDTO;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
@@ -20,6 +21,7 @@ import utn.t2.s1.gestionsocios.repositorios.EventoRepo;
 import utn.t2.s1.gestionsocios.repositorios.LugarRepo;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -33,13 +35,17 @@ public class EventoServicio {
     @Autowired
     private LugarRepo lugarRepo;
 
+    @Autowired
+    private EventoConverter eventoConverter;
+
+
 
     public Page<Evento> buscarTodos(Pageable page) {
         return eventoRepo.findAllByEstado(page , Estado.ACTIVO) ;
     }
 
 
-    public Evento buscarPorId(Long id) {
+    public Evento buscarPorId(UUID id) {
         return eventoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow( () -> new EntityNotFoundException("Evento no encontrado"));
     }
 
@@ -141,25 +147,19 @@ public class EventoServicio {
     }
 
 
-    public Evento actualizar(EventoDTO eventoDTO, long id) {
+    public Evento actualizar(EventoDTO eventoDTO, UUID id) {
         Optional<Evento> optionalEvento = eventoRepo.findById(id);
         if (!optionalEvento.isPresent()) {
             throw new EntityNotFoundException("Evento no encontrado");
         }
         Evento eventoUpdate = optionalEvento.get();
 
-//        ModelMapper modelMapper = new ModelMapper();
-//        eventoUpdate = modelMapper.map(eventoDTO, Evento.class);
 
         eventoUpdate.setLugar(lugarServicio.actualizar(eventoDTO.getLugar(), eventoUpdate.getLugar().getId()));
 
-        eventoUpdate.setNombre(eventoDTO.getNombre());
-        eventoUpdate.setFechaInicio(eventoDTO.getFechaInicio());
-        eventoUpdate.setFechaFin(eventoDTO.getFechaFin());
-        eventoUpdate.setDescripcion(eventoDTO.getDescripcion());
-        eventoUpdate.setLinkInscripcion(eventoDTO.getLinkInscripcion());
-        eventoUpdate.setEstadoEvento(eventoDTO.getEstadoEvento());
-        eventoUpdate.setModalidad(eventoDTO.getModalidad());
+        eventoConverter.toEvento(eventoDTO, eventoUpdate);
+
+        eventoUpdate = eventoConverter.toEvento(eventoDTO, eventoUpdate);
 
 
         eventoUpdate = eventoRepo.save(eventoUpdate);
@@ -168,7 +168,7 @@ public class EventoServicio {
     }
 
 
-    public void eliminar(long id) {
+    public void eliminar(UUID id) {
 
         Optional<Evento> optionalParticipante = eventoRepo.findById(id);
         if (!optionalParticipante.isPresent() || optionalParticipante.get().getEstado() == Estado.ELIMINADO) {
@@ -183,7 +183,7 @@ public class EventoServicio {
     }
 
 
-    public Evento cambiarEstado(long id, EstadoEventoDTO estadoEventoDTO) {
+    public Evento cambiarEstado(UUID id, EstadoEventoDTO estadoEventoDTO) {
         Optional<Evento> optionalEvento = eventoRepo.findById(id);
         if (!optionalEvento.isPresent()) {
             throw new EntityNotFoundException("Evento no encontrado");
