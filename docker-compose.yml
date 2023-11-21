@@ -19,5 +19,5 @@ services:
         - SPRINGBOOT_HIBERNATE_DDL_AUTO=create-drop
         - SPRINGBOOT_SHOW_SQL=true
         - SPRINGBOOT_SQL_INIT=always
-        - SPRINGBOOT_PORT=8080
+        - SPRINGBOOT_PORT=80
       restart: on-failure
