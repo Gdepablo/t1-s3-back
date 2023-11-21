@@ -43,4 +43,10 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        String errorMessage = "Error en los datos ingresados: " + ex.getMessage();
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessage);
+    }
+
 }

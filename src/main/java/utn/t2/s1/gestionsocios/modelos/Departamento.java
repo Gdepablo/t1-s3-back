@@ -13,9 +13,9 @@ public class Departamento extends Persistente {
 
     @Column(name = "nombre", nullable = false)
     private String nombreDepartamento;
-    @Column(name = "objetivo", nullable = false)
+    @Column(name = "objetivo", nullable = false,length = 300)
     private String objetivo;
-    @Column(name="logo", nullable = false, length = 400)
+    @Column(name="logo", nullable = true, length = 400)
     private String logo;
 
     @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)

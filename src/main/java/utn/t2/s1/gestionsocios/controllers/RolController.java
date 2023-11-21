@@ -58,7 +58,7 @@ public class RolController {
 
     @PostMapping()
     @Operation(summary = "Agrega un rol a la Base de datos")
-    public ResponseEntity<Object> agregarTipoDeUsuario(@RequestBody @Valid RolDTO rolDTO){
+    public ResponseEntity<Object> agregarRol(@RequestBody @Valid RolDTO rolDTO){
         if(rolServicio.buscarPorNombre(rolDTO.getNombre()) != null){
             return new ResponseEntity<>("El rol '"+ rolDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
         }
@@ -76,7 +76,7 @@ public class RolController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "404", description = "El rol no fue encontrada",content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> actualizarTipoDeUsuario(@PathVariable Long id, @RequestBody RolDTO rolDTO){
+    public ResponseEntity<?> actualizarRol(@PathVariable Long id, @RequestBody RolDTO rolDTO){
             Rol rolUpdate = rolServicio.actualizar(rolDTO, id);
             return new ResponseEntity<>(rolUpdate , HttpStatus.OK);
     }
