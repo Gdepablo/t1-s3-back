@@ -49,11 +49,9 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Participante> participantes;
+
     @Column(name = "direccion", nullable = false)
     private EstadoEvento estadoEvento;
-    @Column(name = "link_descripcion", nullable = false)
-    private String linkInscripcion;
-
 
 
 

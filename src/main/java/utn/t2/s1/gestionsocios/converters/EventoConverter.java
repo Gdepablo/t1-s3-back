@@ -14,7 +14,6 @@ public class EventoConverter {
         evento.setFechaInicio(eventoDTO.getFechaInicio());
         evento.setFechaFin(eventoDTO.getFechaFin());
         evento.setDescripcion(eventoDTO.getDescripcion());
-        evento.setLinkInscripcion(eventoDTO.getLinkInscripcion());
         evento.setEstadoEvento(eventoDTO.getEstadoEvento());
         evento.setModalidad(eventoDTO.getModalidad());
 
