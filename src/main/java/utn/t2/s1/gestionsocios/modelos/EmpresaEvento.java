@@ -1,9 +1,7 @@
 package utn.t2.s1.gestionsocios.modelos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Data;
 import utn.t2.s1.gestionsocios.persistencia.Persistente;
 
@@ -11,8 +9,11 @@ import utn.t2.s1.gestionsocios.persistencia.Persistente;
 @Data
 @Table(name="empresa_evento")
 public class EmpresaEvento extends Persistente {
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "socio_id")
     private Socio socio;
+
     @Column(name = "otraEmpresa")
     private String otraEmpresa;
 }

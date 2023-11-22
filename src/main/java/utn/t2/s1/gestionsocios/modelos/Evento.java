@@ -45,12 +45,12 @@ public class Evento {
     @Column(name = "modalidad", nullable = false)
     private Modalidad modalidad;
 
-    @Column(name = "direccion", nullable = false)
+    @Column(name = "participantes", nullable = false)
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Participante> participantes;
 
-    @Column(name = "direccion", nullable = false)
+    @Column(name = "estado_evento", nullable = false)
     private EstadoEvento estadoEvento;
 
 

@@ -100,3 +100,15 @@ INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"NOTEBOOK_2");
 INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PIZARRON");
 INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"MARCADORES");
 INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PROYECTOR");
+
+
+-- INSERT INTO `socios`.`lugar` (`estado`,`direccion`,`link_maps`, `link_virtual`) VALUES ('0',"Av.Corrientes 1800", "googlemaps.com/1231434112","sdfsd");
+
+-- INSERT INTO `socios`.`evento` (`estado`,`nombre`,fecha_de_inicio,fecha_fin,lugar,descripcion,modalidad,estado_evento) VALUES ('0',"Meeting diaria","2024-11-10T13:01:49","2024-11-10T17:01:49",1,"Meeting a las 13hs","PRESENCIAL","ACTIVO");
+
+-- INSERT INTO `socios`.`evento` (estado, nombre, fecha_de_inicio, fecha_fin, lugar_id, descripcion, modalidad, participante_id, estado_evento) VALUES ( 0, 'Conferencia sobre Inteligencia Artificial', '2024-11-10T13:01:49', '2024-11-10T17:01:49', 1, 'Un evento para compartir los últimos avances', '0', 2, '0');
+
+-- INSERT INTO `socios`.`evento` (`estado`, `estado_evento`, `modalidad`, `fecha_de_inicio`, `fecha_fin`, `lugar_id`, `descripcion`, `nombre`) VALUES ('0', '0', '0', '2024-11-10T13:01:49', '2024-11-10T13:01:49', '1', 'hola', 'hola2');
+
+    
+-- INSERT INTO participante (nombre, apellido, mail, referente, empresa_evento_id, evento_id) VALUES ('Juan', 'Pérez', 'juan.perez@gmail.com', 'Enrique Perez', 1, 2);
