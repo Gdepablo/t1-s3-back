@@ -11,17 +11,17 @@ import utn.t2.s1.gestionsocios.converters.EventoConverter;
 import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.EventoDTO;
 import utn.t2.s1.gestionsocios.dtos.ParticipanteDTO;
-import utn.t2.s1.gestionsocios.modelos.Lugar;
-import utn.t2.s1.gestionsocios.modelos.Participante;
-import utn.t2.s1.gestionsocios.modelos.Evento;
+import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 import utn.t2.s1.gestionsocios.repositorios.EventoRepo;
 import utn.t2.s1.gestionsocios.repositorios.LugarRepo;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -39,21 +39,62 @@ public class EventoServicio {
     private EventoConverter eventoConverter;
 
 
+    //Filtra participantes activas por evento
+    public Evento filtrarParticipantesActivos(Evento evento){
+        List<Participante> participantes = this.filtrarParticipantesActivos(evento.getParticipantes());
+        evento.setParticipantes(participantes);
+        return evento;
+    }
+
+    public List<Participante> filtrarParticipantesActivos(List<Participante> participantes){
+        List<Participante> participantesActivos = participantes.stream()
+                .filter((y) -> y.getEstado().equals(Estado.ACTIVO))
+                .collect(Collectors.toList());
+        return participantesActivos;
+    }
+
 
     public Page<Evento> buscarTodos(Pageable page) {
-        return eventoRepo.findAllByEstado(page , Estado.ACTIVO) ;
+
+        Page <Evento> eventoPage = eventoRepo.findAllByEstado(page , Estado.ACTIVO);
+
+        eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+        return eventoPage;
+
+
+//        departamento.getSubDepartamentoList().stream().map(this::filtrarAutoridadesActivasSubDepartamento).collect(Collectors.toList());
+//
+//        return eventoRepo.findAllByEstado(page , Estado.ACTIVO) ;
+
     }
 
 
     public Evento buscarPorId(UUID id) {
-        return eventoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow( () -> new EntityNotFoundException("Evento no encontrado"));
+
+        Evento evento = eventoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow( () -> new EntityNotFoundException("Evento no encontrado"));
+
+        List<Participante> participantes = this.filtrarParticipantesActivos(evento.getParticipantes());
+        evento.setParticipantes(participantes);
+
+        return evento;
+
+//        return eventoRepo.findByIdAndEstado(id, Estado.ACTIVO).orElseThrow( () -> new EntityNotFoundException("Evento no encontrado"));
     }
 
 
 
     public Page<Evento> buscarPorNombre(Pageable page, String nombre) {
-        return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
+
+        Page <Evento> eventoPage = eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
+
+        eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+        return eventoPage;
+
+//        return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
     }
+
 
     //filtrado por modalidades y por estado
     public Page<Evento> buscarPorNombreFiltrandoPorModalidadYOEstadoEvento(Pageable page, String nombre,String modalidad, String estadoEvento) {
@@ -67,40 +108,98 @@ public class EventoServicio {
 
             Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
-            return eventoRepo.findByNombreContainsAndModalidadAndEstadoEventoAndEstado(page, nombre, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByNombreContainsAndModalidadAndEstadoEventoAndEstado(page, nombre, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+//            return eventoRepo.findByNombreContainsAndModalidadAndEstadoEventoAndEstado(page, nombre, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
 
         } else if (nombre == null && modalidad != null && estadoEvento != null) {
 
             Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
-            return eventoRepo.findByModalidadAndEstadoEventoAndEstado(page, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByModalidadAndEstadoEventoAndEstado(page, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+//            return eventoRepo.findByModalidadAndEstadoEventoAndEstado(page, modalidadEnum, estadoEventoEnum, Estado.ACTIVO);
 
         } else if (nombre != null && modalidad == null && estadoEvento != null) {
 
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
-            return eventoRepo.findByNombreContainsAndEstadoEventoAndEstado(page, nombre, estadoEventoEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByNombreContainsAndEstadoEventoAndEstado(page, nombre, estadoEventoEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+
+//            return eventoRepo.findByNombreContainsAndEstadoEventoAndEstado(page, nombre, estadoEventoEnum, Estado.ACTIVO);
 
         } else if (nombre != null && modalidad != null && estadoEvento == null) {
 
             Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
-            return eventoRepo.findByNombreContainsAndModalidadAndEstado(page, nombre, modalidadEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByNombreContainsAndModalidadAndEstado(page, nombre, modalidadEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+            
+            
+//            return eventoRepo.findByNombreContainsAndModalidadAndEstado(page, nombre, modalidadEnum, Estado.ACTIVO);
 
         } else if (nombre == null && modalidad == null && estadoEvento != null) {
 
             EstadoEvento estadoEventoEnum = EstadoEvento.valueOf(estadoEvento);
-            return eventoRepo.findByEstadoEventoAndEstado(page, estadoEventoEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByEstadoEventoAndEstado(page, estadoEventoEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+            
+//            return eventoRepo.findByEstadoEventoAndEstado(page, estadoEventoEnum, Estado.ACTIVO);
 
         } else if (nombre == null && modalidad != null && estadoEvento == null) {
 
             Modalidad modalidadEnum = Modalidad.valueOf(modalidad);
-            return eventoRepo.findByModalidadAndEstado(page, modalidadEnum, Estado.ACTIVO);
+
+            Page <Evento> eventoPage = eventoRepo.findByModalidadAndEstado(page, modalidadEnum, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+            
+//            return eventoRepo.findByModalidadAndEstado(page, modalidadEnum, Estado.ACTIVO);
 
         } else if (nombre != null && modalidad == null && estadoEvento == null) {
 
-            return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
+            Page <Evento> eventoPage = eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+//            return eventoRepo.findByNombreContainsAndEstado(page, nombre, Estado.ACTIVO);
 
         } else {
-            return eventoRepo.findAllByEstado(page, Estado.ACTIVO);
+            Page <Evento> eventoPage = eventoRepo.findAllByEstado(page, Estado.ACTIVO);
+
+            eventoPage.stream().map(this::filtrarParticipantesActivos).collect(Collectors.toList());
+
+            return eventoPage;
+
+
+//            return eventoRepo.findAllByEstado(page, Estado.ACTIVO);
         }
 
 
