@@ -102,6 +102,30 @@ INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"MARCADORES");
 INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PROYECTOR");
 
 
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '1', 'Rodriguez 1', 'rodriguitorodriguez@gmail.com', 'Rodrigo 1');
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '2', 'Rodriguez 2', 'rodriguitorodriguez@gmail.com', 'Rodrigo 2');
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '3', 'Rodriguez 3', 'rodriguitorodriguez@gmail.com', 'Rodrigo 3');
+
+
+
+INSERT INTO `socios`.`reserva` (`id` ,`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`) VALUES ('1', '0', '1', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo 1');
+INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo');
+
+
+-- # estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion
+-- '0', '4', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo'
+
+
+
+-- INSERT INTO `socios`.`reserva` (`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo');
+
+
+
+
+
+
+
+
 -- INSERT INTO `socios`.`lugar` (`estado`,`direccion`,`link_maps`, `link_virtual`) VALUES ('0',"Av.Corrientes 1800", "googlemaps.com/1231434112","sdfsd");
 
 -- INSERT INTO `socios`.`evento` (`estado`,`nombre`,fecha_de_inicio,fecha_fin,lugar,descripcion,modalidad,estado_evento) VALUES ('0',"Meeting diaria","2024-11-10T13:01:49","2024-11-10T17:01:49",1,"Meeting a las 13hs","PRESENCIAL","ACTIVO");
