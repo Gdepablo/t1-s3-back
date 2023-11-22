@@ -87,8 +87,6 @@ public class ReservaController {
     public ResponseEntity<Reserva> verReservaPorCodigoDeSeguimiento(@PathVariable String codigoDeSeguimiento) {
         Reserva _reserva = reservaServicio.buscarPorCodigoDeSeguimiento(codigoDeSeguimiento);
 
-        System.out.println("HOLA COMO ESTAS DIME SI ERES FELIZ");
-
         return new ResponseEntity<>(_reserva, HttpStatus.OK);
     }
 

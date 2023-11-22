@@ -37,4 +37,6 @@ public class ReservaDto implements Serializable {
     EstadoReservaDto estadoReserva;
 
     EncargadoDto encargado;
+
+    Long subDepartamentoId;
 }

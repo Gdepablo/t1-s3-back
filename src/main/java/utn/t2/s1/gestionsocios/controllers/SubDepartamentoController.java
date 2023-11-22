@@ -24,6 +24,7 @@ import utn.t2.s1.gestionsocios.excepciones.SubDepartamentoException;
 import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.servicios.AutoridadSubDepartamentoServicio;
 import utn.t2.s1.gestionsocios.servicios.LogoServicio;
+import utn.t2.s1.gestionsocios.servicios.ReservaServicio;
 import utn.t2.s1.gestionsocios.servicios.SubDepartamentoServicio;
 
 import java.io.File;
@@ -46,6 +47,9 @@ public class SubDepartamentoController {
 
     @Autowired
     LogoServicio logoServicio;
+
+    @Autowired
+    ReservaServicio reservaServicio;
 
 
 
@@ -223,6 +227,18 @@ public class SubDepartamentoController {
         return new ResponseEntity<>(autoridadSubDepartamento, HttpStatus.OK);
     }
 
+
+    //-------------------------------------------------------RESERVAS--------------------------------------------------------
+
+    @GetMapping("/{idSubDepartamento}/reservas")
+    @Operation(summary = "Retorna todos las Reservas de un subdepartamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservas por subdepartamentos encontradas", content = {@Content(mediaType = "application/json", schema = @Schema(allOf = Reserva.class))})
+    })
+    public ResponseEntity<Page<Reserva>> verReservasPorDepartamento(Pageable pageable, @PathVariable Long idSubDepartamento){
+        Page<Reserva> reservas = reservaServicio.buscarPorSubdepartamentoId(idSubDepartamento, pageable);
+        return new ResponseEntity<>(reservas , HttpStatus.OK);
+    }
 
 
 }

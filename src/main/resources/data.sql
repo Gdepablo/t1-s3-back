@@ -108,31 +108,7 @@ INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) 
 
 
 
-INSERT INTO `socios`.`reserva` (`id` ,`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`) VALUES ('1', '0', '1', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo 1');
-INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo');
+INSERT INTO `socios`.`reserva` (`id` ,`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`, `sub_departamento_id`) VALUES ('1', '0', '1', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo 1', '1');
+INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo', '1');
+INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '3', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '3', 'cffcda50-4155-4be7-8680-d5bfdd3f81b3', 'Reunión de trabajo', '1');
 
-
--- # estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion
--- '0', '4', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo'
-
-
-
--- INSERT INTO `socios`.`reserva` (`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo');
-
-
-
-
-
-
-
-
--- INSERT INTO `socios`.`lugar` (`estado`,`direccion`,`link_maps`, `link_virtual`) VALUES ('0',"Av.Corrientes 1800", "googlemaps.com/1231434112","sdfsd");
-
--- INSERT INTO `socios`.`evento` (`estado`,`nombre`,fecha_de_inicio,fecha_fin,lugar,descripcion,modalidad,estado_evento) VALUES ('0',"Meeting diaria","2024-11-10T13:01:49","2024-11-10T17:01:49",1,"Meeting a las 13hs","PRESENCIAL","ACTIVO");
-
--- INSERT INTO `socios`.`evento` (estado, nombre, fecha_de_inicio, fecha_fin, lugar_id, descripcion, modalidad, participante_id, estado_evento) VALUES ( 0, 'Conferencia sobre Inteligencia Artificial', '2024-11-10T13:01:49', '2024-11-10T17:01:49', 1, 'Un evento para compartir los últimos avances', '0', 2, '0');
-
--- INSERT INTO `socios`.`evento` (`estado`, `estado_evento`, `modalidad`, `fecha_de_inicio`, `fecha_fin`, `lugar_id`, `descripcion`, `nombre`) VALUES ('0', '0', '0', '2024-11-10T13:01:49', '2024-11-10T13:01:49', '1', 'hola', 'hola2');
-
-    
--- INSERT INTO participante (nombre, apellido, mail, referente, empresa_evento_id, evento_id) VALUES ('Juan', 'Pérez', 'juan.perez@gmail.com', 'Enrique Perez', 1, 2);
