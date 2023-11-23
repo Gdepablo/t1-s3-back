@@ -2,7 +2,6 @@ package utn.t2.s1.gestionsocios.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Value;
 
 import java.io.Serializable;
 
@@ -10,7 +9,12 @@ import java.io.Serializable;
  * DTO for {@link utn.t2.s1.gestionsocios.modelos.EstadoReserva}
  */
 @Data
-public class EstadoReservaDto implements Serializable {
+public class ActualizacionEstadoReservaDto implements Serializable {
+
     @NotNull
-    Long id;
+    Long idEstadoReserva;
+
+    String observaciones;
+
+
 }

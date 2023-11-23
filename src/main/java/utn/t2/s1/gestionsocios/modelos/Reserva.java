@@ -30,6 +30,9 @@ public class Reserva extends Persistente {
     @Column(name = "codigo_de_seguimiento", unique = true)
     private String codigoDeSeguimiento;
 
+    @Column(name = "observaciones")
+    private String observaciones;
+
 
     @ManyToMany
     @JoinTable(name = "recursos_reserva",
