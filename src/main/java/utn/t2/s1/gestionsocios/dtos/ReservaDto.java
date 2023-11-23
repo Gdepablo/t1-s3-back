@@ -4,13 +4,11 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Value;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 /**
  * DTO for {@link utn.t2.s1.gestionsocios.modelos.Reserva}
@@ -34,9 +32,11 @@ public class ReservaDto implements Serializable {
 
     EspacioFisicoDto espacioFisico;
 
-    EstadoReservaDto estadoReserva;
+    ActualizacionEstadoReservaDto estadoReserva;
 
     EncargadoDto encargado;
 
     Long subDepartamentoId;
+
+    String observaciones;
 }

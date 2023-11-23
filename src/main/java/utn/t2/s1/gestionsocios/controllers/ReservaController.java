@@ -13,10 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.t2.s1.gestionsocios.converters.ReservaConverter;
-import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
-import utn.t2.s1.gestionsocios.dtos.EstadoReservaDto;
+import utn.t2.s1.gestionsocios.dtos.ActualizacionEstadoReservaDto;
 import utn.t2.s1.gestionsocios.dtos.ReservaDto;
-import utn.t2.s1.gestionsocios.dtos.RolDTO;
 import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.EspacioFisicoRepo;
@@ -121,9 +119,9 @@ public class ReservaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado cambiado" ,content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> cambiarEstado(@PathVariable Long id, @RequestBody EstadoReservaDto estadoReservaDto){
+    public ResponseEntity<?> cambiarEstado(@PathVariable Long id, @RequestBody ActualizacionEstadoReservaDto actualizacionEstadoReservaDto){
 
-        reservaServicio.cambiarEstadoEvento(id, estadoReservaDto);
+        reservaServicio.cambiarEstadoEvento(id, actualizacionEstadoReservaDto);
 
         return new ResponseEntity<>("Estado cambiado", HttpStatus.OK);
 
