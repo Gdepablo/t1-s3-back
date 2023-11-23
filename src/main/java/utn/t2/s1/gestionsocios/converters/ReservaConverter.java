@@ -25,6 +25,8 @@ public class ReservaConverter {
         reserva.setFechaFin(reservaDto.getFechaFin());
 
 
+        reserva.setObservaciones(reservaDto.getObservaciones());
+
         return reserva;
     }
 }

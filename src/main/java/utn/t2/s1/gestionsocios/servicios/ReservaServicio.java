@@ -2,22 +2,18 @@ package utn.t2.s1.gestionsocios.servicios;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.converters.EncargadoConverter;
 import utn.t2.s1.gestionsocios.converters.ReservaConverter;
-import utn.t2.s1.gestionsocios.converters.RolConverter;
 import utn.t2.s1.gestionsocios.dtos.*;
 import utn.t2.s1.gestionsocios.modelos.*;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.repositorios.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -133,7 +129,7 @@ public class ReservaServicio {
 
 
 
-    public Reserva cambiarEstadoEvento(long id, EstadoReservaDto estadoReservaDto) {
+    public Reserva cambiarEstadoEvento(long id, ActualizacionEstadoReservaDto actualizacionEstadoReservaDto) {
         Optional<Reserva> optionalReserva = reservaRepo.findById(id);
         if (!optionalReserva.isPresent()) {
             throw new EntityNotFoundException("Evento no encontrado");
@@ -141,7 +137,7 @@ public class ReservaServicio {
 
         Reserva reservaUpdate = optionalReserva.get();
 
-        Optional<EstadoReserva> optionalEstadoReserva = estadoReservaRepo.findByIdAndEstado(estadoReservaDto.getId(), Estado.ACTIVO);
+        Optional<EstadoReserva> optionalEstadoReserva = estadoReservaRepo.findByIdAndEstado(actualizacionEstadoReservaDto.getIdEstadoReserva(), Estado.ACTIVO);
         if (!optionalEstadoReserva.isPresent()) {
             throw new EntityNotFoundException("Estado Reserva no encontrado");
         }
@@ -149,6 +145,7 @@ public class ReservaServicio {
         EstadoReserva estadoReserva = optionalEstadoReserva.get();
 
         reservaUpdate.setEstadoReserva(estadoReserva);
+        reservaUpdate.setObservaciones(actualizacionEstadoReservaDto.getObservaciones());
         reservaUpdate = reservaRepo.save(reservaUpdate);
 
         return reservaUpdate;
