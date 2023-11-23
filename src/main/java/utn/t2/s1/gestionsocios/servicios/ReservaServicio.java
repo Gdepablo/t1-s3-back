@@ -3,6 +3,8 @@ package utn.t2.s1.gestionsocios.servicios;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.t2.s1.gestionsocios.converters.EncargadoConverter;
 import utn.t2.s1.gestionsocios.converters.ReservaConverter;
@@ -43,6 +45,9 @@ public class ReservaServicio {
     @Autowired
     EncargadoConverter encargadoConverter;
 
+    @Autowired
+    SubDepartamentoRepo subDepartamentoRepo;
+
 
     public List<Reserva> buscarTodos() {
         return reservaRepo.findAllByEstado(Estado.ACTIVO) ;
@@ -58,6 +63,7 @@ public class ReservaServicio {
         nuevoEncargado.setEstado(Estado.ACTIVO);
         reserva.setEncargado(nuevoEncargado);
 
+        reserva.setSubDepartamento(subDepartamentoRepo.findByIdAndEstado(reservaDto.getSubDepartamentoId(), Estado.ACTIVO).orElseThrow(() -> new RuntimeException("Sub departamento no encontrado")));
 
 
         reserva.setEspacioFisico(espacioFisicoRepo.findByIdAndEstado(reservaDto.getEspacioFisico().getId(), Estado.ACTIVO).orElseThrow(() -> new RuntimeException("Espacio Fisico no encontrado")));
@@ -91,6 +97,16 @@ public class ReservaServicio {
     }
 
 
+    public Reserva buscarPorCodigoDeSeguimiento(String codigoDeSeguimiento) {
+        Optional<Reserva> optionalReserva = reservaRepo.findByCodigoDeSeguimientoAndEstado(codigoDeSeguimiento, Estado.ACTIVO);
+        if (!optionalReserva.isPresent() || optionalReserva.get().getEstado() == Estado.ELIMINADO) {
+            throw new EntityNotFoundException("Reserva no encontrado");
+        }
+
+        return optionalReserva.get();
+    }
+
+
     public Reserva actualizar(ReservaDto reservaDto, long id) {
         Optional<Reserva> optionalReserva = reservaRepo.findById(id);
         if (!optionalReserva.isPresent()) {
@@ -106,6 +122,8 @@ public class ReservaServicio {
         List<Recurso> listaRecursos = recursosRepo.findAllById(reservaDto.getRecursos().stream().map(RecursoDto::getId).collect(Collectors.toList()));
 
         reservaUpdate.setRecursos(listaRecursos);
+
+        reservaUpdate.setSubDepartamento(subDepartamentoRepo.findByIdAndEstado(reservaDto.getSubDepartamentoId(), Estado.ACTIVO).orElseThrow(() -> new RuntimeException("Sub departamento no encontrado")));
 
 
         reservaUpdate = reservaRepo.save(reservaUpdate);
@@ -148,6 +166,15 @@ public class ReservaServicio {
         reserva.setEstado(Estado.ELIMINADO);
         reservaRepo.save(reserva);
     }
+
+
+    public Page<Reserva> buscarPorSubdepartamentoId(Long subDepartamentoId, Pageable pageable) {
+
+        return reservaRepo.findAllBySubDepartamentoIdAndEstado(subDepartamentoId, Estado.ACTIVO, pageable);
+
+    }
+
+
 
 }
 

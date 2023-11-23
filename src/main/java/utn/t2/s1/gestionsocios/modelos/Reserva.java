@@ -50,7 +50,9 @@ public class Reserva extends Persistente {
     @OneToOne(cascade = CascadeType.ALL)
     private Encargado encargado;
 
-
+    @ManyToOne
+    @JoinColumn(name = "sub_departamento_id")
+    private SubDepartamento subDepartamento;
 
 
     @PrePersist

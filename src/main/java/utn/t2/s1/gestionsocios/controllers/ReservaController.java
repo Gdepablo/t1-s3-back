@@ -17,10 +17,11 @@ import utn.t2.s1.gestionsocios.dtos.EstadoEventoDTO;
 import utn.t2.s1.gestionsocios.dtos.EstadoReservaDto;
 import utn.t2.s1.gestionsocios.dtos.ReservaDto;
 import utn.t2.s1.gestionsocios.dtos.RolDTO;
-import utn.t2.s1.gestionsocios.modelos.EstadoReserva;
-import utn.t2.s1.gestionsocios.modelos.Evento;
-import utn.t2.s1.gestionsocios.modelos.Reserva;
-import utn.t2.s1.gestionsocios.modelos.Rol;
+import utn.t2.s1.gestionsocios.modelos.*;
+import utn.t2.s1.gestionsocios.persistencia.Estado;
+import utn.t2.s1.gestionsocios.repositorios.EspacioFisicoRepo;
+import utn.t2.s1.gestionsocios.repositorios.EstadoReservaRepo;
+import utn.t2.s1.gestionsocios.repositorios.RecursosRepo;
 import utn.t2.s1.gestionsocios.servicios.ReservaServicio;
 
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 
 @Tag(name = "Operaciones para los roles", description = "Api para realizar las operaciones de alta, baja y modificacion de roles")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema(allOf = Rol.class)) })
+        @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema(allOf = Reserva.class)) })
 })
 @RestController
 @RequestMapping("/reservas")
@@ -43,7 +44,16 @@ public class ReservaController {
     @Autowired
     ReservaConverter reservaConverter;
 
+    @Autowired
+    EspacioFisicoRepo espacioFisicoRepo;
 
+    @Autowired
+    EstadoReservaRepo estadoReservaRepo;
+
+    @Autowired
+    RecursosRepo recursosRepo;
+
+    
     @GetMapping()
     @Operation(summary = "Retorna las reservas de la Base de datos")
     @ApiResponses(value = {
@@ -56,16 +66,27 @@ public class ReservaController {
     }
 
 
+
     @GetMapping("/{id}")
-    @Operation(summary = "Retorna el reserva  correspondiente al id")
+    @Operation(summary = "Retorna la reserva  correspondiente al id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reserva encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Evento.class))}),
+            @ApiResponse(responseCode = "200", description = "Reserva encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class))}),
             @ApiResponse(responseCode = "404", description = "La reserva no fue encontrado", content = {@Content(schema = @Schema())}),
     })
     public ResponseEntity<Reserva> verReserva(@PathVariable Long id) {
-
-
         Reserva _reserva = reservaServicio.buscarPorId(id);
+        return new ResponseEntity<>(_reserva, HttpStatus.OK);
+    }
+
+    @GetMapping("/codigoDeSeguimiento/{codigoDeSeguimiento}")
+    @Operation(summary = "Retorna la reserva por codigo de seguimiento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reserva encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Reserva.class))}),
+            @ApiResponse(responseCode = "404", description = "La reserva no fue encontrado", content = {@Content(schema = @Schema())}),
+    })
+    public ResponseEntity<Reserva> verReservaPorCodigoDeSeguimiento(@PathVariable String codigoDeSeguimiento) {
+        Reserva _reserva = reservaServicio.buscarPorCodigoDeSeguimiento(codigoDeSeguimiento);
+
         return new ResponseEntity<>(_reserva, HttpStatus.OK);
     }
 
@@ -117,6 +138,45 @@ public class ReservaController {
     public ResponseEntity<?> deleteReserva(@PathVariable Long id){
             reservaServicio.eliminar(id);
             return new ResponseEntity<>("Reserva eliminado", HttpStatus.OK);
+    }
+
+
+
+//    GETS DE RECURSOS ESPECIFICOS PARA RESERVA
+
+    @GetMapping("/espaciosFisicos")
+    @Operation(summary = "Retorna los espacis fisicos de la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = " Estados Fisicos encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Reserva.class)) }),
+    })
+    public ResponseEntity<List<EspacioFisico>> verEspaciosFisicos(){
+
+        List<EspacioFisico> espaciosFisicos = espacioFisicoRepo.findAllByEstado(Estado.ACTIVO);
+        return new ResponseEntity<>(espaciosFisicos , HttpStatus.OK);
+    }
+
+
+    @GetMapping("/recursos")
+    @Operation(summary = "Retorna las recursos de la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "recursos encontradas" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Reserva.class)) }),
+    })
+    public ResponseEntity<List<Recurso>> verRecursos(){
+
+        List<Recurso> recursos = recursosRepo.findAllByEstado(Estado.ACTIVO);
+        return new ResponseEntity<>(recursos , HttpStatus.OK);
+    }
+
+
+    @GetMapping("/estadoReservas")
+    @Operation(summary = "Retorna los estados de las reservas de la Base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estados de las reservas encontradas" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Reserva.class)) }),
+    })
+    public ResponseEntity<List<EstadoReserva>> verEstadoReserva(){
+
+        List<EstadoReserva> estadoReservas = estadoReservaRepo.findAllByEstado(Estado.ACTIVO);
+        return new ResponseEntity<>(estadoReservas , HttpStatus.OK);
     }
 
 

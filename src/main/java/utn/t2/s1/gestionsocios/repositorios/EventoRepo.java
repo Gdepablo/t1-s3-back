@@ -9,9 +9,10 @@ import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public interface EventoRepo extends JpaRepository<Evento,Long> {
-    Optional<Evento> findByIdAndEstado(Long id, Estado estado);
+public interface EventoRepo extends JpaRepository<Evento,UUID> {
+    Optional<Evento> findByIdAndEstado(UUID id, Estado estado);
     Page<Evento> findByNombreContainsAndEstado(Pageable pageable,String nombre, Estado estado);
 
     Page<Evento> findAllByEstado(Pageable pageable, Estado estado);

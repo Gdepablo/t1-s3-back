@@ -25,6 +25,8 @@ import utn.t2.s1.gestionsocios.servicios.EventoServicio;
 import utn.t2.s1.gestionsocios.servicios.LugarServicio;
 import utn.t2.s1.gestionsocios.servicios.ParticipanteServicio;
 
+import java.util.UUID;
+
 @Tag(name = "Operaciones para los eventos", description = "Api para realizar las operaciones de alta, baja y modificacion de eventos")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "500", description = "Error en el servidor", content = { @Content(schema = @Schema(allOf = Evento.class)) })
@@ -54,7 +56,7 @@ public class EventoController {
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
 
-
+// NO SE ESTARIA USANDO EN EL FRONT
     @GetMapping(value = {"/search", "/search/"})
     @Operation(summary = "Retorna los Eventos buscados por nombre")
     @ApiResponses(value = {
@@ -85,7 +87,7 @@ public class EventoController {
             @ApiResponse(responseCode = "200", description = "Evento encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Evento.class))}),
             @ApiResponse(responseCode = "404", description = "El evento no fue encontrado", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<Evento> verEvento(@PathVariable Long id) {
+    public ResponseEntity<Evento> verEvento(@PathVariable UUID id) {
 
         if (eventoServicio.buscarPorId(id) == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -117,7 +119,7 @@ public class EventoController {
             @ApiResponse(responseCode = "400", description = "El formato del objeto es invalido", content = {@Content(schema = @Schema())}),
             @ApiResponse(responseCode = "404", description = "El evento no fue encontrada", content = {@Content(schema = @Schema())}),
     })
-    public ResponseEntity<?> actualizarEvento(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
+    public ResponseEntity<?> actualizarEvento(@PathVariable UUID id, @RequestBody EventoDTO eventoDTO) {
         Evento eventoUpdate = eventoServicio.actualizar(eventoDTO, id);
         return new ResponseEntity<>(eventoUpdate, HttpStatus.OK);
     }
@@ -141,7 +143,7 @@ public class EventoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Estado cambiado" ,content = { @Content(schema = @Schema()) }),
     })
-    public ResponseEntity<?> cambiarEstado(@PathVariable Long id, @RequestBody EstadoEventoDTO estadoEventoDTO){
+    public ResponseEntity<?> cambiarEstado(@PathVariable UUID id, @RequestBody EstadoEventoDTO estadoEventoDTO){
 
         eventoServicio.cambiarEstado(id, estadoEventoDTO);
 
@@ -182,8 +184,8 @@ public class EventoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Participantes encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Participante.class)) }),
     })
-    public ResponseEntity<Page<Participante>> verParticipantes(@PathVariable Long id, Pageable pageable) {
-        Page<Participante> participantes = participanteServicio.buscarTodos(pageable);
+    public ResponseEntity<Page<Participante>> verParticipantes(@PathVariable UUID id, Pageable pageable) {
+        Page<Participante> participantes = participanteServicio.buscarTodos(pageable, id);
         return new ResponseEntity<>(participantes, HttpStatus.OK);
     }
 
@@ -192,10 +194,10 @@ public class EventoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Participantes encontrados" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Participante.class)) }),
     })
-    public ResponseEntity<Page<Participante>> verParticipantesFiltradoBuscado(@PathVariable Long id, @RequestParam(required = true) String nombre, Pageable pageable) {
+    public ResponseEntity<Page<Participante>> verParticipantesFiltradoBuscado(@PathVariable UUID id, @RequestParam(required = true) String nombre, Pageable pageable) {
 
         if (participanteServicio.buscarPorNombre(pageable, nombre) == null){
-            Page<Participante> participantes = participanteServicio.buscarTodos(pageable);
+            Page<Participante> participantes = participanteServicio.buscarTodos(pageable, id);
             return new ResponseEntity<>(participantes, HttpStatus.OK);
         }
 
@@ -203,16 +205,25 @@ public class EventoController {
         return new ResponseEntity<>(participantes, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/participantes")
+    @PostMapping("/{idString}/participantes")
     @Operation(summary = "Agrega un participante al evento correspondiente al id")
-    public ResponseEntity<Participante> agregarParticipante(@PathVariable Long id, @RequestBody @Valid ParticipanteDTO participanteDTO){
+    public ResponseEntity<Participante> agregarParticipante(@PathVariable String idString, @RequestBody @Valid ParticipanteDTO participanteDTO){
 //        if(eventoServicio.buscarPorNombre(eventoDTO.getNombre()) != null){
 //            return new ResponseEntity<>("El evento '"+ eventoDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
 //        }
+
+
+        UUID id = UUID.fromString (idString);
+
         participanteDTO.setEventoId(id);
+
+//        System.out.println("LLEGA HASTA ACA 1");
+//        System.out.println(participanteDTO.toString());
 
 
         Participante participante = participanteServicio.agregar(participanteDTO);
+
+//        System.out.println("LLEGA HASTA ACA 2");
 
         return new ResponseEntity<>(participante, HttpStatus.CREATED);
     }

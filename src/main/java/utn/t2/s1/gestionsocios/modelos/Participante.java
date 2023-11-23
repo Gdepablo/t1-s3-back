@@ -17,7 +17,8 @@ public class Participante extends Persistente {
     private String mail;
     @Column(name = "referente", nullable = false)
     private String referente;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "empresa_evento_id")
     private EmpresaEvento empresaEvento;
     @ManyToOne
     @JsonBackReference

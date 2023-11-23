@@ -3,6 +3,7 @@ package utn.t2.s1.gestionsocios.repositorios;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import utn.t2.s1.gestionsocios.modelos.Evento;
 import utn.t2.s1.gestionsocios.modelos.Participante;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 
@@ -16,6 +17,7 @@ public interface ParticipanteRepo extends JpaRepository<Participante, Long> {
     Page<Participante> findByNombreAndEstado(Pageable pageable, String nombre, Estado estado);
 
 
-    Page<Participante> findAllByEstado(Pageable pageable, Estado estado);
+//    Page<Participante> findAllByEstado(Pageable pageable, Estado estado);
+    Page<Participante> findAllByEstadoAndEvento(Pageable pageable, Estado estado, Evento evento);
 
 }

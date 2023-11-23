@@ -43,9 +43,6 @@ public class EventoDTO implements Serializable {
     @NotNull
     EstadoEvento estadoEvento;
 
-    @NotNull
-    @NotEmpty
-    String linkInscripcion;
 
     @NotNull
     @NotEmpty
