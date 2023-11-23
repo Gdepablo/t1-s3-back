@@ -56,7 +56,7 @@ public class EventoController {
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
 
-
+// NO SE ESTARIA USANDO EN EL FRONT
     @GetMapping(value = {"/search", "/search/"})
     @Operation(summary = "Retorna los Eventos buscados por nombre")
     @ApiResponses(value = {
