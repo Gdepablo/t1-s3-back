@@ -40,8 +40,6 @@ public class ParticipanteServicio {
     public Page<Participante> buscarTodos(Pageable page, UUID id){
 
         Evento evento = eventoServicio.buscarPorId(id);
-
-
         return participanteRepo.findAllByEstadoAndEvento(page , Estado.ACTIVO, evento) ;
     }
 
@@ -57,6 +55,32 @@ public class ParticipanteServicio {
         ModelMapper modelMapper = new ModelMapper();
 
         Participante participante = participanteConverter.toParticipante(participanteDTO);
+
+
+        //Buscar evento por id
+        Evento evento = eventoServicio.buscarPorId(participanteDTO.getEventoId());
+
+        EmpresaEvento empresaEvento = empresaEventoServicio.agregar(participanteDTO.getEmpresaEvento());
+
+        participante.setEvento(evento);
+        participante.setEmpresaEvento(empresaEvento);
+        participante.setEstado(Estado.ACTIVO);
+
+        participante = participanteRepo.save(participante);
+
+
+        return participante;
+    }
+
+
+    public Participante actualizar(ParticipanteDTO participanteDTO, Long id) {
+
+        Optional<Participante> optionalParticipante = participanteRepo.findById(id);
+        if (!optionalParticipante.isPresent() || optionalParticipante.get().getEstado() == Estado.ELIMINADO) {
+            throw new EntityNotFoundException("Participante no encontrado");
+        }
+
+        Participante participante = participanteConverter.toParticipante(participanteDTO, optionalParticipante.get());
 
 
         //Buscar evento por id
