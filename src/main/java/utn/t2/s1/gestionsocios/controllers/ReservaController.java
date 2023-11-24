@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -57,9 +59,9 @@ public class ReservaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "reservas encontradas" ,content = { @Content(mediaType = "application/json",schema = @Schema( allOf = Reserva.class)) }),
     })
-    public ResponseEntity<List<Reserva>> verReservas(){
+    public ResponseEntity<Page<Reserva>> verReservas(Pageable page){
 
-        List<Reserva> reservas = reservaServicio.buscarTodos();
+        Page<Reserva> reservas = reservaServicio.buscarTodos(page);
         return new ResponseEntity<>(reservas , HttpStatus.OK);
     }
 
