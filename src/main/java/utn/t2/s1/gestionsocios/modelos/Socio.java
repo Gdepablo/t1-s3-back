@@ -39,7 +39,7 @@ public class Socio extends Persistente {
     private String web;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaAlta; //TODO formatear fecha dd-MM-yyyy
-    @Column(name="logo", nullable = false)
+    @Column(name="logo", nullable = true)
     private String logo;
     @ManyToMany()
     private Set<Categoria> categorias =new HashSet<>(); ;
