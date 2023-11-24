@@ -82,15 +82,21 @@ public class DepartamentoController {
 //        public ResponseEntity<?> agregarDepartamento( @RequestParam("logo") MultipartFile logo,@Valid @RequestParam("departamento") String departamentoDTO)
 
 
-
-        String imagePath = "./uploads/";
-        File file = new File(imagePath);
+        File file = null;
 
         try {
             String url;
             if(   logo != null  && !logo.isEmpty()){ // si hay un logo, entonces hace esto
                 //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
                 url = logoServicio.save(logo);
+
+
+                // Encontrar el índice de "logo/"
+                int i = url.indexOf("logo/");
+                // Extraer la subcadena desde el índice i + 5 (para saltar el "logo/")
+                String sub = url.substring(i + 5);
+
+                file = new File("./uploads/" + sub);
 
             }else {
                 url = null;

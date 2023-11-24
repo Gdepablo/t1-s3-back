@@ -47,7 +47,7 @@ public class SocioDTO {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Schema( type = "string",example = "dd-MM-aaaa")
     private LocalDate fechaAlta; //TODO atrapar error fecha invalida
-    @NotNull
+//    @NotNull
     @URL(message = "La url del logo debe ser https://www.algo.com")
     @Schema( type = "string",example = "https://www.string.com")
     private String logo;
