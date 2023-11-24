@@ -17,7 +17,7 @@ public interface ReservaRepo extends JpaRepository<Reserva,Long> {
 
     Optional<Reserva> findByCodigoDeSeguimientoAndEstado(String codigoDeSeguimiento, Estado estado);
 
-    List<Reserva> findAllByEstado(Estado estado);
+    Page<Reserva> findAllByEstado(Estado estado,Pageable pageable);
 
 //    List<Reserva> findAllByFechaIsBetweenAndEstado(LocalDateTime fechaInicio, LocalDateTime fechaFin, Estado estado);
 

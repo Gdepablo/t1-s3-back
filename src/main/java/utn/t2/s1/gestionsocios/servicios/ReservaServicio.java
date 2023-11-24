@@ -45,8 +45,8 @@ public class ReservaServicio {
     SubDepartamentoRepo subDepartamentoRepo;
 
 
-    public List<Reserva> buscarTodos() {
-        return reservaRepo.findAllByEstado(Estado.ACTIVO) ;
+    public Page<Reserva> buscarTodos(Pageable page) {
+        return reservaRepo.findAllByEstado(Estado.ACTIVO, page) ;
     }
 
 
