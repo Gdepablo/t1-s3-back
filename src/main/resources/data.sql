@@ -1,5 +1,5 @@
-INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'CAMARA');
-INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'EMPRESA');
+INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'Camara');
+INSERT INTO socios.tipo_socio (estado,nombre) VALUES (0,'Empresa');
 
 
 
@@ -16,21 +16,21 @@ INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccio
 INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccion, logo, mail, telefono, tipo, web,cuit) VALUES (0,'2015-04-13', 'AFADHYA', 'Asociación Fabricantes Artesanales de Helados y Afines', 'Callao 449 Piso 9 B, CABA', 'https://copal.org.ar/wp-content/uploads/2020/03/AFADHYA-1.jpg', 'heladosha@afadhya.com.ar', '+54 1143748159', 2, 'https://www.afadhya.com.ar/','20-11111111-2');
 INSERT INTO socios.socio (estado,fecha_alta, denominacion, descripcion, direccion, logo, mail, telefono, tipo, web,cuit) VALUES (0,'2020-05-18', 'CADIBSA', 'Cámara Argentina de la Industria de Bebidas sin Alcohol', 'Rivadavia 1367 Piso 8 A, CABA', 'https://copal.org.ar/wp-content/uploads/2020/03/CADIBSA-1.jpg', 'cadibsa@cadibsa.org.ar', '+54 1143830262', 1, 'https://www.CADISA.com','20-11111111-2');
 
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'NORMATIVA');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Normativa');
 INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'RRII');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'AMBIENTE');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'COMITE_EJECUTIVO');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'COMISION_DIRECTIVA');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'EMPRESAS');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'CAMARAS');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'PRESIDENTES');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'GERENTES');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'COMEX');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Ambiente');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Comite Ejecutivo');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Comision Directiva');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Empresas');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Camaras');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Presidentes');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Gerentes');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Comex');
 INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'PYME');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'FISCAL');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'LABORALES');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'LEGALES');
-INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'ENVASES');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Fiscal');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Laborales');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Legales');
+INSERT INTO socios.categoria (estado, nombre) VALUES (0, 'Envases');
 
 INSERT INTO socios.socio_categorias (categorias_id, socio_id) VALUES (1, 1);
 INSERT INTO socios.socio_categorias (categorias_id, socio_id) VALUES (3, 1);
@@ -81,25 +81,25 @@ INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_i
 INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 5, 2, 2);
 INSERT INTO `socios`.`autoridad_sub_departamento` (`estado`,`usuario_id`, `rol_id`, `subdepartamento_id`) VALUES ('0', 6, 3, 3);
 
-INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_1");
-INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_2");
-INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_3");
-INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_4");
-INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"ESPACIO_5");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"Espacio 1");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"Espacio 2");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"Espacio 3");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"Espacio 4");
+INSERT INTO `socios`.`espacio_fisico` (`estado`,`nombre`) VALUES ('0',"Espacio 5");
 
 
-INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"PENDIENTE");
-INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"ACEPTADO");
-INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"ACEPTADO_PARCIALMENTE");
-INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"RECHAZADO");
-INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"CANCELADO");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"Pendiente");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"Aceptado");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"Aceptado Parcialmente");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"Rechazado");
+INSERT INTO `socios`.`estado_reserva` (`estado`,`nombre`) VALUES ('0',"Cancelado");
 
 
-INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"NOTEBOOK_1");
-INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"NOTEBOOK_2");
-INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PIZARRON");
-INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"MARCADORES");
-INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"PROYECTOR");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Notebook 1");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Notebook 2");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Pizarron");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Marcadores");
+INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Proyector");
 
 
 INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '1', 'Rodriguez 1', 'rodriguitorodriguez@gmail.com', 'Rodrigo 1');
