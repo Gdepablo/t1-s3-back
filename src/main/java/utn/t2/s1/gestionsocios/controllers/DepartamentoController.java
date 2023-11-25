@@ -85,7 +85,7 @@ public class DepartamentoController {
         File file = null;
 
         try {
-            String url;
+            String url = null;
             if(   logo != null  && !logo.isEmpty()){ // si hay un logo, entonces hace esto
                 //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
                 url = logoServicio.save(logo);
@@ -99,7 +99,8 @@ public class DepartamentoController {
                 file = new File("./uploads/" + sub);
 
             }else {
-                url = null;
+                    // Si no existe, asignar la url por defecto
+                    url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png";
             }
 
 
