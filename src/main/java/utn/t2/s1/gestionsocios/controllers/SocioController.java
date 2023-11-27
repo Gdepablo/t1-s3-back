@@ -117,6 +117,9 @@ public class SocioController {
                 String sub = url.substring(i + 5);
                 // Crear un archivo con la ruta del logo
                 file = new File("./uploads/" + sub);
+            } else {
+                // Si no existe, asignar la url por defecto
+                url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png";
             }
             // Convertir el socioString a un SocioDTO
             SocioDTO socioDTO = convertirSocioString(socioString);

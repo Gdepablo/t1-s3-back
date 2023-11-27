@@ -50,27 +50,35 @@ INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'ADMIN');
 INSERT INTO socios.tipo_de_usuario (estado, tipo) VALUES (0, 'USER');
 
 
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'juan', 1);
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'pepe', 2);
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'carlos', 2);
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'Cristian', 1);
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Emi', 2);
-INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Nico', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'Geraldo Calavera', 1);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Augusto Santuario', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Niles Mamonte', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 1, '123456', 'Marlon Brando', 1);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Emilio Dlugar', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Christian Palavecino', 2);
+INSERT INTO socios.usuario (estado, socio_id, contrasenia, nombre, tipo_de_usuario) VALUES (0, 2, '123456', 'Kelvin Grados', 2);
 
 
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Presidente');
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Vice presidente');
 INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Secretario');
+INSERT INTO `socios`.`rol` (`estado`, `nombre_rol`) VALUES ('0', 'Jefe de Departamento');
 
 
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Tecnico', 'Mantener los sistemas','/logo/1.jpg');
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Filosofico', 'Filosofar','/logo/2.jpg');
-INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Logistico', 'Enviar cosas','/logo/3.jpg');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Técnico', 'El objetivo principal del departamento técnico es garantizar el funcionamiento efectivo, seguro y eficiente de la infraestructura tecnológica de nuestra organizacion.','/logo/icono_tecnico.png');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Filosófico', 'El departamento filosófico aspira a cultivar una mentalidad reflexiva, ética y creativa entre los socios, aportando una perspectiva crítica y constructiva que beneficie tanto a la organización como a su entorno.','/logo/icono_filosofico.png');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Logístico', 'El objetivo principal del departamento logístico es gestionar de manera eficiente y efectiva el flujo de productos, materiales e información a lo largo de toda la cadena de suministro de cada una de las empresas','/logo/icono_logistico.png');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Comercio', 'Encargado de impulsar y coordinar las estrategias relacionadas con el comercio internacional. Este departamento se ocupa de promover la expansión de las exportaciones, la identificación de nuevos mercados, y la gestión de acuerdos comerciales.','/logo/icono_logistico.png');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Asuntos Laborales:', 'Centrados en gestionar y velar por el cumplimiento de las políticas laborales internas, así como en abordar asuntos relacionados con el bienestar de los empleados. Además, se encarga de mantenerse actualizado sobre las regulaciones laborales vigentes y de contribuir al desarrollo de un ambiente laboral justo y equitativo.','/logo/icono_filosofico.png');
+INSERT INTO `socios`.`departamento` (`estado`, `nombre`, `objetivo`,logo) VALUES ('0', 'Comunicación', 'Clave en la gestión de la imagen y las relaciones públicas de la organización. Se encarga de establecer y mantener comunicaciones efectivas tanto internas como externas, gestionar la reputación institucional y colaborar en el establecimiento de relaciones sólidas con otras entidades y partes interesadas.','/logo/icono_tecnico.png');
 
 
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Asuntos Laborales', 'Administrar Asuntos',1,'/logo/4.jpg');
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Politica fiscal', 'Administrar Politica',2,'/logo/5.jpg');
-INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Normativa', 'Administrar Normativas',3,'/logo/6.jpg');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Desarrollo de Software', 'Encargado de diseñar, desarrollar y mantener software interno y externo, asegurando la eficiencia y funcionalidad de las aplicaciones tecnológicas utilizadas por la organización.',1,'/logo/icono_tecnico.png');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Soporte Técnico', 'Brinda asistencia técnica a los usuarios internos y externos, resolviendo problemas relacionados con hardware, software y redes para garantizar un entorno tecnológico operativo.',1,'/logo/icono_tecnico.png');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Ciberseguridad', 'Se enfoca en la protección de la infraestructura tecnológica contra amenazas cibernéticas, implementando medidas de seguridad, auditorías y protocolos para garantizar la integridad y confidencialidad de la información.',1,'/logo/icono_tecnico.png');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Infraestructura Tecnológica', 'Gestiona la planificación, implementación y mantenimiento de la infraestructura tecnológica, incluyendo servidores, redes y sistemas de almacenamiento.',1,'/logo/icono_tecnico.png');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Investigación y Desarrollo Tecnológico', 'Encargado de explorar nuevas tecnologías y métodos innovadores, evaluando su aplicabilidad y relevancia para mejorar y actualizar las capacidades tecnológicas de la organización.',1,'/logo/icono_tecnico.png');
+INSERT INTO `socios`.`sub_departamento` (`estado`, `nombre`, `objetivo`,`departamento_id`,logo) VALUES ('0', 'Automatización de Procesos:', 'Se centra en identificar oportunidades para la automatización de procesos internos mediante tecnologías como la robótica y la inteligencia artificial, con el objetivo de aumentar la eficiencia y reducir errores.',1,'/logo/icono_tecnico.png');
 
 
 INSERT INTO `socios`.`autoridad_departamento` (`estado`,`usuario_id`, `rol_id`, `departamento_id`) VALUES (0, 1, 1, 1);
@@ -102,13 +110,19 @@ INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Marcadores");
 INSERT INTO `socios`.`recursos` (`estado`,`nombre`) VALUES ('0',"Proyector");
 
 
-INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '1', 'Rodriguez 1', 'rodriguitorodriguez@gmail.com', 'Rodrigo 1');
-INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '2', 'Rodriguez 2', 'rodriguitorodriguez@gmail.com', 'Rodrigo 2');
-INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '3', 'Rodriguez 3', 'rodriguitorodriguez@gmail.com', 'Rodrigo 3');
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '1', 'Rodriguez', 'rodriguitorodriguez@gmail.com', 'Pedro');
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '2', 'Mercurio', 'rodriguitorodriguez@gmail.com', 'Alfredo');
+INSERT INTO `socios`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '3', 'Perez', 'rodriguitorodriguez@gmail.com', 'Pepe');
 
+INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (1, '123 Calle Aleatoria, Ciudad Prueba', 'https://www.google.com/maps?q=123+Calle+Aleatoria,+Ciudad+Prueba', 'https://meet.google.com/prueba-mee');
+INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (1, '123 Calle Aleatoria, Ciudad Prueba', 'https://www.google.com/maps?q=123+Calle+Aleatoria,+Ciudad+Prueba', 'https://meet.google.com/prueba-mee');
+INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (1, '123 Calle Aleatoria, Ciudad Prueba', 'https://www.google.com/maps?q=123+Calle+Aleatoria,+Ciudad+Prueba', 'https://meet.google.com/prueba-mee');
 
+INSERT INTO evento (estado, estado_evento, modalidad, fecha_de_inicio, fecha_fin, lugar_id, id, descripcion, nombre) VALUES (0, 1, 1, '2023-11-28 00:00:00.000000', '2024-11-29 00:00:00.000000', 1, UUID(), 'Descripción del evento', 'Nombre del evento');
+INSERT INTO evento (estado, estado_evento, modalidad, fecha_de_inicio, fecha_fin, lugar_id, id, descripcion, nombre) VALUES (0, 1, 1, '2024-12-01 00:00:00.000000', '2024-12-02 00:00:00.000000', 2, UUID(), 'Descripción del evento', 'Nombre del evento');
+INSERT INTO evento (estado, estado_evento, modalidad, fecha_de_inicio, fecha_fin, lugar_id, id, descripcion, nombre) VALUES (0, 1, 1, '2024-12-06 00:00:00.000000', '2024-12-07 00:00:00.000000', 3, UUID(), 'Descripción del evento', 'Nombre del evento');
 
-INSERT INTO `socios`.`reserva` (`id` ,`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`, `sub_departamento_id`) VALUES ('1', '0', '1', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunión de trabajo 1', '1');
-INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunión de trabajo', '1');
-INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '3', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '3', 'cffcda50-4155-4be7-8680-d5bfdd3f81b3', 'Reunión de trabajo', '1');
+INSERT INTO `socios`.`reserva` (`id` ,`estado`, `encargado_id`, `espacio_fisico_id`, `estado_reserva_id`, `fecha_fin`, `fecha_inicio`, `codigo_de_seguimiento`, `descripcion`, `sub_departamento_id`) VALUES ('1', '0', '1', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '573ee1b3-3c67-4a1b-8c9e-9d2d66cd5700', 'Reunion de trabajo 1', '1');
+INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '2', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '2', 'cffcda50-4155-4be7-8680-d5bfdd3f81b4', 'Reunion de trabajo', '1');
+INSERT INTO `socios`.`reserva` (estado, encargado_id, espacio_fisico_id, estado_reserva_id, fecha_fin, fecha_inicio, id, codigo_de_seguimiento, descripcion, `sub_departamento_id`) VALUES ('0', '3', '1', '1', '2024-11-10 19:01:49.000000', '2024-11-10 13:01:49.000000', '3', 'cffcda50-4155-4be7-8680-d5bfdd3f81b3', 'Reunion de trabajo', '1');
 

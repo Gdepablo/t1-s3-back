@@ -208,22 +208,12 @@ public class EventoController {
     @PostMapping("/{idString}/participantes")
     @Operation(summary = "Agrega un participante al evento correspondiente al id")
     public ResponseEntity<Participante> agregarParticipante(@PathVariable String idString, @RequestBody @Valid ParticipanteDTO participanteDTO){
-//        if(eventoServicio.buscarPorNombre(eventoDTO.getNombre()) != null){
-//            return new ResponseEntity<>("El evento '"+ eventoDTO.getNombre()+"' ya existe", HttpStatus.CREATED);
-//        }
-
-
         UUID id = UUID.fromString (idString);
 
         participanteDTO.setEventoId(id);
 
-//        System.out.println("LLEGA HASTA ACA 1");
-//        System.out.println(participanteDTO.toString());
-
 
         Participante participante = participanteServicio.agregar(participanteDTO);
-
-//        System.out.println("LLEGA HASTA ACA 2");
 
         return new ResponseEntity<>(participante, HttpStatus.CREATED);
     }

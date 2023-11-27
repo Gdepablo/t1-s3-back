@@ -65,7 +65,6 @@ public class LogoServicio {
         String url = "/logo/" + fileName;
 
         return url;
-
     };
 
 

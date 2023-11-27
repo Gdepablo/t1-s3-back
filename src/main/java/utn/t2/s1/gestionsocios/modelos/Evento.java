@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import utn.t2.s1.gestionsocios.persistencia.Estado;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
@@ -41,6 +42,7 @@ public class Evento {
     private Lugar lugar;
 
     @Column(name = "descripcion", nullable = false)
+    @Length(max = 1000)
     private String descripcion;
     @Column(name = "modalidad", nullable = false)
     private Modalidad modalidad;
