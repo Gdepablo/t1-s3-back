@@ -15,7 +15,7 @@ RUN mvn package
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=MAVEN_BUILD /build/target/gestion-socios-0.0.1-SNAPSHOT.jar /app/
-RUN mkdir /app/uploads
+COPY --from=MAVEN_BUILD /build/uploads /app/uploads
 
 EXPOSE 80
 
