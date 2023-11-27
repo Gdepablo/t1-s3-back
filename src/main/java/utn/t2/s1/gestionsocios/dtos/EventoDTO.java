@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Value;
+import org.hibernate.validator.constraints.Length;
 import utn.t2.s1.gestionsocios.persistencia.EstadoEvento;
 import utn.t2.s1.gestionsocios.persistencia.Modalidad;
 
@@ -35,6 +36,7 @@ public class EventoDTO implements Serializable {
 
     @NotNull
     @NotEmpty
+    @Length(max = 1000)
     String descripcion;
 
     @NotNull
