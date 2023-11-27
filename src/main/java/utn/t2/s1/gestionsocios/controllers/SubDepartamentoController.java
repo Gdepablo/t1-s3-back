@@ -103,7 +103,6 @@ public class SubDepartamentoController {
             SubDepartamentoDTO subDepartamentoDTO = objectMapper.readValue(subDepartamentoString, SubDepartamentoDTO.class);
 
             subDepartamentoDTO.setLogo(url);
-            System.out.println(subDepartamentoDTO.getLogo());
 
 
             SubDepartamento subDepartamento = subDepartamentoServicio.agregar(subDepartamentoDTO);
