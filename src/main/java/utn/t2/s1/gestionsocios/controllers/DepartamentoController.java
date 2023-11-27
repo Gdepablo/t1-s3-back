@@ -86,11 +86,9 @@ public class DepartamentoController {
 
         try {
             String url = null;
-            if(   logo != null  && !logo.isEmpty()){ // si hay un logo, entonces hace esto
+            if( logo != null && !logo.isEmpty() ){ // si hay un logo, entonces hace esto
                 //return new ResponseEntity<>("Logo vacio", HttpStatus.UNPROCESSABLE_ENTITY);
                 url = logoServicio.save(logo);
-
-
                 // Encontrar el índice de "logo/"
                 int i = url.indexOf("logo/");
                 // Extraer la subcadena desde el índice i + 5 (para saltar el "logo/")
@@ -124,11 +122,15 @@ public class DepartamentoController {
             return new ResponseEntity<>(mensaje, HttpStatus.UNPROCESSABLE_ENTITY);
         }
         catch (NullPointerException e) {
-            boolean borrado = file.delete();
+            if (file != null) {
+                boolean borrado = file.delete();
+            }
             return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
-            boolean borrado = file.delete();
+            if (file != null) {
+                boolean borrado = file.delete();
+            }
             return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
         }
 
