@@ -115,7 +115,7 @@ INSERT INTO `acc_squad_m1s3_db_dev`.`encargado` (`estado`, `id`, `apellido`, `ma
 INSERT INTO `acc_squad_m1s3_db_dev`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '2', 'Acosta', 'fedacost@gmail.com', 'Federico');
 INSERT INTO `acc_squad_m1s3_db_dev`.`encargado` (`estado`, `id`, `apellido`, `mail`, `nombre`) VALUES ('0', '3', 'Bengochea', 'ibengochea@gmail.com', 'Ignacio');
 
-INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (2, 'Av. Nazca 8332, CABA', 'https://www.google.com/maps?q=123+nazca_caba', 'https://meet.google.com/3s4-xyz');
+INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (0, 'Av. Nazca 8332, CABA', 'https://www.google.com/maps?q=123+nazca_caba', 'https://meet.google.com/3s4-xyz');
 INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (1, 'Av. JM de Rosas 10435, San Justo', 'https://www.google.com/maps?q=123+rosas_pba', 'https://meet.google.com/awr-123ss');
 INSERT INTO lugar (estado, direccion, link_maps, link_virtual) VALUES (0, 'Mozart 2300, CABA', 'https://www.google.com/maps?q=123+mozart+caba', 'https://meet.google.com/fe29-mee');
 
