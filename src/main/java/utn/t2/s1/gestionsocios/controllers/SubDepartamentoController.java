@@ -109,7 +109,9 @@ public class SubDepartamentoController {
             return new ResponseEntity<>(subDepartamento, HttpStatus.CREATED);
 
         }catch (ConstraintViolationException e) {
-            boolean borrado = file.delete();
+            if (file != null) {
+                boolean borrado = file.delete();
+            }
             String mensaje = "";
             // Recorremos el conjunto de violaciones y mostramos solo el mensaje
             for (ConstraintViolation violation : e.getConstraintViolations()) {
@@ -118,7 +120,9 @@ public class SubDepartamentoController {
             return new ResponseEntity<>(mensaje, HttpStatus.UNPROCESSABLE_ENTITY);
         }
         catch (Exception e) {
-            boolean borrado = file.delete();
+            if (file != null) {
+                boolean borrado = file.delete();
+            }
             return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
         }
 
