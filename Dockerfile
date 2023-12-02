@@ -10,7 +10,7 @@ RUN ["/usr/local/bin/mvn-entrypoint.sh", "mvn", "verify", "clean", "--fail-never
 
 COPY . /build
 
-RUN mvn package
+RUN mvn clean package assembly:single -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
