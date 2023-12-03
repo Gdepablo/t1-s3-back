@@ -18,5 +18,6 @@ COPY --from=MAVEN_BUILD /build/target/gestion-socios-0.0.1-SNAPSHOT.jar /app/
 COPY --from=MAVEN_BUILD /build/uploads /app/uploads
 
 EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["java", "-jar", "gestion-socios-0.0.1-SNAPSHOT.jar"]
