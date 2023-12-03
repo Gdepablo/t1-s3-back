@@ -10,10 +10,10 @@
 	</parent>
 	<groupId>utn.t2.s1</groupId>
 	<artifactId>gestion-socios</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>gestion-socios</name>
+	<name>gestionsocios</name>
 	<description>Modulo de gestion de socios para copal</description>
 	<properties>
+		<start-class>utn.t2.s1.gestionsocios.GestionSociosApplication</start-class>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
